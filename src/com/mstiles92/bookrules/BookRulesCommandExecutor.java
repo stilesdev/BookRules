@@ -33,7 +33,8 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Show the plugin information.
+			p.sendMessage(ChatColor.BLUE + "BookRules by " + plugin.getDescription().getAuthors().get(0));
+			p.sendMessage(ChatColor.BLUE + "Version " + plugin.getDescription().getVersion());
 			return true;
 		}
 		
@@ -85,6 +86,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			try {
 				WrittenBook book = new CraftWrittenBook(p.getItemInHand());
 				plugin.addBook(book);
+				p.sendMessage(plugin.tag + "Your book has been added successfully.");
 			} catch (Exception e) {
 				plugin.log("Exception occurred while constructing a Written Book.");
 				e.printStackTrace();
@@ -161,6 +163,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			
 			try {
 				p.setItemInHand(book.getItemStack(p.getItemInHand().getAmount()));
+				p.sendMessage(plugin.tag + "You have successfully changed the author of the currently held book.");
 			} catch (Exception e) {
 				plugin.log("Exception occurred while returning a Written Book as an ItemStack.");
 				e.printStackTrace();
@@ -202,6 +205,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			
 			try {
 				p.setItemInHand(book.getItemStack(p.getItemInHand().getAmount()));
+				p.sendMessage(plugin.tag + "You have successfully changed the title of the currently held book.");
 			} catch (Exception e) {
 				plugin.log("Exception occurred while returning a Written Book as an ItemStack.");
 				e.printStackTrace();

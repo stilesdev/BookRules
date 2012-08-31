@@ -15,7 +15,7 @@ import com.mstiles92.bookrules.lib.WrittenBook;
 
 public class BookRulesPlugin extends JavaPlugin {
 	public Books books;
-	public final String tag = ChatColor.GREEN + "[BookRules] ";
+	public final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
 	
 	private int currentID;
 	
@@ -101,6 +101,7 @@ public class BookRulesPlugin extends JavaPlugin {
 	public boolean deleteBook(String ID) {
 		if (books.getConfig().getConfigurationSection(ID) != null) {
 			books.getConfig().set(ID, null);
+			books.save();
 			return true;
 		} else {
 			return false;

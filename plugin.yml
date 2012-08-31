@@ -13,6 +13,7 @@ permissions:
     description: Allows access to all commands.
     children:
       bookrules.info: true
+      bookrules.reload: true
       bookrules.get: true
       bookrules.add: true
       bookrules.delete: true
@@ -23,7 +24,7 @@ permissions:
     default: true
     description: Show the current plugin information.
   bookrules.reload:
-    default: true
+    default: op
     description: Reload the config files and books.
   bookrules.get:
     default: true
