@@ -14,9 +14,9 @@ public interface WrittenBook {
 	
 	public void setTitle(String title);
 	
-	public void setPages(java.util.List<String> pages) throws Exception;
+	public void setPages(java.util.List<String> pages);
 	
-	public void setPages(String[] pages) throws Exception;
+	public void setPages(String[] pages);
 	
-	public org.bukkit.inventory.ItemStack getItemStack(int quantity) throws Exception;
+	public org.bukkit.inventory.ItemStack getItemStack(int quantity);
 }

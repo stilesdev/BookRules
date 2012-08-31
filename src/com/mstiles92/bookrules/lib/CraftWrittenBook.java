@@ -19,14 +19,14 @@ public class CraftWrittenBook implements WrittenBook {
 		this.nbt = new NBTTagCompound();
 	}
 	
-	public CraftWrittenBook(String author, String title, List<String> pages) throws Exception {
+	public CraftWrittenBook(String author, String title, List<String> pages) {
 		this.nbt = new NBTTagCompound();
 		this.setTitle(title);
 		this.setAuthor(author);
 		this.setPages(pages);
 	}
 	
-	public CraftWrittenBook(String author, String title, String[] pages) throws Exception {
+	public CraftWrittenBook(String author, String title, String[] pages) {
 		this.nbt = new NBTTagCompound();
 		this.setTitle(title);
 		this.setAuthor(author);
@@ -99,7 +99,7 @@ public class CraftWrittenBook implements WrittenBook {
 	}
 
 	@Override
-	public void setPages(List<String> pages) throws Exception {
+	public void setPages(List<String> pages) {
 		NBTTagList list = new NBTTagList();
 		for (String page : pages) {
 			if (page.length() > 256) {
@@ -114,7 +114,7 @@ public class CraftWrittenBook implements WrittenBook {
 	}
 
 	@Override
-	public void setPages(String[] pages) throws Exception {
+	public void setPages(String[] pages) {
 		NBTTagList list = new NBTTagList();
 		for (String page : pages) {
 			if (page.length() > 256) {
@@ -129,7 +129,7 @@ public class CraftWrittenBook implements WrittenBook {
 	}
 
 	@Override
-	public ItemStack getItemStack(int quantity) throws Exception {
+	public ItemStack getItemStack(int quantity) {
 		CraftItemStack cis = new CraftItemStack(Material.WRITTEN_BOOK, quantity);
 		
 		cis.getHandle().tag = this.nbt;
