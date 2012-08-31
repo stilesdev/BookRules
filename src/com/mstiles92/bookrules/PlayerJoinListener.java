@@ -17,7 +17,8 @@ public class PlayerJoinListener implements Listener {
 			return;
 		}
 		
-		// TODO: Give the player a copy of every stored book.
+		plugin.giveAllBooks(e.getPlayer());
+		e.getPlayer().sendMessage(plugin.tag + plugin.getConfig().getString("Welcome-Message"));
 	}
 
 }

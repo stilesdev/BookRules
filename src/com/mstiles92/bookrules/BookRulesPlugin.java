@@ -3,6 +3,7 @@ package com.mstiles92.bookrules;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
@@ -31,6 +32,7 @@ public class BookRulesPlugin extends JavaPlugin {
 	public void loadConfig() {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
+		books = new Books(this);
 		books.load("books.yml");
 		currentID = getConfig().getInt("CurrentID-DO-NOT-CHANGE");
 	}
@@ -48,13 +50,37 @@ public class BookRulesPlugin extends JavaPlugin {
 		return currentID;
 	}
 	
-	public void giveBook(Player p, String ID) {
+	public boolean giveBook(Player p, String ID) {
+		if (books.getConfig().get(ID) == null) {
+			return false;
+		}
+		
 		WrittenBook book = new CraftWrittenBook();
+		
 		book.setTitle(books.getConfig().getString(ID + ".Title"));
 		book.setAuthor(books.getConfig().getString(ID + ".Author"));
-		book.setPages(books.getConfig().getStringList(ID + ".Pages"));
+		
+		Map<String, Object> map = books.getConfig().getConfigurationSection(ID + ".Pages").getValues(false);
+		ArrayList<String> list = new ArrayList<String>();
+		for (int i = 0; i < map.size(); i++) {
+			list.add(i, (String) map.get("Page-" + String.valueOf(i)));
+		}
+		
+		book.setPages(list);
 		
 		p.getInventory().addItem(book.getItemStack(1));
+		return true;
+	}
+	
+	public boolean giveAllBooks(Player p) {
+		Set<String> set = books.getConfig().getKeys(false);
+		if (set.size() == 0) {
+			return false;
+		}
+		for (String s : set) {
+			giveBook(p, s);
+		}
+		return true;
 	}
 	
 	public void addBook(WrittenBook book) {
@@ -91,9 +117,4 @@ public class BookRulesPlugin extends JavaPlugin {
 		
 		return list;
 	}
-	
-	
-	
-	
-
 }

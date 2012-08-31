@@ -1,10 +1,16 @@
 package com.mstiles92.bookrules;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.mstiles92.bookrules.lib.CraftWrittenBook;
+import com.mstiles92.bookrules.lib.WrittenBook;
 
 public class BookRulesCommandExecutor implements CommandExecutor {
 	private final BookRulesPlugin plugin;
@@ -37,7 +43,8 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Reload the config files and books.
+			plugin.loadConfig();
+			p.sendMessage(plugin.tag + "Files reloaded!");
 			return true;
 		}
 		
@@ -47,7 +54,20 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Give the player the specified book(s).
+			if (args.length < 2) {
+				if (plugin.giveAllBooks(p)) {
+					p.sendMessage(plugin.tag + "You have received a copy of all registered books.");
+				} else {
+					p.sendMessage(plugin.tag + ChatColor.RED + "No books defined.");
+				}
+				return true;
+			}
+			
+			if (plugin.giveBook(p, args[1])) {
+				p.sendMessage(plugin.tag + "You have received a copy of the requested book.");
+			} else {
+				p.sendMessage(plugin.tag + ChatColor.RED + "The specified book could not be found!");
+			}
 			return true;
 		}
 		
@@ -57,7 +77,19 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Add the book to the plugin's list.
+			if (p.getItemInHand().getType() != Material.WRITTEN_BOOK) {
+				p.sendMessage(plugin.tag + ChatColor.RED + "This command may only be used while holding a written book.");
+				return true;
+			}
+			
+			try {
+				WrittenBook book = new CraftWrittenBook(p.getItemInHand());
+				plugin.addBook(book);
+			} catch (Exception e) {
+				plugin.log("Exception occurred while constructing a Written Book.");
+				e.printStackTrace();
+			}
+			
 			return true;
 		}
 		
@@ -72,7 +104,11 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Delete the book from the plugin's list.
+			if (plugin.deleteBook(args[1])) {
+				p.sendMessage(plugin.tag + "Book successfully deleted.");
+			} else {
+				p.sendMessage(plugin.tag + ChatColor.RED + "The specified book could not be found!");
+			}
 			return true;
 		}
 		
@@ -82,7 +118,12 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Show the player a list of all the stored books.
+			List<String> list = plugin.readAllBooks();
+			p.sendMessage(plugin.tag + "All registered books:");
+			for (String s : list) {
+				p.sendMessage(plugin.tag + s);
+			}
+			
 			return true;
 		}
 		
@@ -97,7 +138,33 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Set the author of the currently held book.
+			if (p.getInventory().getItemInHand().getType() != Material.WRITTEN_BOOK) {
+				p.sendMessage(plugin.tag + ChatColor.RED + "This command may only be performed while holding a written book.");
+				return true;
+			}
+			
+			WrittenBook book = null;
+			
+			try {
+				book = new CraftWrittenBook(p.getItemInHand());
+			} catch (Exception e) {
+				plugin.log("Exception occurred while constructing a WrittenBook");
+				e.printStackTrace();
+			}
+			
+			if (book == null) {
+				cs.sendMessage(plugin.tag + ChatColor.RED + "An error has occurred.");
+				return true;
+			}
+			
+			book.setAuthor(args[1]);
+			
+			try {
+				p.setItemInHand(book.getItemStack(p.getItemInHand().getAmount()));
+			} catch (Exception e) {
+				plugin.log("Exception occurred while returning a Written Book as an ItemStack.");
+				e.printStackTrace();
+			}
 			return true;
 		}
 		
@@ -112,7 +179,33 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			// TODO: Set the title of the currently held book.
+			if (p.getInventory().getItemInHand().getType() != Material.WRITTEN_BOOK) {
+				p.sendMessage(plugin.tag + ChatColor.RED + "This command may only be performed while holding a written book.");
+				return true;
+			}
+			
+			WrittenBook book = null;
+			
+			try {
+				book = new CraftWrittenBook(p.getItemInHand());
+			} catch (Exception e) {
+				plugin.log("Exception occurred while constructing a WrittenBook");
+				e.printStackTrace();
+			}
+			
+			if (book == null) {
+				cs.sendMessage(plugin.tag + ChatColor.RED + "An error has occurred.");
+				return true;
+			}
+			
+			book.setTitle(args[1]);
+			
+			try {
+				p.setItemInHand(book.getItemStack(p.getItemInHand().getAmount()));
+			} catch (Exception e) {
+				plugin.log("Exception occurred while returning a Written Book as an ItemStack.");
+				e.printStackTrace();
+			}
 			return true;
 		}
 		
