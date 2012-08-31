@@ -1,0 +1,45 @@
+author: mstiles92
+description: Distribute rule books, getting started guides, etc to players in the form of written books.
+name: BookRules
+main: com.mstiles92.bookrules.BookRulesPlugin
+version: '0.1'
+startup: postworld
+commands:
+  rulebook:
+    description:
+    usage: /<command> [info | reload | get [id] | add | delete <id> | list | setauthor <author> | settitle <title>]
+permissions:
+  bookrules.*:
+    description: Allows access to all commands.
+    children:
+      bookrules.info: true
+      bookrules.get: true
+      bookrules.add: true
+      bookrules.delete: true
+      bookrules.list: true
+      bookrules.setauthor: true
+      bookrules.settitle: true
+  bookrules.info:
+    default: true
+    description: Show the current plugin information.
+  bookrules.reload:
+    default: true
+    description: Reload the config files and books.
+  bookrules.get:
+    default: true
+    description: Allow players to receive books.
+  bookrules.add:
+    default: op
+    description: Allow players to add books to the plugin.
+  bookrules.delete:
+    default: op
+    description: Allow players to delete books from the plugin.
+  bookrules.list:
+    default: true
+    description: Allow players to list all books stored by the plugin.
+  bookrules.setauthor:
+    default: op
+    description: Allow players to change the author of a written book.
+  bookrules.settitle:
+    default: op
+    description: Allow players to change the title of a written book.
