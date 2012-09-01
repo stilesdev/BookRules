@@ -11,14 +11,18 @@ public class PlayerJoinListener implements Listener {
 		this.plugin = plugin;
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void OnPlayerJoin(PlayerLoginEvent e) {
 		if (e.getPlayer().hasPlayedBefore() || !plugin.getConfig().getBoolean("Give-Books-On-First-Join")) {
 			return;
 		}
 		
-		plugin.giveAllBooks(e.getPlayer());
-		e.getPlayer().sendMessage(plugin.tag + plugin.getConfig().getString("Welcome-Message"));
+		if (plugin.getConfig().getBoolean("Delay-Give-On-Join")) {
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, e.getPlayer()), 15);
+		} else {
+			plugin.giveAllBooks(e.getPlayer());
+			e.getPlayer().sendMessage(plugin.tag + plugin.getConfig().getString("Welcome-Message"));
+		}
 	}
 
 }

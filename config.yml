@@ -1,3 +1,4 @@
 Give-Books-On-First-Join: true
 Verbose: false
+Delay-Give-On-Join: false
 CurrentID-DO-NOT-CHANGE: 0
