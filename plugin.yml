@@ -8,6 +8,7 @@ commands:
   rulebook:
     description:
     usage: /<command> [info | reload | get [id] | add | delete <id> | list | setauthor <author> | settitle <title>]
+    aliases: [bookrules, br, rb]
 permissions:
   bookrules.*:
     description: Allows access to all commands.

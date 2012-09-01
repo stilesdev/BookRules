@@ -16,13 +16,7 @@ public class PlayerJoinListener implements Listener {
 		if (e.getPlayer().hasPlayedBefore() || !plugin.getConfig().getBoolean("Give-Books-On-First-Join")) {
 			return;
 		}
-		
-		if (plugin.getConfig().getBoolean("Delay-Give-On-Join")) {
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, e.getPlayer()), 15);
-		} else {
-			plugin.giveAllBooks(e.getPlayer());
-			e.getPlayer().sendMessage(plugin.tag + plugin.getConfig().getString("Welcome-Message"));
-		}
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, e.getPlayer()), 15);
 	}
 
 }
