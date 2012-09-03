@@ -13,13 +13,14 @@ public class PlayerJoinListener implements Listener {
 	
 	@EventHandler
 	public void OnPlayerJoin(PlayerJoinEvent e) {
-		if (!plugin.getConfig().getBoolean("Give-Books-On-First-Join") || !e.getPlayer().hasPlayedBefore()) {
-			plugin.log("Give-Books-On-First-Join: " + plugin.getConfig().getBoolean("Give-Books-On-First-Join"));
-			plugin.log("Player.hasPlayedBefore(): " + e.getPlayer().hasPlayedBefore());
+		plugin.log("Give-Books-On-First-Join: " + plugin.getConfig().getBoolean("Give-Books-On-First-Join"));
+		plugin.log("Player.hasPlayedBefore(): " + e.getPlayer().hasPlayedBefore());
+		
+		if (!plugin.getConfig().getBoolean("Give-Books-On-First-Join") || e.getPlayer().hasPlayedBefore()) {
 			return;
 		}
 		
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, e.getPlayer()), 15);
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, e.getPlayer()), (plugin.getConfig().getLong("Seconds-Delay") * 20));
 	}
 
 }
