@@ -1,5 +1,6 @@
 package com.mstiles92.bookrules;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mstiles92.bookrules.lib.CraftWrittenBook;
+import com.mstiles92.bookrules.lib.MetricsLite;
 import com.mstiles92.bookrules.lib.WrittenBook;
 
 public class BookRulesPlugin extends JavaPlugin {
@@ -23,6 +25,12 @@ public class BookRulesPlugin extends JavaPlugin {
 		getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
 		getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 		loadConfig();
+		try {
+			MetricsLite metrics = new MetricsLite(this);
+			metrics.start();
+		} catch (IOException e) {
+			log("Failed to start metrics!");
+		}
 	}
 	
 	public void onDisable() {
