@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,8 +19,6 @@ import com.mstiles92.bookrules.lib.WrittenBook;
 public class BookRulesPlugin extends JavaPlugin {
 	public Books books;
 	public final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
-	
-	private int currentID;
 	
 	public void onEnable() {
 		getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
@@ -42,7 +41,7 @@ public class BookRulesPlugin extends JavaPlugin {
 		saveConfig();
 		books = new Books(this);
 		books.load("books.yml");
-		currentID = getConfig().getInt("CurrentID-DO-NOT-CHANGE");
+		orderBooks();
 	}
 	
 	public void log(String message) {
@@ -51,11 +50,9 @@ public class BookRulesPlugin extends JavaPlugin {
 		}
 	}
 	
-	public int getNewID() {
-		currentID++;
-		getConfig().set("CurrentID-DO-NOT-CHANGE", currentID);
-		saveConfig();
-		return currentID;
+	public int getCurrentID() {
+		Set<String> set = books.getConfig().getKeys(false);
+		return (set.size() + 1);
 	}
 	
 	public boolean giveBook(Player p, String ID) {
@@ -99,7 +96,7 @@ public class BookRulesPlugin extends JavaPlugin {
 		for (Integer i = 0; i < pages.length; i++) {
 			map.put("Page-" + i.toString(), pages[i]);
 		}
-		String ID = String.valueOf(getNewID());
+		String ID = String.valueOf(getCurrentID());
 		books.getConfig().createSection(ID + ".Pages", map);
 		books.getConfig().set(ID + ".Title", book.getTitle());
 		books.getConfig().set(ID + ".Author", book.getAuthor());
@@ -110,6 +107,7 @@ public class BookRulesPlugin extends JavaPlugin {
 		if (books.getConfig().getConfigurationSection(ID) != null) {
 			books.getConfig().set(ID, null);
 			books.save();
+			orderBooks();
 			return true;
 		} else {
 			return false;
@@ -125,5 +123,19 @@ public class BookRulesPlugin extends JavaPlugin {
 		}
 		
 		return list;
+	}
+	
+	public void orderBooks() {
+		Set<String> set = books.getConfig().getKeys(false);
+		YamlConfiguration tempConfig = books.getConfig();
+		int id = 1;
+		books.clear();
+		
+		for(String s : set) {
+			books.getConfig().set(String.valueOf(id), tempConfig.getConfigurationSection(s));
+			id++;
+		}
+		
+		books.save();
 	}
 }

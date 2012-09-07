@@ -13,6 +13,7 @@ public class Books {
 	private YamlConfiguration booksConfig;
 	private File configFile;
 	private boolean loaded;
+	private String filename;
 	
 	public Books(BookRulesPlugin plugin) {
 		this.plugin = plugin;
@@ -21,6 +22,7 @@ public class Books {
 	
 	public void load(String filename) {
 		configFile = new File(plugin.getDataFolder(), filename);
+		this.filename = filename;
 		
 		if (configFile.exists()) {
 			booksConfig = new YamlConfiguration();
@@ -51,6 +53,24 @@ public class Books {
 				// TODO: Handle exception
 			}
 		}
+	}
+	
+	public void clear() {
+		configFile = new File(plugin.getDataFolder(), filename);
+		
+		try {
+			configFile.delete();
+			configFile.createNewFile();
+			booksConfig = new YamlConfiguration();
+			booksConfig.load(configFile);
+		}
+		catch (IOException e) {
+			// TODO: Handle exception
+		}
+		catch (InvalidConfigurationException e) {
+			// TODO: Handle exception
+		}
+		
 	}
 	
 	public void save() {
