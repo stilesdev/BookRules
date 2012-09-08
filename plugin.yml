@@ -2,7 +2,7 @@ author: mstiles92
 description: Distribute rule books, getting started guides, etc to players in the form of written books.
 name: BookRules
 main: com.mstiles92.bookrules.BookRulesPlugin
-version: '1.2'
+version: '1.2.1'
 startup: postworld
 commands:
   rulebook:
@@ -15,6 +15,7 @@ permissions:
     children:
       bookrules.info: true
       bookrules.reload: true
+      bookrules.receivealerts: true
       bookrules.get: true
       bookrules.add: true
       bookrules.delete: true
