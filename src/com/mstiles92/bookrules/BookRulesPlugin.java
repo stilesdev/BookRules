@@ -19,11 +19,17 @@ import com.mstiles92.bookrules.lib.WrittenBook;
 public class BookRulesPlugin extends JavaPlugin {
 	public Books books;
 	public final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
+	public boolean updateAvailable = false;
+	public String latestKnownVersion;
 	
 	public void onEnable() {
 		getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
 		getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 		loadConfig();
+		latestKnownVersion = this.getDescription().getVersion();
+		if (getConfig().getBoolean("Check-for-Updates")) {
+			this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new UpdateChecker(this), 40, 216000);
+		}
 		try {
 			MetricsLite metrics = new MetricsLite(this);
 			metrics.start();

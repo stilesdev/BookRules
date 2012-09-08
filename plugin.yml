@@ -27,6 +27,9 @@ permissions:
   bookrules.reload:
     default: op
     description: Reload the config files and books.
+  bookrules.receivealerts:
+    default: op
+    description: Receive alerts when there is an update to the plugin.
   bookrules.get:
     default: true
     description: Allow players to receive books.
