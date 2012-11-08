@@ -48,17 +48,14 @@ public class CraftWrittenBook implements WrittenBook {
 		}
 	}
 
-	@Override
 	public String getAuthor() {
 		return this.nbt.getString("author");
 	}
 
-	@Override
 	public String getTitle() {
 		return this.nbt.getString("title");
 	}
 
-	@Override
 	public List<String> getPages() {
 		ArrayList<String> pages = new ArrayList<String>();
 		NBTTagList list = this.nbt.getList("pages");
@@ -70,7 +67,6 @@ public class CraftWrittenBook implements WrittenBook {
 		return pages;
 	}
 
-	@Override
 	public String[] getPagesArray() {
 		NBTTagList list = this.nbt.getList("pages");
 		String[] pages = new String[list.size()];
@@ -82,7 +78,6 @@ public class CraftWrittenBook implements WrittenBook {
 		return pages;
 	}
 
-	@Override
 	public void setAuthor(String author) {
 		if (author.length() > 16) {
 			author = author.substring(0, 16);
@@ -90,7 +85,6 @@ public class CraftWrittenBook implements WrittenBook {
 		this.nbt.setString("author", author);
 	}
 
-	@Override
 	public void setTitle(String title) {
 		if (title.length() > 16) {
 			title = title.substring(0, 16);
@@ -98,8 +92,11 @@ public class CraftWrittenBook implements WrittenBook {
 		this.nbt.setString("title", title);
 	}
 
-	@Override
 	public void setPages(List<String> pages) {
+		if (pages.size() > 50) {
+			pages = pages.subList(0, 50);
+		}
+		
 		NBTTagList list = new NBTTagList();
 		for (String page : pages) {
 			if (page.length() > 256) {
@@ -113,8 +110,11 @@ public class CraftWrittenBook implements WrittenBook {
 		this.nbt.set("pages", list);
 	}
 
-	@Override
 	public void setPages(String[] pages) {
+		if (pages.length > 50) {
+			//TODO: Truncate array
+		}
+		
 		NBTTagList list = new NBTTagList();
 		for (String page : pages) {
 			if (page.length() > 256) {
@@ -128,7 +128,6 @@ public class CraftWrittenBook implements WrittenBook {
 		this.nbt.set("pages", list);
 	}
 
-	@Override
 	public ItemStack getItemStack(int quantity) {
 		CraftItemStack cis = new CraftItemStack(Material.WRITTEN_BOOK, quantity);
 		
