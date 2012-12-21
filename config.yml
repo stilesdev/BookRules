@@ -1,3 +1,4 @@
+UseMetrics: false
 Give-Books-On-First-Join: true
 Verbose: false
 Welcome-Message: Welcome! Here are some important books to read!

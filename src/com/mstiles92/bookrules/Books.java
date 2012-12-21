@@ -1,10 +1,8 @@
 package com.mstiles92.bookrules;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Books {
@@ -30,14 +28,8 @@ public class Books {
 			try {
 				booksConfig.load(configFile);
 			}
-			catch (FileNotFoundException e) {
-				// TODO: Handle exception
-			}
-			catch (IOException e) {
-				// TODO: Handle exception
-			}
-			catch (InvalidConfigurationException e) {
-				// TODO: Handle exception
+			catch (Exception e) {
+				throw new IllegalStateException("Could not load config!", e);
 			}
 			loaded = true;
 		} else {
@@ -46,11 +38,8 @@ public class Books {
 				booksConfig = new YamlConfiguration();
 				booksConfig.load(configFile);
 			}
-			catch (IOException e) {
-				// TODO: Handle exception
-			}
-			catch (InvalidConfigurationException e) {
-				// TODO: Handle exception
+			catch (Exception e) {
+				throw new IllegalStateException("Could not create/load config!", e);
 			}
 		}
 	}
@@ -64,11 +53,8 @@ public class Books {
 			booksConfig = new YamlConfiguration();
 			booksConfig.load(configFile);
 		}
-		catch (IOException e) {
-			// TODO: Handle exception
-		}
-		catch (InvalidConfigurationException e) {
-			// TODO: Handle exception
+		catch (Exception e) {
+			throw new IllegalStateException("Could not recreate and load config!", e);
 		}
 		
 	}
@@ -78,7 +64,7 @@ public class Books {
 			booksConfig.save(configFile);
 		}
 		catch (IOException e) {
-			// TODO: Handle exception
+			throw new IllegalStateException("Coudld not save config!", e);
 		}
 	}
 	
