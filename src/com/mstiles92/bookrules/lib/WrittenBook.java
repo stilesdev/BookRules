@@ -1,5 +1,9 @@
 package com.mstiles92.bookrules.lib;
 
+import java.util.List;
+
+import org.bukkit.inventory.ItemStack;
+
 public interface WrittenBook {
 
 	/**
@@ -18,7 +22,7 @@ public interface WrittenBook {
 	 * Gets a list of the pages of this written book
 	 * @return The List of pages in this book
 	 */
-	public java.util.List<String> getPages();
+	public List<String> getPages();
 	
 	/**
 	 * Gets an array of the pages of this written book
@@ -55,5 +59,5 @@ public interface WrittenBook {
      * @param quantity The number of books in the stack
      * @return The ItemStack object representing this book
      */
-	public org.bukkit.inventory.ItemStack getItemStack(int quantity);
+	public ItemStack getItemStack(int quantity);
 }

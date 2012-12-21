@@ -17,6 +17,7 @@ public class UpdateChecker implements Runnable {
 	
 	@Override
 	public void run() {
+		
 		plugin.log("Starting UpdateChecker.");
 		
 		try {
@@ -44,7 +45,9 @@ public class UpdateChecker implements Runnable {
 		} catch (IOException e) {
 			
 		}
+		
 		plugin.getLogger().info("Error: Unable to check for updates. Will check again later.");
+		
 	}
 
 }

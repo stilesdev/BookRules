@@ -17,27 +17,35 @@ import com.mstiles92.bookrules.lib.MetricsLite;
 import com.mstiles92.bookrules.lib.WrittenBook;
 
 public class BookRulesPlugin extends JavaPlugin {
+	
 	public Books books;
+	
 	public final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
+	
 	public boolean updateAvailable = false;
+	
 	public String latestKnownVersion;
 	
+	@Override
 	public void onEnable() {
 		getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
 		getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 		loadConfig();
 		latestKnownVersion = this.getDescription().getVersion();
 		if (getConfig().getBoolean("Check-for-Updates")) {
-			this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new UpdateChecker(this), 40, 216000);
+			this.getServer().getScheduler().runTaskTimerAsynchronously(this, new UpdateChecker(this), 40, 216000);
 		}
-		try {
-			MetricsLite metrics = new MetricsLite(this);
-			metrics.start();
-		} catch (IOException e) {
-			log("Failed to start metrics!");
+		if (getConfig().getBoolean("UseMetrics")) {
+			try {
+				MetricsLite metrics = new MetricsLite(this);
+				metrics.start();
+			} catch (IOException e) {
+				log("Failed to start metrics!");
+			}
 		}
 	}
 	
+	@Override
 	public void onDisable() {
 		books.save();
 	}
@@ -48,6 +56,7 @@ public class BookRulesPlugin extends JavaPlugin {
 		books = new Books(this);
 		books.load("books.yml");
 		orderBooks();
+		
 	}
 	
 	public void log(String message) {
@@ -57,7 +66,7 @@ public class BookRulesPlugin extends JavaPlugin {
 	}
 	
 	public int getCurrentID() {
-		Set<String> set = books.getConfig().getKeys(false);
+		final Set<String> set = books.getConfig().getKeys(false);
 		return (set.size() + 1);
 	}
 	
@@ -66,13 +75,18 @@ public class BookRulesPlugin extends JavaPlugin {
 			return false;
 		}
 		
-		WrittenBook book = new CraftWrittenBook();
+		final WrittenBook book;
+        try {
+	        book = new CraftWrittenBook();
+        } catch (Exception e) {
+        	return false;
+        }
 		
 		book.setTitle(books.getConfig().getString(ID + ".Title"));
 		book.setAuthor(books.getConfig().getString(ID + ".Author"));
 		
-		Map<String, Object> map = books.getConfig().getConfigurationSection(ID + ".Pages").getValues(false);
-		ArrayList<String> list = new ArrayList<String>();
+		final Map<String, Object> map = books.getConfig().getConfigurationSection(ID + ".Pages").getValues(false);
+		final ArrayList<String> list = new ArrayList<String>();
 		for (int i = 0; i < map.size(); i++) {
 			list.add(i, (String) map.get("Page-" + String.valueOf(i)));
 		}
@@ -84,7 +98,7 @@ public class BookRulesPlugin extends JavaPlugin {
 	}
 	
 	public boolean giveAllBooks(Player p) {
-		Set<String> set = books.getConfig().getKeys(false);
+		final Set<String> set = books.getConfig().getKeys(false);
 		if (set.size() == 0) {
 			return false;
 		}
@@ -95,14 +109,14 @@ public class BookRulesPlugin extends JavaPlugin {
 	}
 	
 	public void addBook(WrittenBook book) {
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		final LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		
-		String[] pages = book.getPagesArray();
+		final String[] pages = book.getPagesArray();
 		
 		for (Integer i = 0; i < pages.length; i++) {
 			map.put("Page-" + i.toString(), pages[i]);
 		}
-		String ID = String.valueOf(getCurrentID());
+		final String ID = String.valueOf(getCurrentID());
 		books.getConfig().createSection(ID + ".Pages", map);
 		books.getConfig().set(ID + ".Title", book.getTitle());
 		books.getConfig().set(ID + ".Author", book.getAuthor());
@@ -121,8 +135,8 @@ public class BookRulesPlugin extends JavaPlugin {
 	}
 	
 	public List<String> readAllBooks() {
-		ArrayList<String> list = new ArrayList<String>();
-		Set<String> keys = books.getConfig().getKeys(false);
+		final ArrayList<String> list = new ArrayList<String>();
+		final Set<String> keys = books.getConfig().getKeys(false);
 		for (String ID : keys) {
 			String line = ID + " - " + books.getConfig().getString(ID + ".Title") + " by " + books.getConfig().getString(ID + ".Author");
 			list.add(line);
@@ -132,8 +146,8 @@ public class BookRulesPlugin extends JavaPlugin {
 	}
 	
 	public void orderBooks() {
-		Set<String> set = books.getConfig().getKeys(false);
-		YamlConfiguration tempConfig = books.getConfig();
+		final Set<String> set = books.getConfig().getKeys(false);
+		final YamlConfiguration tempConfig = books.getConfig();
 		int id = 1;
 		books.clear();
 		
