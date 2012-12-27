@@ -21,12 +21,6 @@ public interface WrittenBook {
 	public java.util.List<String> getPages();
 	
 	/**
-	 * Gets an array of the pages of this written book
-	 * @return The String array of pages in this book
-	 */
-	public String[] getPagesArray();
-	
-	/**
 	 * Sets the author of this written book, truncated to 16 characters if necessary
 	 * @param author The String to set as the author of this book
 	 */

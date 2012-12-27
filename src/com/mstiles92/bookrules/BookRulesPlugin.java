@@ -28,7 +28,7 @@ public class BookRulesPlugin extends JavaPlugin {
 		loadConfig();
 		latestKnownVersion = this.getDescription().getVersion();
 		if (getConfig().getBoolean("Check-for-Updates")) {
-			this.getServer().getScheduler().scheduleAsyncRepeatingTask(this, new UpdateChecker(this), 40, 216000);
+			this.getServer().getScheduler().runTaskTimer(this, new UpdateChecker(this), 40, 216000);
 		}
 		try {
 			MetricsLite metrics = new MetricsLite(this);
@@ -88,6 +88,8 @@ public class BookRulesPlugin extends JavaPlugin {
 		if (set.size() == 0) {
 			return false;
 		}
+		
+		p.sendMessage(tag + getConfig().getString("Welcome-Message"));
 		for (String s : set) {
 			giveBook(p, s);
 		}
@@ -97,10 +99,10 @@ public class BookRulesPlugin extends JavaPlugin {
 	public void addBook(WrittenBook book) {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		
-		String[] pages = book.getPagesArray();
+		List<String> pages = book.getPages();
 		
-		for (Integer i = 0; i < pages.length; i++) {
-			map.put("Page-" + i.toString(), pages[i]);
+		for (Integer i = 0; i < pages.size(); i++) {
+			map.put("Page-" + i.toString(), pages.get(i));
 		}
 		String ID = String.valueOf(getCurrentID());
 		books.getConfig().createSection(ID + ".Pages", map);
