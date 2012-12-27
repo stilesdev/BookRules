@@ -8,19 +8,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.BukkitMetrics;
-
-import com.mstiles92.bookrules.lib.CraftWrittenBook;
-import com.mstiles92.bookrules.lib.WrittenBook;
 
 public class BookRulesPlugin extends JavaPlugin {
 	public Books books;
 	public final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
 	public boolean updateAvailable = false;
-	public String latestKnownVersion;
+	public String latestKnownVersion, changes;
 	
 	public void onEnable() {
 		getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
@@ -28,7 +28,7 @@ public class BookRulesPlugin extends JavaPlugin {
 		loadConfig();
 		latestKnownVersion = this.getDescription().getVersion();
 		if (getConfig().getBoolean("Check-for-Updates")) {
-			this.getServer().getScheduler().runTaskTimer(this, new UpdateChecker(this), 40, 216000);
+			getServer().getScheduler().runTaskTimer(this, new UpdateChecker(this), 40, 216000);
 		}
 		try {
 			BukkitMetrics metrics = new BukkitMetrics(this);
@@ -57,7 +57,7 @@ public class BookRulesPlugin extends JavaPlugin {
 	}
 	
 	public int getCurrentID() {
-		Set<String> set = books.getConfig().getKeys(false);
+		final Set<String> set = books.getConfig().getKeys(false);
 		return (set.size() + 1);
 	}
 	
@@ -66,25 +66,26 @@ public class BookRulesPlugin extends JavaPlugin {
 			return false;
 		}
 		
-		WrittenBook book = new CraftWrittenBook();
-		
-		book.setTitle(books.getConfig().getString(ID + ".Title"));
-		book.setAuthor(books.getConfig().getString(ID + ".Author"));
-		
-		Map<String, Object> map = books.getConfig().getConfigurationSection(ID + ".Pages").getValues(false);
+		ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+		BookMeta meta = (BookMeta) book.getItemMeta();
+		final Map<String, Object> map = books.getConfig().getConfigurationSection(ID + ".Pages").getValues(false);
 		ArrayList<String> list = new ArrayList<String>();
+		
+		meta.setTitle(books.getConfig().getString(ID + ".Title"));
+		meta.setAuthor(books.getConfig().getString(ID + ".Author"));
+		
 		for (int i = 0; i < map.size(); i++) {
 			list.add(i, (String) map.get("Page-" + String.valueOf(i)));
 		}
+		meta.setPages(list);
 		
-		book.setPages(list);
-		
-		p.getInventory().addItem(book.getItemStack(1));
+		book.setItemMeta(meta);
+		p.getInventory().addItem(book);
 		return true;
 	}
 	
 	public boolean giveAllBooks(Player p) {
-		Set<String> set = books.getConfig().getKeys(false);
+		final Set<String> set = books.getConfig().getKeys(false);
 		if (set.size() == 0) {
 			return false;
 		}
@@ -96,18 +97,18 @@ public class BookRulesPlugin extends JavaPlugin {
 		return true;
 	}
 	
-	public void addBook(WrittenBook book) {
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		
-		List<String> pages = book.getPages();
+	public void addBook(ItemStack book) {
+		final LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		final BookMeta meta = (BookMeta) book.getItemMeta();
+		final List<String> pages = meta.getPages();
+		final String ID = String.valueOf(getCurrentID());
 		
 		for (Integer i = 0; i < pages.size(); i++) {
 			map.put("Page-" + i.toString(), pages.get(i));
 		}
-		String ID = String.valueOf(getCurrentID());
 		books.getConfig().createSection(ID + ".Pages", map);
-		books.getConfig().set(ID + ".Title", book.getTitle());
-		books.getConfig().set(ID + ".Author", book.getAuthor());
+		books.getConfig().set(ID + ".Title", meta.getTitle());
+		books.getConfig().set(ID + ".Author", meta.getAuthor());
 		books.save();
 	}
 	
@@ -124,17 +125,17 @@ public class BookRulesPlugin extends JavaPlugin {
 	
 	public List<String> readAllBooks() {
 		ArrayList<String> list = new ArrayList<String>();
-		Set<String> keys = books.getConfig().getKeys(false);
+		final Set<String> keys = books.getConfig().getKeys(false);
+		
 		for (String ID : keys) {
 			String line = ID + " - " + books.getConfig().getString(ID + ".Title") + " by " + books.getConfig().getString(ID + ".Author");
 			list.add(line);
 		}
-		
 		return list;
 	}
 	
 	public void orderBooks() {
-		Set<String> set = books.getConfig().getKeys(false);
+		final Set<String> set = books.getConfig().getKeys(false);
 		YamlConfiguration tempConfig = books.getConfig();
 		int id = 1;
 		books.clear();
@@ -143,7 +144,6 @@ public class BookRulesPlugin extends JavaPlugin {
 			books.getConfig().set(String.valueOf(id), tempConfig.getConfigurationSection(s));
 			id++;
 		}
-		
 		books.save();
 	}
 }

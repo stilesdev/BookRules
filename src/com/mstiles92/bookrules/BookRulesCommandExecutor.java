@@ -8,9 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.mstiles92.bookrules.lib.CraftWrittenBook;
-import com.mstiles92.bookrules.lib.WrittenBook;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
 public class BookRulesCommandExecutor implements CommandExecutor {
 	private final BookRulesPlugin plugin;
@@ -83,15 +82,8 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			try {
-				WrittenBook book = new CraftWrittenBook(p.getItemInHand());
-				plugin.addBook(book);
-				p.sendMessage(plugin.tag + "Your book has been added successfully.");
-			} catch (Exception e) {
-				plugin.log("Exception occurred while constructing a Written Book.");
-				e.printStackTrace();
-			}
-			
+			plugin.addBook(p.getItemInHand());
+			p.sendMessage(plugin.tag + "Your book has been added successfully.");
 			return true;
 		}
 		
@@ -140,34 +132,17 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			if (p.getInventory().getItemInHand().getType() != Material.WRITTEN_BOOK) {
+			ItemStack book = p.getItemInHand();
+			BookMeta meta = (BookMeta) book.getItemMeta();
+			
+			if (book.getType() != Material.WRITTEN_BOOK) {
 				p.sendMessage(plugin.tag + ChatColor.RED + "This command may only be performed while holding a written book.");
 				return true;
 			}
 			
-			WrittenBook book = null;
-			
-			try {
-				book = new CraftWrittenBook(p.getItemInHand());
-			} catch (Exception e) {
-				plugin.log("Exception occurred while constructing a WrittenBook");
-				e.printStackTrace();
-			}
-			
-			if (book == null) {
-				cs.sendMessage(plugin.tag + ChatColor.RED + "An error has occurred.");
-				return true;
-			}
-			
-			book.setAuthor(args[1]);
-			
-			try {
-				p.setItemInHand(book.getItemStack(p.getItemInHand().getAmount()));
-				p.sendMessage(plugin.tag + "You have successfully changed the author of the currently held book.");
-			} catch (Exception e) {
-				plugin.log("Exception occurred while returning a Written Book as an ItemStack.");
-				e.printStackTrace();
-			}
+			meta.setAuthor(args[1]);
+			book.setItemMeta(meta);
+			p.setItemInHand(book);
 			return true;
 		}
 		
@@ -187,33 +162,14 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			WrittenBook book = null;
+			ItemStack book = p.getItemInHand();
+			BookMeta meta = (BookMeta) book.getItemMeta();
 			
-			try {
-				book = new CraftWrittenBook(p.getItemInHand());
-			} catch (Exception e) {
-				plugin.log("Exception occurred while constructing a WrittenBook");
-				e.printStackTrace();
-			}
-			
-			if (book == null) {
-				cs.sendMessage(plugin.tag + ChatColor.RED + "An error has occurred.");
-				return true;
-			}
-			
-			book.setTitle(args[1]);
-			
-			try {
-				p.setItemInHand(book.getItemStack(p.getItemInHand().getAmount()));
-				p.sendMessage(plugin.tag + "You have successfully changed the title of the currently held book.");
-			} catch (Exception e) {
-				plugin.log("Exception occurred while returning a Written Book as an ItemStack.");
-				e.printStackTrace();
-			}
+			meta.setTitle(args[1]);
+			book.setItemMeta(meta);
+			p.setItemInHand(book);
 			return true;
 		}
-		
 		return false;
 	}
-
 }
