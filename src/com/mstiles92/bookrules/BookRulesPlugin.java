@@ -11,9 +11,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.BukkitMetrics;
 
 import com.mstiles92.bookrules.lib.CraftWrittenBook;
-import com.mstiles92.bookrules.lib.MetricsLite;
 import com.mstiles92.bookrules.lib.WrittenBook;
 
 public class BookRulesPlugin extends JavaPlugin {
@@ -31,7 +31,7 @@ public class BookRulesPlugin extends JavaPlugin {
 			this.getServer().getScheduler().runTaskTimer(this, new UpdateChecker(this), 40, 216000);
 		}
 		try {
-			MetricsLite metrics = new MetricsLite(this);
+			BukkitMetrics metrics = new BukkitMetrics(this);
 			metrics.start();
 		} catch (IOException e) {
 			log("Failed to start metrics!");

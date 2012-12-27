@@ -14,7 +14,6 @@ public class GiveBookRunnable implements Runnable {
 	@Override
 	public void run() {
 		plugin.giveAllBooks(player);
-		player.sendMessage(plugin.tag + plugin.getConfig().getString("Welcome-Message"));
 	}
 
 }
