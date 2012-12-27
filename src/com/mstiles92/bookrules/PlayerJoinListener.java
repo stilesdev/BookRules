@@ -15,7 +15,7 @@ public class PlayerJoinListener implements Listener {
 	@EventHandler
 	public void OnPlayerJoin(PlayerJoinEvent e) {
 		if (plugin.updateAvailable && e.getPlayer().hasPermission("bookrules.receivealerts")) {
-			e.getPlayer().sendMessage(plugin.tag + "New version available! See " + ChatColor.BLUE + "http://dev.bukkit.org/server-mods/bookrules/" + ChatColor.GREEN + " for more information.");
+			e.getPlayer().sendMessage(plugin.tag + "New version available! See http://tinyurl.com/BookRules for more information.");
 			e.getPlayer().sendMessage(plugin.tag + "Current version: " + ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + ", New version: " + ChatColor.BLUE + plugin.latestKnownVersion);
 			e.getPlayer().sendMessage(plugin.tag + "Changes in this version: " + ChatColor.BLUE + plugin.changes);
 		}
