@@ -8,7 +8,7 @@ import java.net.URLConnection;
 
 public class UpdateChecker implements Runnable {
 
-	private final String updateAddress = "http://updates.mstiles92.com/updates/bookrules2.txt";							//TODO: Change url back
+	private final String updateAddress = "http://updates.mstiles92.com/updates/bookrules.txt";
 	private final BookRulesPlugin plugin;
 	
 	public UpdateChecker(BookRulesPlugin plugin) {
