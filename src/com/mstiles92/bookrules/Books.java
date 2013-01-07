@@ -30,6 +30,12 @@ import java.io.IOException;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+/**
+ * Books is a class used to store the contents of the written books stored
+ * by this plugin.
+ * 
+ * @author mstiles92
+ */
 public class Books {
 
 	private final BookRulesPlugin plugin;
@@ -38,11 +44,21 @@ public class Books {
 	private boolean loaded;
 	private String filename;
 	
+	/**
+	 * The main constructor of this class
+	 * 
+	 * @param plugin the instance of the plugin
+	 */
 	public Books(BookRulesPlugin plugin) {
 		this.plugin = plugin;
 		loaded = false;
 	}
 	
+	/**
+	 * Load the data from the config files.
+	 * 
+	 * @param filename the filename of the config file to be loaded
+	 */
 	public void load(String filename) {
 		configFile = new File(plugin.getDataFolder(), filename);
 		this.filename = filename;
@@ -78,6 +94,9 @@ public class Books {
 		}
 	}
 	
+	/**
+	 * Delete all books stored by this plugin.
+	 */
 	public void clear() {
 		configFile = new File(plugin.getDataFolder(), filename);
 		
@@ -96,6 +115,9 @@ public class Books {
 		
 	}
 	
+	/**
+	 * Save the books to the config file.
+	 */
 	public void save() {
 		try {
 			booksConfig.save(configFile);
@@ -105,10 +127,21 @@ public class Books {
 		}
 	}
 	
+	/**
+	 * Get the File object of the config file.
+	 * 
+	 * @return the File object of the config file
+	 */
 	public File getFile() {
 		return this.configFile;
 	}
 	
+	/**
+	 * Get the config file that stores the books.
+	 * 
+	 * @return the YamlConfiguration object representing the config that
+	 * 		   stores the books registered by this plugin
+	 */
 	public YamlConfiguration getConfig() {
 		if (!loaded) {
 			load("books.yml");

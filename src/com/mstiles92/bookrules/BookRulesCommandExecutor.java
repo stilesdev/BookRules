@@ -34,9 +34,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+/**
+ * BookRulesCommandExecutor is a class that handles the execution of the
+ * commands registered to this plugin.
+ * 
+ * @author mstiles92
+ */
 public class BookRulesCommandExecutor implements CommandExecutor {
 	private final BookRulesPlugin plugin;
 	
+	/**
+	 * The main constructor of this class
+	 * 
+	 * @param plugin the instance of the plugin
+	 */
 	public BookRulesCommandExecutor(BookRulesPlugin plugin) {
 		this.plugin = plugin;
 	}

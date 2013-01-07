@@ -28,13 +28,29 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * PlayerJoinListener is a class that is used to detect when a player joins the
+ * server and handle the event appropriately.
+ * 
+ * @author mstiles92
+ */
 public class PlayerJoinListener implements Listener {
 	private final BookRulesPlugin plugin;
 	
+	/**
+	 * The main constructor of this class
+	 * 
+	 * @param plugin the instance of the plugin
+	 */
 	public PlayerJoinListener(BookRulesPlugin plugin) {
 		this.plugin = plugin;
 	}
 	
+	/**
+	 * The event handler used to listen for players joining the server
+	 * 
+	 * @param e the PlayerJoinEvent that will be detected
+	 */
 	@EventHandler
 	public void OnPlayerJoin(PlayerJoinEvent e) {
 		if (plugin.updateAvailable && e.getPlayer().hasPermission("bookrules.receivealerts")) {

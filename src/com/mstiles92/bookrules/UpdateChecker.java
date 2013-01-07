@@ -29,11 +29,24 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * UpdateChecker is a class that checks the current version of the plugin
+ * against the latest available version. If there is an update available,
+ * it sets the plugin to notify staff of the update, as well as the changes
+ * in the new version.
+ * 
+ * @author mstiles92
+ */
 public class UpdateChecker implements Runnable {
 
 	private final String updateAddress = "http://updates.mstiles92.com/updates/bookrules.txt";
 	private final BookRulesPlugin plugin;
 	
+	/**
+	 * The main constructor of this class
+	 * 
+	 * @param plugin the instance of the plugin
+	 */
 	public UpdateChecker(BookRulesPlugin plugin) {
 		this.plugin = plugin;
 	}

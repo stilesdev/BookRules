@@ -25,10 +25,22 @@ package com.mstiles92.bookrules;
 
 import org.bukkit.entity.Player;
 
+/**
+ * GiveBookRunnable is a simple class used to give the player a book after
+ * a short delay.
+ * 
+ * @author mstiles92
+ */
 public class GiveBookRunnable implements Runnable {
 	private final BookRulesPlugin plugin;
 	private final Player player;
 	
+	/**
+	 * The main constructor for this class
+	 * 
+	 * @param plugin the instance of the plugin
+	 * @param player the player to give the books to
+	 */
 	public GiveBookRunnable(BookRulesPlugin plugin, Player player) {
 		this.plugin = plugin;
 		this.player = player;

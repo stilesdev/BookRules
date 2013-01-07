@@ -39,6 +39,13 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.BukkitMetrics;
 
+/**
+ * BookRulesPlugin is the main class of this Bukkit plugin. It handles enabling
+ * and disabling of this plugin, loading config files, and other general
+ * methods needed for this plugin's operation.
+ * 
+ * @author mstiles92
+ */
 public class BookRulesPlugin extends JavaPlugin {
 	public Books books;
 	public final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
@@ -65,6 +72,9 @@ public class BookRulesPlugin extends JavaPlugin {
 		books.save();
 	}
 	
+	/**
+	 * Load/reload information from the config files.
+	 */
 	public void loadConfig() {
 		getConfig().options().copyDefaults(true);
 		saveConfig();
@@ -73,17 +83,35 @@ public class BookRulesPlugin extends JavaPlugin {
 		orderBooks();
 	}
 	
+	/**
+	 * Print a message to the server console, if verbose output is enabled
+	 * in the config. The message is logged at the info level.
+	 * 
+	 * @param message the message to be logged
+	 */
 	public void log(String message) {
 		if (getConfig().getBoolean("Verbose")) {
 			getLogger().info(message);
 		}
 	}
 	
+	/**
+	 * Get the ID of the last book added.
+	 * 
+	 * @return the ID of the last book added
+	 */
 	public int getCurrentID() {
 		final Set<String> set = books.getConfig().getKeys(false);
 		return (set.size() + 1);
 	}
 	
+	/**
+	 * Give a written book to a player.
+	 * 
+	 * @param p the player to give the book to
+	 * @param ID the ID of the book to give
+	 * @return true if the book was given successfully, false otherwise
+	 */
 	public boolean giveBook(Player p, String ID) {
 		if (books.getConfig().get(ID) == null) {
 			return false;
@@ -107,6 +135,12 @@ public class BookRulesPlugin extends JavaPlugin {
 		return true;
 	}
 	
+	/**
+	 * Give all registered books to a player.
+	 * 
+	 * @param p The player to give the books to
+	 * @return false if there are no registered books, true otherwise
+	 */
 	public boolean giveAllBooks(Player p) {
 		final Set<String> set = books.getConfig().getKeys(false);
 		if (set.size() == 0) {
@@ -120,6 +154,11 @@ public class BookRulesPlugin extends JavaPlugin {
 		return true;
 	}
 	
+	/**
+	 * Register a written book with the plugin.
+	 * 
+	 * @param book the ItemStack of the written book to be added
+	 */
 	public void addBook(ItemStack book) {
 		final LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		final BookMeta meta = (BookMeta) book.getItemMeta();
@@ -135,6 +174,12 @@ public class BookRulesPlugin extends JavaPlugin {
 		books.save();
 	}
 	
+	/**
+	 * Delete a written book from the plugin.
+	 * 
+	 * @param ID the ID of the book to be deleted
+	 * @return true if the book was successfully deleted, false if it does not exist
+	 */
 	public boolean deleteBook(String ID) {
 		if (books.getConfig().getConfigurationSection(ID) != null) {
 			books.getConfig().set(ID, null);
@@ -146,6 +191,11 @@ public class BookRulesPlugin extends JavaPlugin {
 		}
 	}
 	
+	/**
+	 * Read all books from config and create a detailed list to be displayed to users.
+	 * 
+	 * @return the formatted list of books registered with the plugin
+	 */
 	public List<String> readAllBooks() {
 		ArrayList<String> list = new ArrayList<String>();
 		final Set<String> keys = books.getConfig().getKeys(false);
@@ -157,6 +207,9 @@ public class BookRulesPlugin extends JavaPlugin {
 		return list;
 	}
 	
+	/**
+	 * Sort the registered books, removing any empty slots from books that have been deleted.
+	 */
 	public void orderBooks() {
 		final Set<String> set = books.getConfig().getKeys(false);
 		YamlConfiguration tempConfig = books.getConfig();
