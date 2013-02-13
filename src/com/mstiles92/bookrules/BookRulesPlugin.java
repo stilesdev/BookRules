@@ -96,6 +96,15 @@ public class BookRulesPlugin extends JavaPlugin {
 	}
 	
 	/**
+	 * Convenience method used to log warning messages to the console.
+	 * 
+	 * @param message the message to be logged
+	 */
+	public void logWarning(String message) {
+		getLogger().warning(ChatColor.RED + message);
+	}
+
+	/**
 	 * Get the ID of the last book added.
 	 * 
 	 * @return the ID of the last book added
