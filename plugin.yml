@@ -2,12 +2,12 @@ author: mstiles92
 description: Distribute rule books, getting started guides, etc to players in the form of written books.
 name: BookRules
 main: com.mstiles92.bookrules.BookRulesPlugin
-version: '1.2.2'
+version: '2.0-pre1'
 startup: postworld
 commands:
   rulebook:
     description:
-    usage: /<command> [info | reload | get [id] | add | delete <id> | list | setauthor <author> | settitle <title>]
+    usage: /<command> [info | commands | reload | get [book] | give <player> [book] | add | delete <book> | list | setauthor <author> | settitle <title> | unsign]
     aliases: [bookrules, br, rb]
 permissions:
   bookrules.*:
@@ -17,11 +17,13 @@ permissions:
       bookrules.reload: true
       bookrules.receivealerts: true
       bookrules.get: true
+      bookrules.give: true
       bookrules.add: true
       bookrules.delete: true
       bookrules.list: true
       bookrules.setauthor: true
       bookrules.settitle: true
+      bookrules.unsign: true
   bookrules.info:
     default: true
     description: Show the current plugin information.
@@ -34,6 +36,9 @@ permissions:
   bookrules.get:
     default: true
     description: Allow players to receive books.
+  bookrules.give:
+    default: op
+    description: Allow players to give books to other players.
   bookrules.add:
     default: op
     description: Allow players to add books to the plugin.
@@ -49,3 +54,6 @@ permissions:
   bookrules.settitle:
     default: op
     description: Allow players to change the title of a written book.
+  bookrules.unsign:
+    default: op
+    description: Allow players to unsign written books, reverting them to a book and quill.

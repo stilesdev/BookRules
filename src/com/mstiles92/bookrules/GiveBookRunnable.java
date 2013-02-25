@@ -33,7 +33,7 @@ import org.bukkit.entity.Player;
  */
 public class GiveBookRunnable implements Runnable {
 	private final BookRulesPlugin plugin;
-	private final Player player;
+	private Player player;
 	
 	/**
 	 * The main constructor for this class
@@ -48,7 +48,8 @@ public class GiveBookRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		plugin.giveAllBooks(player);
+		int num = plugin.getBookStorage().givePlayerUngivenBooks(player);
+		plugin.log("Player " + player.getName() + " was given " + num + " book(s) when joining the server.");
 	}
 
 }

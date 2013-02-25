@@ -25,6 +25,7 @@ package com.mstiles92.bookrules;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -32,7 +33,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 
 /**
  * BookRulesCommandExecutor is a class that handles the execution of the
@@ -42,6 +42,9 @@ import org.bukkit.inventory.meta.BookMeta;
  */
 public class BookRulesCommandExecutor implements CommandExecutor {
 	private final BookRulesPlugin plugin;
+	private final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
+	private final String playerMessage = ChatColor.RED + tag + "This command may only be executed by a player.";
+	private final String permMessage = ChatColor.RED + tag + "You do not have permission to use this command.";
 	
 	/**
 	 * The main constructor of this class
@@ -54,156 +57,255 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
-		if (!(cs instanceof Player)) {
-			cs.sendMessage(plugin.tag + ChatColor.RED + "This command may only be executed by a player.");
-			return true;
-		}
-		Player p = (Player)cs;
-		
-		if (args.length == 0) {
-			if (!p.hasPermission("bookrules.info")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
+		if (args.length == 0 || args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("version")) {
+			if (!cs.hasPermission("bookrules.info")) {
+				cs.sendMessage(permMessage);
 				return true;
 			}
 			
-			p.sendMessage(ChatColor.BLUE + "BookRules by " + plugin.getDescription().getAuthors().get(0));
-			p.sendMessage(ChatColor.BLUE + "Version " + plugin.getDescription().getVersion());
+			cs.sendMessage(ChatColor.BLUE + "BookRules by " + plugin.getDescription().getAuthors().get(0));
+			cs.sendMessage(ChatColor.BLUE + "Version " + plugin.getDescription().getVersion());
 			return true;
+		}
+		
+		if (args[0].equalsIgnoreCase("commands")) {
+			//TODO: display list of commands and their function to sender
 		}
 		
 		if (args[0].equalsIgnoreCase("reload")) {
-			if (!p.hasPermission("bookrules.reload")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
+			if (!cs.hasPermission("bookrules.reload")) {
+				cs.sendMessage(permMessage);
 				return true;
 			}
 			
-			plugin.loadConfig();
-			p.sendMessage(plugin.tag + "Files reloaded!");
+			plugin.getBookStorage().loadFromFile();
+			cs.sendMessage(tag + "Config reloaded from file!");
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("get")) {
-			if (!p.hasPermission("bookrules.get")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
+			if (cs instanceof Player) {
+				Player player = (Player) cs;
+				
+				if (!player.hasPermission("bookrules.get")) {
+					player.sendMessage(permMessage);
+					return true;
+				}
+				
+				if (args.length < 2) {
+					int booksGiven = plugin.getBookStorage().givePlayerAllBooks(player);
+					if (booksGiven > 0) {
+						player.sendMessage(tag + "You have received a copy of all registered books.");
+					} else {
+						player.sendMessage(tag + ChatColor.RED + "No books registered.");
+					}
+					return true;
+				}
+				
+				String query = (args.length > 2) ? StringUtils.join(args, " ", 1, args.length) : args[1];
+				
+				if (plugin.getBookStorage().givePlayerBook(player, query)) {
+					player.sendMessage(tag + "You have received a copy of the requested book.");
+				} else {
+					player.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
+				}
+				
+				return true;
+			} else {
+				cs.sendMessage(playerMessage);
+				return true;
+			}
+		}
+		
+		if (args[0].equalsIgnoreCase("give")) {
+			if (!cs.hasPermission("bookrules.give")) {
+				cs.sendMessage(permMessage);
 				return true;
 			}
 			
 			if (args.length < 2) {
-				if (plugin.giveAllBooks(p)) {
-					p.sendMessage(plugin.tag + "You have received a copy of all registered books.");
-				} else {
-					p.sendMessage(plugin.tag + ChatColor.RED + "No books defined.");
-				}
+				cs.sendMessage(tag + ChatColor.RED + "You must specify a player to give books to.");
 				return true;
 			}
 			
-			if (plugin.giveBook(p, args[1])) {
-				p.sendMessage(plugin.tag + "You have received a copy of the requested book.");
-			} else {
-				p.sendMessage(plugin.tag + ChatColor.RED + "The specified book could not be found!");
+			Player player = plugin.getServer().getPlayer(args[1]);
+			if (player == null) {
+				cs.sendMessage(tag + ChatColor.RED + "The requested player could not be found.");
+				return true;
 			}
+			
+			if (args.length < 3) {
+				int booksGiven = plugin.getBookStorage().givePlayerAllBooks(player);
+				if (booksGiven > 0) {
+					cs.sendMessage(tag + "You have given " + player.getName() + " all registered books.");
+				} else {
+					cs.sendMessage(tag + ChatColor.RED + "No books registered.");
+				}
+				
+				return true;
+			}
+			
+			String query = (args.length > 3) ? StringUtils.join(args, " ", 2, args.length) : args[2];
+			
+			if (plugin.getBookStorage().givePlayerBook(player, query)) {
+				cs.sendMessage(tag + "You have given " + player.getName() + " a copy of the requested book.");
+			} else {
+				cs.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
+			}
+			
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("add")) {
-			if (!p.hasPermission("bookrules.add")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
+			if (cs instanceof Player) {
+				Player player = (Player) cs;
+				
+				if (!player.hasPermission("bookrules.add")) {
+					player.sendMessage(permMessage);
+					return true;
+				}
+				
+				if (player.getItemInHand().getType() != Material.WRITTEN_BOOK) {
+					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					return true;
+				}
+				
+				plugin.getBookStorage().addBook(player.getItemInHand());
+				player.sendMessage(tag + "Your book has been added successfully!");
+				return true;
+			} else {
+				cs.sendMessage(playerMessage);
 				return true;
 			}
-			
-			if (p.getItemInHand().getType() != Material.WRITTEN_BOOK) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "This command may only be used while holding a written book.");
-				return true;
-			}
-			
-			plugin.addBook(p.getItemInHand());
-			p.sendMessage(plugin.tag + "Your book has been added successfully.");
-			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("delete")) {
-			if (!p.hasPermission("bookrules.delete")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
+			if (!cs.hasPermission("bookrules.delete")) {
+				cs.sendMessage(permMessage);
 				return true;
 			}
 			
 			if (args.length < 2) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You must specify an ID of the book you would like to delete.");
+				cs.sendMessage(tag + ChatColor.RED + "You must specify a book to delete.");
 				return true;
 			}
 			
-			if (plugin.deleteBook(args[1])) {
-				p.sendMessage(plugin.tag + "Book successfully deleted.");
+			if (plugin.getBookStorage().deleteBook(args[1])) {
+				cs.sendMessage(tag + "The requested book has been deleted.");
 			} else {
-				p.sendMessage(plugin.tag + ChatColor.RED + "The specified book could not be found!");
+				cs.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
 			}
+			
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("list")) {
-			if (!p.hasPermission("bookrules.list")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
+			if (!cs.hasPermission("bookrules.list")) {
+				cs.sendMessage(permMessage);
 				return true;
 			}
 			
-			List<String> list = plugin.readAllBooks();
-			p.sendMessage(plugin.tag + "All registered books:");
-			for (String s : list) {
-				p.sendMessage(plugin.tag + s);
+			List<String> books = plugin.getBookStorage().createBookList();
+			
+			cs.sendMessage(tag + "All BookRules books:");
+			for (String s : books) {
+				cs.sendMessage(tag + s);
 			}
 			
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("setauthor")) {
-			if (!p.hasPermission("bookrules.setauthor")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
-				return true;
+			if (cs instanceof Player) {
+				Player player = (Player) cs;
+				
+				if (!player.hasPermission("bookrules.setauthor")) {
+					player.sendMessage(permMessage);
+					return true;
+				}
+				
+				if (args.length < 2) {
+					player.sendMessage(tag + ChatColor.RED + "You must specify an author when setting the author of a book.");
+					return true;
+				}
+				
+				ItemStack book = player.getItemInHand();
+				
+				if (book.getType() != Material.WRITTEN_BOOK) {
+					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					return true;
+				}
+				
+				book = BookStorage.setAuthor(book, args[1]);
+				
+				player.setItemInHand(book);
+				player.sendMessage(tag + "The author has been successfully changed.");
+			} else {
+				cs.sendMessage(playerMessage);
 			}
 			
-			if (args.length < 2) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You must specify an author to change to.");
-				return true;
-			}
-			
-			ItemStack book = p.getItemInHand();
-			BookMeta meta = (BookMeta) book.getItemMeta();
-			
-			if (book.getType() != Material.WRITTEN_BOOK) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "This command may only be performed while holding a written book.");
-				return true;
-			}
-			
-			meta.setAuthor(args[1]);
-			book.setItemMeta(meta);
-			p.setItemInHand(book);
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("settitle")) {
-			if (!p.hasPermission("bookrules.settitle")) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You do not have permission to use this command.");
-				return true;
+			if (cs instanceof Player) {
+				Player player = (Player) cs;
+				
+				if (!player.hasPermission("bookrules.settitle")) {
+					player.sendMessage(permMessage);
+					return true;
+				}
+				
+				if (args.length < 2) {
+					player.sendMessage(tag + ChatColor.RED + "You must specify a title when setting the title of a book.");
+					return true;
+				}
+				
+				ItemStack book = player.getItemInHand();
+				
+				if (book.getType() != Material.WRITTEN_BOOK) {
+					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					return true;
+				}
+				
+				book = BookStorage.setTitle(book, args[1]);
+				
+				player.setItemInHand(book);
+				player.sendMessage(tag + "The title has been successfully changed.");
+			} else {
+				cs.sendMessage(playerMessage);
 			}
 			
-			if (args.length < 2) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "You must specify a title to change to.");
-				return true;
-			}
-			
-			if (p.getInventory().getItemInHand().getType() != Material.WRITTEN_BOOK) {
-				p.sendMessage(plugin.tag + ChatColor.RED + "This command may only be performed while holding a written book.");
-				return true;
-			}
-			
-			ItemStack book = p.getItemInHand();
-			BookMeta meta = (BookMeta) book.getItemMeta();
-			
-			meta.setTitle(args[1]);
-			book.setItemMeta(meta);
-			p.setItemInHand(book);
 			return true;
 		}
+		
+		if (args[0].equalsIgnoreCase("unsign")) {
+			if (cs instanceof Player) {
+				Player player = (Player) cs;
+				
+				if (!player.hasPermission("bookrules.unsign")) {
+					player.sendMessage(permMessage);
+					return true;
+				}
+				
+				ItemStack book = player.getItemInHand();
+				
+				if (book.getType() != Material.WRITTEN_BOOK) {
+					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					return true;
+				}
+				
+				book = BookStorage.unsignBook(book);
+				
+				player.setItemInHand(book);
+				player.sendMessage(tag + "The book has been successfully unsigned.");
+			} else {
+				cs.sendMessage(playerMessage);
+			}
+			
+			return true;
+		}
+		
 		return false;
 	}
 }

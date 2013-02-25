@@ -24,6 +24,7 @@
 package com.mstiles92.bookrules;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -34,39 +35,31 @@ import org.bukkit.event.player.PlayerJoinEvent;
  * 
  * @author mstiles92
  */
-public class PlayerJoinListener implements Listener {
+public class BookRulesEventListener implements Listener {
 	private final BookRulesPlugin plugin;
+	private final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
 	
 	/**
 	 * The main constructor of this class
 	 * 
 	 * @param plugin the instance of the plugin
 	 */
-	public PlayerJoinListener(BookRulesPlugin plugin) {
+	public BookRulesEventListener(BookRulesPlugin plugin) {
 		this.plugin = plugin;
 	}
 	
-	/**
-	 * The event handler used to listen for players joining the server
-	 * 
-	 * @param e the PlayerJoinEvent that will be detected
-	 */
 	@EventHandler
 	public void OnPlayerJoin(PlayerJoinEvent e) {
-		if (plugin.updateAvailable && e.getPlayer().hasPermission("bookrules.receivealerts")) {
-			e.getPlayer().sendMessage(plugin.tag + "New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.");
-			e.getPlayer().sendMessage(plugin.tag + "Current version: " + ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + ", New version: " + ChatColor.BLUE + plugin.latestKnownVersion);
-			e.getPlayer().sendMessage(plugin.tag + "Changes in this version: " + ChatColor.BLUE + plugin.changes);
+		Player player = e.getPlayer();
+		
+		if (plugin.updateAvailable && player.hasPermission("bookrules.receivealerts")) {
+			player.sendMessage(tag + "New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.");
+			player.sendMessage(tag + "Current version: " + ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + ", New version: " + ChatColor.BLUE + plugin.latestKnownVersion);
+			player.sendMessage(tag + "Changes in this version: " + ChatColor.BLUE + plugin.changes);
 		}
 		
-		plugin.log("Give-Books-On-First-Join: " + plugin.getConfig().getBoolean("Give-Books-On-First-Join"));
-		plugin.log("Player.hasPlayedBefore(): " + e.getPlayer().hasPlayedBefore());
-		
-		if (!plugin.getConfig().getBoolean("Give-Books-On-First-Join") || e.getPlayer().hasPlayedBefore()) {
-			return;
+		if (plugin.getConfig().getBoolean("Give-New-Books-On-Join")) {
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, player), plugin.getConfig().getLong("Seconds-Delay") * 20);
 		}
-		
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, e.getPlayer()), (plugin.getConfig().getLong("Seconds-Delay") * 20));
 	}
-
 }
