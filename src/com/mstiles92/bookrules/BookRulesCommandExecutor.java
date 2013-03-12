@@ -138,6 +138,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
 				if (booksGiven > 0) {
 					cs.sendMessage(tag + "You have given " + player.getName() + " all registered books.");
+					player.sendMessage(tag + cs.getName() + " has given you all registered books.");
 				} else {
 					cs.sendMessage(tag + ChatColor.RED + "No books registered.");
 				}
@@ -149,6 +150,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			
 			if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
 				cs.sendMessage(tag + "You have given " + player.getName() + " a copy of the requested book.");
+				player.sendMessage(tag + cs.getName() + " has given you a book.");
 			} else {
 				cs.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
 			}
