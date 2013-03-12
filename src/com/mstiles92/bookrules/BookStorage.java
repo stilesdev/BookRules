@@ -248,14 +248,15 @@ public class BookStorage {
 		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 		BookMeta meta = (BookMeta) book.getItemMeta();
 		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("BookRules id: " + id);	//TODO: change to just "BookRules" instead of showing id? (avoid confusion when using /rb get command)
+		lore.add("BookRules");
 
 		meta.setAuthor(books.getString("Books." + id + ".Author"));
 		meta.setTitle(books.getString("Books." + id + ".Title"));
 		meta.setPages(books.getStringList("Books." + id + ".Pages"));
 		meta.setLore(lore);
+		book.setItemMeta(meta);
 		
-		return (book.setItemMeta(meta)) ? book : null;
+		return book;
 	}
 	
 	/**
