@@ -24,7 +24,6 @@
 package com.mstiles92.bookrules;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -66,24 +65,60 @@ public class UpdateChecker implements Runnable {
 			plugin.log("Version found: " + version);
 			plugin.log("Changes: " + changes);
 			
-			if (version != null) {
+			if (version != null && isNewerVersion(version)) {
 				plugin.latestKnownVersion = version;
 				plugin.changes = changes;
+				plugin.updateAvailable = true;
 				
-				if (!plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-					plugin.updateAvailable = true;
-					
-					plugin.getLogger().info("Update available! New version: " + version);
-					plugin.getLogger().info("Changes in this version: " + changes);
-				} else {
-					plugin.log("BookRules already up to date!");
-				}
-				return;
+				plugin.getLogger().info("Update available! New version: " + version);
+				plugin.getLogger().info("Changes in this version: " + changes);
+			} else {
+				plugin.log("BookRules is up to date.");
 			}
-		} catch (IOException e) {
-			
+		} catch (Exception e) {
+			plugin.getLogger().info("Error: Unable to check for updates. Will check again later.");
 		}
-		plugin.getLogger().info("Error: Unable to check for updates. Will check again later.");
 	}
-
+	
+	/**
+	 * Provide simple natural order comparison for version numbers (ie. 2.9 is less than 2.10)
+	 * 
+	 * @param version the new found version
+	 * @return true if the provided version is newer, false otherwise
+	 */
+	private boolean isNewerVersion(String newVersion) {
+		String oldVersion = plugin.getDescription().getVersion();
+		if (oldVersion.equals(newVersion)) {
+			return false;
+		}
+		
+		oldVersion = oldVersion.split("-pre")[0];
+		
+		String[] oldSplit = oldVersion.split("\\.");
+		String[] newSplit = newVersion.split("\\.");
+		int newInt;
+		int oldInt;
+		
+		for (int i = 0; i < oldSplit.length || i < newSplit.length; i++) {
+			if (i >= newSplit.length) {
+				newInt = 0;
+			} else {
+				newInt = Integer.parseInt(newSplit[i]);
+			}
+			
+			if (i >= oldSplit.length) {
+				oldInt = 0;
+			} else {
+				oldInt = Integer.parseInt(oldSplit[i]);
+			}
+			
+			if (newInt == oldInt) {
+				continue;
+			} else {
+				return (newInt > oldInt);
+			}
+		}
+		
+		return false;
+	}
 }
