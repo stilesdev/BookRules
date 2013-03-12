@@ -49,7 +49,7 @@ public class GiveBookRunnable implements Runnable {
 	
 	@Override
 	public void run() {
-		int num = plugin.getBookStorage().givePlayerUngivenBooks(player);
+		int num = BookStorage.getInstance(plugin).givePlayerUngivenBooks(player);
 		plugin.log("Player " + player.getName() + " was given " + num + " book(s) when joining the server.");
 		
 		if (num > 0 && plugin.getConfig().getBoolean("Display-Messages")) {

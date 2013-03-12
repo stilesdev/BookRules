@@ -39,12 +39,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 /**
- * BookStorage is a class used to store the content of books, as well as the
- * players who have recieved a copy of each book.
+ * BookStorage is a singleton class used to store the content of books, as
+ * well as the players who have recieved a copy of each book.
  * 
  * @author mstiles92
  */
 public class BookStorage {
+	
+	private static BookStorage instance = null;
 	
 	private final BookRulesPlugin plugin;
 	private File booksFile;
@@ -58,9 +60,22 @@ public class BookStorage {
 	private final static int MAX_AUTHOR_LENGTH = 16;
 	
 	/**
+	 * Get the instance of this singleton class.
+	 * 
+	 * @return the instance of this class
+	 */
+	public static BookStorage getInstance(BookRulesPlugin plugin) {
+		if (instance == null) {
+			instance = new BookStorage(plugin);
+		}
+		
+		return instance;
+	}
+	
+	/**
 	 * The main constructor of this class
 	 */
-	public BookStorage(BookRulesPlugin plugin) {
+	private BookStorage(BookRulesPlugin plugin) {
 		this.plugin = plugin;
 		loadFromFile();
 	}

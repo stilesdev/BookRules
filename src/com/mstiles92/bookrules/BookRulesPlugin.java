@@ -38,7 +38,6 @@ import org.mcstats.BukkitMetrics;
 public class BookRulesPlugin extends JavaPlugin {
 	public boolean updateAvailable = false;
 	public String latestKnownVersion, changes;
-	private BookStorage bookStorage;
 	
 	public void onEnable() {
 		getConfig().options().copyDefaults(true);
@@ -47,8 +46,6 @@ public class BookRulesPlugin extends JavaPlugin {
 			getConfig().set("Give-Books-On-First-Join", null);
 		}
 		saveConfig();
-		
-		bookStorage = new BookStorage(this);
 		
 		getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
 		getServer().getPluginManager().registerEvents(new BookRulesEventListener(this), this);
@@ -89,14 +86,5 @@ public class BookRulesPlugin extends JavaPlugin {
 	 */
 	public void logWarning(String message) {
 		getLogger().warning(ChatColor.RED + message);
-	}
-	
-	/**
-	 * Get the BookStorage instance used by this plugin.
-	 * 
-	 * @return the instance of the BookStorage class
-	 */
-	public BookStorage getBookStorage() {
-		return bookStorage;
 	}
 }

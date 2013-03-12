@@ -78,7 +78,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			plugin.getBookStorage().loadFromFile();
+			BookStorage.getInstance(plugin).loadFromFile();
 			cs.sendMessage(tag + "Config reloaded from file!");
 			return true;
 		}
@@ -93,7 +93,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				}
 				
 				if (args.length < 2) {
-					int booksGiven = plugin.getBookStorage().givePlayerAllBooks(player);
+					int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
 					if (booksGiven > 0) {
 						player.sendMessage(tag + "You have received a copy of all registered books.");
 					} else {
@@ -104,7 +104,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				
 				String query = (args.length > 2) ? StringUtils.join(args, " ", 1, args.length) : args[1];
 				
-				if (plugin.getBookStorage().givePlayerBook(player, query)) {
+				if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
 					player.sendMessage(tag + "You have received a copy of the requested book.");
 				} else {
 					player.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
@@ -135,7 +135,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			}
 			
 			if (args.length < 3) {
-				int booksGiven = plugin.getBookStorage().givePlayerAllBooks(player);
+				int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
 				if (booksGiven > 0) {
 					cs.sendMessage(tag + "You have given " + player.getName() + " all registered books.");
 				} else {
@@ -147,7 +147,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			
 			String query = (args.length > 3) ? StringUtils.join(args, " ", 2, args.length) : args[2];
 			
-			if (plugin.getBookStorage().givePlayerBook(player, query)) {
+			if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
 				cs.sendMessage(tag + "You have given " + player.getName() + " a copy of the requested book.");
 			} else {
 				cs.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
@@ -170,7 +170,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 					return true;
 				}
 				
-				plugin.getBookStorage().addBook(player.getItemInHand());
+				BookStorage.getInstance(plugin).addBook(player.getItemInHand());
 				player.sendMessage(tag + "Your book has been added successfully!");
 				return true;
 			} else {
@@ -190,7 +190,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			if (plugin.getBookStorage().deleteBook(args[1])) {
+			if (BookStorage.getInstance(plugin).deleteBook(args[1])) {
 				cs.sendMessage(tag + "The requested book has been deleted.");
 			} else {
 				cs.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
@@ -205,7 +205,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			List<String> books = plugin.getBookStorage().createBookList();
+			List<String> books = BookStorage.getInstance(plugin).createBookList();
 			
 			cs.sendMessage(tag + "All BookRules books:");
 			for (String s : books) {
