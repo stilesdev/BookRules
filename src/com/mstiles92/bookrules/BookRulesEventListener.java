@@ -24,10 +24,14 @@
 package com.mstiles92.bookrules;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * PlayerJoinListener is a class that is used to detect when a player joins the
@@ -49,7 +53,7 @@ public class BookRulesEventListener implements Listener {
 	}
 	
 	@EventHandler
-	public void OnPlayerJoin(PlayerJoinEvent e) {
+	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 		
 		if (plugin.updateAvailable && player.hasPermission("bookrules.receivealerts")) {
@@ -60,6 +64,28 @@ public class BookRulesEventListener implements Listener {
 		
 		if (plugin.getConfig().getBoolean("Give-New-Books-On-Join")) {
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, player), plugin.getConfig().getLong("Seconds-Delay") * 20);
+		}
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent e) {
+		if (!plugin.getConfig().getBoolean("Block-Villager-Book-Trading")) {
+			return;
+		}
+		
+		if (e.getInventory().getType() != InventoryType.MERCHANT) {
+			return;
+		}
+		
+		ItemStack book = (e.isShiftClick()) ? e.getCurrentItem() : e.getCursor();
+		if (book == null || book.getType() != Material.WRITTEN_BOOK) {
+			return;
+		}
+		
+		if (book.getItemMeta().getLore().contains("BookRules")) {
+			e.setCancelled(true);
+			e.getWhoClicked().closeInventory();
+			plugin.getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(tag + ChatColor.RED + "You may not trade BookRules books with villagers!");
 		}
 	}
 }
