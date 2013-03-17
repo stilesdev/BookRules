@@ -69,7 +69,49 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 		}
 		
 		if (args[0].equalsIgnoreCase("commands")) {
-			//TODO: display list of commands and their function to sender
+			cs.sendMessage(tag + "All BookRules commands you are able to use:");
+			
+			if (cs.hasPermission("bookrules.info")) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook [info | version] " + ChatColor.GRAY+ "Show current plugin information.");
+			}
+			
+			if (cs.hasPermission("bookrules.reload")) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook reload " + ChatColor.GRAY + "Reload data from the config files.");
+			}
+			
+			if (cs.hasPermission("bookrules.get") && (cs instanceof Player)) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook get [id | title] " + ChatColor.GRAY + "Get book specified by id or title, or all books if no id or title is specified.");
+			}
+			
+			if (cs.hasPermission("bookrules.give")) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook give <player> [id | title] " + ChatColor.GRAY + "Give a player the book specified by id or title, or all books if no id or title is specified.");
+			}
+			
+			if (cs.hasPermission("bookrules.add") && (cs instanceof Player)) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook add " + ChatColor.GRAY + "Add the currently held book to the plugin.");
+			}
+			
+			if (cs.hasPermission("bookrules.delete")) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook delete <id | title> " + ChatColor.GRAY + "Delete the book specified by id or title from the plugin.");
+			}
+			
+			if (cs.hasPermission("bookrules.list")) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook list " + ChatColor.GRAY + "Show all of the books currently stored by the plugin.");
+			}
+			
+			if (cs.hasPermission("bookrules.setauthor") && (cs instanceof Player)) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook setauthor <author> " + ChatColor.GRAY + "Change the author of the currently held book.");
+			}
+			
+			if (cs.hasPermission("bookrules.settitle") && (cs instanceof Player)) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook settitle <title> " + ChatColor.GRAY + "Change the title of the currently held book.");
+			}
+			
+			if (cs.hasPermission("bookrules.unsign") && (cs instanceof Player)) {
+				cs.sendMessage(ChatColor.GREEN + "/rulebook unsign " + ChatColor.GRAY + "Unsign the currenly held book, changing it back to a book and quill.");
+			}
+			
+			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("reload")) {
