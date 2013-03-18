@@ -251,6 +251,11 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			
 			List<String> books = BookStorage.getInstance(plugin).createBookList();
 			
+			if (books.isEmpty()) {
+				cs.sendMessage(tag + ChatColor.RED + "No books registered.");
+				return true;
+			}
+
 			cs.sendMessage(tag + "All BookRules books:");
 			for (String s : books) {
 				cs.sendMessage(tag + s);
