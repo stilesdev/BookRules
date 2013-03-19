@@ -2,6 +2,7 @@
 Automatically give players written books containing rules, getting started guides, etc when they join your server.
 
 ## Commands ##
+
 <table style="border:1px solid black">
 <tr><td>/rulebook</td>
 <td>Show current plugin information.</td></tr>
@@ -32,6 +33,7 @@ Automatically give players written books containing rules, getting started guide
 </table>
 
 ## Permissions ##
+
 <table style="border:1px solid black">
 <tr><td>bookrules.*</td>
 <td>Allow full access to all commands in the plugin.</td></tr>
@@ -60,6 +62,7 @@ Automatically give players written books containing rules, getting started guide
 </table>
 
 ## Configuration ##
+
 <table style="border:1px solid black">
 <tr><td>Verbose</td>
 <td>Boolean value that enables/disables logging to the console. (Used for debug)</td></tr>
