@@ -33,6 +33,9 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.mstiles92.bookrules.localization.Localization;
+import com.mstiles92.bookrules.localization.Strings;
+
 /**
  * PlayerJoinListener is a class that is used to detect when a player joins the
  * server and handle the event appropriately.
@@ -41,7 +44,6 @@ import org.bukkit.inventory.ItemStack;
  */
 public class BookRulesEventListener implements Listener {
 	private final BookRulesPlugin plugin;
-	private final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
 	
 	/**
 	 * The main constructor of this class
@@ -57,9 +59,11 @@ public class BookRulesEventListener implements Listener {
 		Player player = e.getPlayer();
 		
 		if (plugin.updateAvailable && player.hasPermission("bookrules.receivealerts")) {
-			player.sendMessage(tag + "New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.");
-			player.sendMessage(tag + "Current version: " + ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + ", New version: " + ChatColor.BLUE + plugin.latestKnownVersion);
-			player.sendMessage(tag + "Changes in this version: " + ChatColor.BLUE + plugin.changes);
+			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
+			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_VERSION_INFO)
+					.replaceAll("%version%", plugin.getDescription().getVersion())
+					.replaceAll("%newversion%", plugin.latestKnownVersion));
+			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES).replaceAll("%newchanges%", plugin.changes));
 		}
 		
 		if (plugin.getConfig().getBoolean("Give-New-Books-On-Join")) {
@@ -85,7 +89,7 @@ public class BookRulesEventListener implements Listener {
 		if (book.getItemMeta().getLore().contains("BookRules")) {
 			e.setCancelled(true);
 			e.getWhoClicked().closeInventory();
-			plugin.getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(tag + ChatColor.RED + "You may not trade BookRules books with villagers!");
+			plugin.getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
 		}
 	}
 }

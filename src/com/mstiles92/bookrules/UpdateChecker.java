@@ -28,6 +28,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import com.mstiles92.bookrules.localization.Localization;
+import com.mstiles92.bookrules.localization.Strings;
+
 /**
  * UpdateChecker is a class that checks the current version of the plugin
  * against the latest available version. If there is an update available,
@@ -52,7 +55,7 @@ public class UpdateChecker implements Runnable {
 	
 	@Override
 	public void run() {
-		plugin.log("Starting UpdateChecker.");
+		plugin.log(Localization.getString(Strings.UPDATECHECKER_STARTED));
 		
 		try {
 			URL url = new URL(updateAddress);
@@ -62,21 +65,22 @@ public class UpdateChecker implements Runnable {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String version = reader.readLine();
 			String changes = reader.readLine();
-			plugin.log("Version found: " + version);
-			plugin.log("Changes: " + changes);
+			plugin.log(Localization.getString(Strings.UPDATECHECKER_VERSION_FOUND).replaceAll("%newversion%", version));
+			plugin.log(Localization.getString(Strings.UPDATECHECKER_CHANGES_FOUND).replaceAll("%newchanges%", changes));
 			
 			if (version != null && isNewerVersion(version)) {
 				plugin.latestKnownVersion = version;
 				plugin.changes = changes;
 				plugin.updateAvailable = true;
 				
-				plugin.getLogger().info("Update available! New version: " + version);
-				plugin.getLogger().info("Changes in this version: " + changes);
+				plugin.getLogger().info(Localization.getString(Strings.UPDATE_AVAILIBLE));
+				plugin.getLogger().info(Localization.getString(Strings.UPDATE_VERSION_INFO).replaceFirst("%version%", plugin.getDescription().getVersion()).replaceAll("%newversion", version));
+				plugin.getLogger().info(Localization.getString(Strings.UPDATE_CHANGES).replaceFirst("%newchanges%", changes));
 			} else {
-				plugin.log("BookRules is up to date.");
+				plugin.log(Localization.getString(Strings.PLUGIN_UP_TO_DATE));
 			}
 		} catch (Exception e) {
-			plugin.getLogger().info("Error: Unable to check for updates. Will check again later.");
+			plugin.getLogger().info(Localization.getString(Strings.UPDATE_CHECK_FAILURE));
 		}
 	}
 	

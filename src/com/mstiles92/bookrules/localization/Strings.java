@@ -34,6 +34,19 @@ import org.bukkit.ChatColor;
 public class Strings {
 	
 	public static final String PLUGIN_TAG = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
+	
+	// Command usage strings (not translated)
+	public static final String CMD_USAGE_FORMAT = ChatColor.GREEN + "%s " + ChatColor.GRAY + "%s";
+	public static final String CMD_INFO_USAGE = "/rulebook [info | version]";
+	public static final String CMD_RELOAD_USAGE = "/rulebook reload";
+	public static final String CMD_GET_USAGE = "/rulebook get [id | title]";
+	public static final String CMD_GIVE_USAGE = "/rulebook give <player> [id | title]";
+	public static final String CMD_ADD_USAGE = "/rulebook add";
+	public static final String CMD_DELETE_USAGE = "/rulebook delete <id | title>";
+	public static final String CMD_LIST_USAGE = "/rulebook list";
+	public static final String CMD_SETAUTHOR_USAGE = "/rulebook setauthor <author>";
+	public static final String CMD_SETTITLE_USAGE = "/rulebook settitle <title>";
+	public static final String CMD_UNSIGN_USAGE = "/rulebook unsign";
 
 	// Console logging
 	public static final String UPDATECHECKER_STARTED = "Console.Logging.StartUpdateChecker";
@@ -75,15 +88,15 @@ public class Strings {
 	// Info/Command descriptions
 	public static final String VERSION_MESSAGE = "Commands.Info.Version";
 	public static final String COMMANDS_HEADER = "Commands.Info.CommandsHeader";
-	public static final String CMD_COMMANDS_DESCRIPTION = "Commands.Info.CommandDesc";
+	public static final String CMD_INFO_DESCRIPTION = "Commands.Info.InfoDesc";
 	public static final String CMD_RELOAD_DESCRIPTION = "Commands.Info.ReloadDesc";
 	public static final String CMD_GET_DESCRIPTION = "Commands.Info.GetDesc";
 	public static final String CMD_GIVE_DESCRIPTION = "Commands.Info.GiveDesc";
 	public static final String CMD_ADD_DESCRIPTION = "Commands.Info.AddDesc";
 	public static final String CMD_DELETE_DESCRIPTION = "Commands.Info.DeleteDesc";
 	public static final String CMD_LIST_DESCRIPTION = "Commands.Info.ListDesc";
-	public static final String CMD_AUTHOR_DESCRIPTION = "Commands.Info.AuthorDesc";
-	public static final String CMD_TITLE_DESCRIPTION = "Commands.Info.TitleDesc";
+	public static final String CMD_SETAUTHOR_DESCRIPTION = "Commands.Info.AuthorDesc";
+	public static final String CMD_SETTITLE_DESCRIPTION = "Commands.Info.TitleDesc";
 	public static final String CMD_UNSIGN_DESCRIPTION = "Commands.Info.UnsignDesc";
 	public static final String LIST_CMD_HEADER = "Commands.Info.ListHeader";
 	public static final String LIST_CMD_ENTRY = "Commands.Info.ListEntry";

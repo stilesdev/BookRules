@@ -25,7 +25,7 @@ Console.Error.Metrics: Metrics failed to start.
 Console.Error.UpdateChecker: Unable to check for updates. Will try again later.
 Console.Error.FileOpen: Error opening %filename% file.
 Console.Error.FileSave: Error saving %filename% file.
-Console.Error.InvalidConfiguration: Invalid configuration file.
+Console.Error.InvalidConfiguration: Invalid configuration in %filename% file.
 Console.Error.OldFormatConversion: Error converting to new %filename% format.
 Console.Error.PluginDisabled: BookRules will now be disabled.
 
@@ -58,7 +58,7 @@ Commands.Success.Unsigned: The book has been successfully unsigned.
 			** INFO/COMMAND DESCRIPTIONS **
 Commands.Info.Version: BookRules by mstiles92, Version %version%
 Commands.Info.CommandsHeader: All BookRules commands you are able to use:
-Commands.Info.CommandDesc: Show current plugin information.
+Commands.Info.InfoDesc: Show current plugin information.
 Commands.Info.ReloadDesc: Reload data from the config files.
 Commands.Info.GetDesc: Get book specified by id or title, or all books if no id or title is specified.
 Commands.Info.GiveDesc: Give a player the book specified by id or title, or all books if no id or title is specified.
