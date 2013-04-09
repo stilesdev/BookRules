@@ -25,6 +25,12 @@ package com.mstiles92.bookrules.localization;
 
 import org.bukkit.ChatColor;
 
+/**
+ * Strings is a class simply used to store all of the constant strings to be
+ * used by the plugin.
+ * 
+ * @author mstiles92
+ */
 public class Strings {
 	
 	public static final String PLUGIN_TAG = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;

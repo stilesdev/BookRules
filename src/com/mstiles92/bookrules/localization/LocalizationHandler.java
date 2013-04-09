@@ -31,7 +31,9 @@ import java.util.HashMap;
 import com.google.common.io.CharStreams;
 
 /**
- * 
+ * LocalizationHandler is a singleton class that handles all loading and
+ * storing of localized strings used by the plugin. All accessing of these
+ * strings should be done via the {@link Localization} class methods.
  * 
  * @author mstiles92
  */

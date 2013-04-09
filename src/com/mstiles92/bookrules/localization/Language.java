@@ -23,6 +23,12 @@
 
 package com.mstiles92.bookrules.localization;
 
+/**
+ * Language is an enum used to represent all of the available languages present
+ * for the plugin.
+ * 
+ * @author mstiles92
+ */
 public enum Language {
 	
 	ENGLISH("en.lang"),

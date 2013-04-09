@@ -23,12 +23,31 @@
 
 package com.mstiles92.bookrules.localization;
 
+/**
+ * Localization is a class that provides easy access to all of the localized
+ * strings for use by the plugin.
+ * 
+ * @author mstiles92
+ */
 public class Localization {
 	
+	/**
+	 * Load the localization system with the specified language.
+	 * 
+	 * @param language the Language to load
+	 * @return true if loading succeeded, false if it failed
+	 */
 	public static boolean load(Language language) {
 		return LocalizationHandler.instance().loadLocalization(language);
 	}
 	
+	/**
+	 * Get a string in the loaded language that corresponds to key.
+	 * 
+	 * @param key the key to look up the string by
+	 * @return the specified string in the currently loaded language, or null if 
+	 * 		the string could not be found.
+	 */
 	public static String getString(String key) {
 		return LocalizationHandler.instance().getLocalizedString(key);
 	}
