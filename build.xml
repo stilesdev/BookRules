@@ -1,0 +1,33 @@
+<project name="BookRules" default="build" basedir=".">
+	<description>Bukkit plugin used to distribute books to players when they join the server</description>
+	<property name="src" location="src" />
+	<property name="build" location="../../build/BookRules" />
+	<property name="bukkit" location="../../api/bukkit-1.6.2-R0.1.jar" />
+	
+	<target name="init">
+		<tstamp />
+		<mkdir dir="${build}" />
+	</target>
+	
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false" debug="on" debuglevel="lines,vars,source">
+			<classpath>
+				<pathelement location="${classpath}" />
+				<pathelement path="${bukkit}" />
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="build" depends="compile">
+		<copy file="${src}/config.yml" todir="${build}" />
+		<copy file="${src}/plugin.yml" todir="${build}" />
+		
+		<jar jarfile="${build}/../BookRules.jar" basedir="${build}" />
+		
+		<copy file="${build}/../BookRules.jar" todir="../../test/plugins" />
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+</project>
