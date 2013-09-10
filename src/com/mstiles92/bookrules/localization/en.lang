@@ -32,12 +32,13 @@ Console.Error.PluginDisabled: BookRules will now be disabled.
 
 
 			** NOTIFICATION MESSAGES **
-Notification.Update.Availible: New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.
+Notification.Update.Available: New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.
 Notification.Update.Version: Current version: %version%, New version: %newversion%
 Notification.Update.Changes: Changes in this version: %newchanges%
 Notification.JoinMessage: %number% new books received.
 Notification.GivenAllBooks: %player% has given you all registered books.
 Notification.GivenBook: %player% has given you a book.
+Notification.NoTrading: You may not trade BookRules books with villagers.
 			
 
 			
@@ -58,23 +59,22 @@ Commands.Success.Unsigned: The book has been successfully unsigned.
 			** INFO/COMMAND DESCRIPTIONS **
 Commands.Info.Version: BookRules by mstiles92, Version %version%
 Commands.Info.CommandsHeader: All BookRules commands you are able to use:
-Commands.Info.InfoDesc: Show current plugin information.
-Commands.Info.ReloadDesc: Reload data from the config files.
-Commands.Info.GetDesc: Get book specified by id or title, or all books if no id or title is specified.
-Commands.Info.GiveDesc: Give a player the book specified by id or title, or all books if no id or title is specified.
-Commands.Info.AddDesc: Add the currently held book to the plugin.
-Commands.Info.DeleteDesc: Delete the book specified by id or title from the plugin.
-Commands.Info.ListDesc: Show all of the books currently stored by the plugin.
-Commands.Info.AuthorDesc: Change the author of the currently held book.
-Commands.Info.TitleDesc: Change the title of the currently held book.
-Commands.Info.UnsignDesc: Unsign the currently held book, changing it back to a book and quill.
+Commands.Info.Info: Show current plugin information.
+Commands.Info.Reload: Reload data from the config files.
+Commands.Info.Get: Get book specified by id or title, or all books if no id or title is specified.
+Commands.Info.Give: Give a player the book specified by id or title, or all books if no id or title is specified.
+Commands.Info.Add: Add the currently held book to the plugin.
+Commands.Info.Delete: Delete the book specified by id or title from the plugin.
+Commands.Info.List: Show all of the books currently stored by the plugin.
+Commands.Info.Author: Change the author of the currently held book.
+Commands.Info.Title: Change the title of the currently held book.
+Commands.Info.Unsign: Unsign the currently held book, changing it back to a book and quill.
 Commands.Info.ListHeader: All BookRules books:
 Commands.Info.ListEntry: %title% by %author%
 
 
 
 			** ERROR MESSAGES **
-Commands.Error.Trading: You may not trade BookRules books with villagers.
 Commands.Error.PlayerOnly: This command may only be executed by a player.
 Commands.Error.NoPerms: You do not have permission to use this command.
 Commands.Error.NoBooks: No books registered.

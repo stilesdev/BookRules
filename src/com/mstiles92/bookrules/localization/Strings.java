@@ -66,12 +66,13 @@ public class Strings {
 	public static final String PLUGIN_DISABLED = "Console.Error.PluginDisabled";
 	
 	// Notification messages
-	public static final String UPDATE_AVAILIBLE = "Notification.Update.Availible";
+	public static final String UPDATE_AVAILIBLE = "Notification.Update.Available";
 	public static final String UPDATE_VERSION_INFO = "Notification.Update.Version";
 	public static final String UPDATE_CHANGES = "Notification.Update.Changes";
 	public static final String PLAYER_JOIN_MESSAGE = "Notification.JoinMessage";
 	public static final String GIVEN_ALL_BOOKS_MESSAGE = "Notification.GivenAllBooks";
 	public static final String GIVEN_BOOK_MESSAGE = "Notification.GivenBook";
+	public static final String TRADING_DENIED = "Notification.NoTrading";
 	
 	// Success messages
 	public static final String CONFIG_RELOADED = "Commands.Success.Reload";
@@ -88,21 +89,20 @@ public class Strings {
 	// Info/Command descriptions
 	public static final String VERSION_MESSAGE = "Commands.Info.Version";
 	public static final String COMMANDS_HEADER = "Commands.Info.CommandsHeader";
-	public static final String CMD_INFO_DESCRIPTION = "Commands.Info.InfoDesc";
-	public static final String CMD_RELOAD_DESCRIPTION = "Commands.Info.ReloadDesc";
-	public static final String CMD_GET_DESCRIPTION = "Commands.Info.GetDesc";
-	public static final String CMD_GIVE_DESCRIPTION = "Commands.Info.GiveDesc";
-	public static final String CMD_ADD_DESCRIPTION = "Commands.Info.AddDesc";
-	public static final String CMD_DELETE_DESCRIPTION = "Commands.Info.DeleteDesc";
-	public static final String CMD_LIST_DESCRIPTION = "Commands.Info.ListDesc";
-	public static final String CMD_SETAUTHOR_DESCRIPTION = "Commands.Info.AuthorDesc";
-	public static final String CMD_SETTITLE_DESCRIPTION = "Commands.Info.TitleDesc";
-	public static final String CMD_UNSIGN_DESCRIPTION = "Commands.Info.UnsignDesc";
+	public static final String CMD_INFO_DESCRIPTION = "Commands.Info.Info";
+	public static final String CMD_RELOAD_DESCRIPTION = "Commands.Info.Reload";
+	public static final String CMD_GET_DESCRIPTION = "Commands.Info.Get";
+	public static final String CMD_GIVE_DESCRIPTION = "Commands.Info.Give";
+	public static final String CMD_ADD_DESCRIPTION = "Commands.Info.Add";
+	public static final String CMD_DELETE_DESCRIPTION = "Commands.Info.Delete";
+	public static final String CMD_LIST_DESCRIPTION = "Commands.Info.List";
+	public static final String CMD_SETAUTHOR_DESCRIPTION = "Commands.Info.Author";
+	public static final String CMD_SETTITLE_DESCRIPTION = "Commands.Info.Title";
+	public static final String CMD_UNSIGN_DESCRIPTION = "Commands.Info.Unsign";
 	public static final String LIST_CMD_HEADER = "Commands.Info.ListHeader";
 	public static final String LIST_CMD_ENTRY = "Commands.Info.ListEntry";
 	
 	// Error messages
-	public static final String TRADING_DENIED = "Commands.Error.Trading";
 	public static final String PLAYER_ONLY_CMD = "Commands.Error.PlayerOnly";
 	public static final String NO_PERMISSIONS = "Commands.Error.NoPerms";
 	public static final String NO_BOOKS_REGISTERED = "Commands.Error.NoBooks";
