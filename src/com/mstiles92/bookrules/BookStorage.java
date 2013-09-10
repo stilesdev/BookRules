@@ -38,6 +38,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import com.mstiles92.bookrules.localization.Localization;
+import com.mstiles92.bookrules.localization.Strings;
+
 /**
  * BookStorage is a singleton class used to store the content of books, as
  * well as the players who have recieved a copy of each book.
@@ -58,6 +61,8 @@ public class BookStorage {
 	
 	private final static int MAX_TITLE_LENGTH = 16;
 	private final static int MAX_AUTHOR_LENGTH = 16;
+	private final static String booksFilename = "plugins/BookRules/books.yml";
+	private final static String playersFilename = "plugins/BookRules/players.yml";
 	
 	/**
 	 * Get the instance of this singleton class.
@@ -98,10 +103,12 @@ public class BookStorage {
 			}
 			books.load(booksFile);
 		} catch(IOException e) {
-			plugin.logWarning("Error opening file: plugins/BookRules/books.yml - BookRules will now be disabled!");
+			plugin.logWarning(Localization.getString(Strings.FILE_OPEN_FAILURE).replaceAll("%filename%", booksFilename));
+			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		} catch (InvalidConfigurationException e) {
-			plugin.logWarning("Invalid configuration file: plugins/BookRules/books.yml - BookRules will now be disabled!");
+			plugin.logWarning(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR).replaceAll("%filename%", booksFilename));
+			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		}
 		
@@ -111,18 +118,20 @@ public class BookStorage {
 			}
 			players.load(playersFile);
 		} catch (IOException e) {
-			plugin.logWarning("Error opening file: plugins/BookRules/players.yml - BookRules will now be disabled!");
+			plugin.logWarning(Localization.getString(Strings.FILE_OPEN_FAILURE).replaceAll("%filename%", playersFilename));
+			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		} catch (InvalidConfigurationException e) {
-			plugin.logWarning("Invalid configuration file: plugins/BookRules/players.yml - BookRules will now be disabled!");
+			plugin.logWarning(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR).replaceAll("%filename%", playersFilename));
+			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		}
 		
 		if (!books.contains("Meta")) {
 			if (convertFromOldFormat()) {
-				plugin.log("Old books.yml format converted successfully!");
+				plugin.log(Localization.getString(Strings.OLD_CONFIG_CONVERTED));
 			} else {
-				plugin.logWarning("Error converting old books.yml format. BookRules will now be disabled.");
+				plugin.logWarning(Localization.getString(Strings.OLD_FORMAT_CONVERSION_FAILURE));
 				plugin.getPluginLoader().disablePlugin(plugin);
 			}
 		}
@@ -201,7 +210,7 @@ public class BookStorage {
 		try {
 			books.save(booksFile);
 		} catch (IOException e) {
-			plugin.logWarning("Error saving books.yml");
+			plugin.logWarning(Localization.getString(Strings.FILE_SAVE_FAILURE).replaceAll("%filename%", booksFilename));
 		}
 	}
 	
@@ -212,7 +221,7 @@ public class BookStorage {
 		try {
 			players.save(playersFile);
 		} catch (IOException e) {
-			plugin.logWarning("Error saving players.yml");
+			plugin.logWarning(Localization.getString(Strings.FILE_SAVE_FAILURE).replaceAll("%filename%", playersFilename));
 		}
 	}
 	
@@ -349,7 +358,9 @@ public class BookStorage {
 		ArrayList<String> list = new ArrayList<String>();
 		
 		for (int x = 0; x < index.size(); x++) {
-			list.add((x + 1) + " - " + books.getString("Books." + index.get(x) + ".Title") + " by " + books.getString("Books." + index.get(x) + ".Author"));
+			list.add((x + 1) + " - " + Localization.getString(Strings.LIST_CMD_ENTRY)
+					.replaceAll("%title%", books.getString("Books." + index.get(x) + ".Title"))
+					.replaceAll("%author%", books.getString("Books." + index.get(x) + ".Author")));
 		}
 		
 		return list;

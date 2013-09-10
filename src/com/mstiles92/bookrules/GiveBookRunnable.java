@@ -23,8 +23,10 @@
 
 package com.mstiles92.bookrules;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import com.mstiles92.bookrules.localization.Localization;
+import com.mstiles92.bookrules.localization.Strings;
 
 /**
  * GiveBookRunnable is a simple class used to give the player a book after
@@ -50,11 +52,10 @@ public class GiveBookRunnable implements Runnable {
 	@Override
 	public void run() {
 		int num = BookStorage.getInstance(plugin).givePlayerUngivenBooks(player);
-		plugin.log("Player " + player.getName() + " was given " + num + " book(s) when joining the server.");
+		plugin.log(Localization.getString(Strings.PLAYER_GIVEN_BOOKS).replaceAll("%player%", player.getName()).replaceAll("%number%", String.valueOf(num)));
 		
 		if (num > 0 && plugin.getConfig().getBoolean("Display-Messages")) {
-			player.sendMessage(ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN + num + " new books received!");
+			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE).replaceAll("%number%", String.valueOf(num)));
 		}
 	}
-
 }

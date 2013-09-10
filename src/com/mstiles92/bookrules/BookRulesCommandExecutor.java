@@ -34,6 +34,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.mstiles92.bookrules.localization.Localization;
+import com.mstiles92.bookrules.localization.Strings;
+
 /**
  * BookRulesCommandExecutor is a class that handles the execution of the
  * commands registered to this plugin.
@@ -42,9 +45,6 @@ import org.bukkit.inventory.ItemStack;
  */
 public class BookRulesCommandExecutor implements CommandExecutor {
 	private final BookRulesPlugin plugin;
-	private final String tag = ChatColor.BLUE + "[BookRules] " + ChatColor.GREEN;
-	private final String playerMessage = ChatColor.RED + tag + "This command may only be executed by a player.";
-	private final String permMessage = ChatColor.RED + tag + "You do not have permission to use this command.";
 	
 	/**
 	 * The main constructor of this class
@@ -59,56 +59,57 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
 		if (args.length == 0 || args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("version")) {
 			if (!cs.hasPermission("bookrules.info")) {
-				cs.sendMessage(permMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
 			
-			cs.sendMessage(ChatColor.BLUE + "BookRules by " + plugin.getDescription().getAuthors().get(0));
-			cs.sendMessage(ChatColor.BLUE + "Version " + plugin.getDescription().getVersion());
+			cs.sendMessage(ChatColor.BLUE + Localization.getString(Strings.VERSION_MESSAGE).replaceAll("%version%", plugin.getDescription().getVersion()));
 			return true;
 		}
 		
 		if (args[0].equalsIgnoreCase("commands")) {
-			cs.sendMessage(tag + "All BookRules commands you are able to use:");
+			cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.COMMANDS_HEADER));
+			
+			
 			
 			if (cs.hasPermission("bookrules.info")) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook [info | version] " + ChatColor.GRAY+ "Show current plugin information.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_INFO_USAGE, Localization.getString(Strings.CMD_INFO_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.reload")) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook reload " + ChatColor.GRAY + "Reload data from the config files.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_RELOAD_USAGE, Localization.getString(Strings.CMD_RELOAD_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.get") && (cs instanceof Player)) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook get [id | title] " + ChatColor.GRAY + "Get book specified by id or title, or all books if no id or title is specified.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GET_USAGE, Localization.getString(Strings.CMD_GET_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.give")) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook give <player> [id | title] " + ChatColor.GRAY + "Give a player the book specified by id or title, or all books if no id or title is specified.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GIVE_USAGE, Localization.getString(Strings.CMD_GIVE_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.add") && (cs instanceof Player)) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook add " + ChatColor.GRAY + "Add the currently held book to the plugin.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_ADD_USAGE, Localization.getString(Strings.CMD_ADD_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.delete")) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook delete <id | title> " + ChatColor.GRAY + "Delete the book specified by id or title from the plugin.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_DELETE_USAGE, Localization.getString(Strings.CMD_DELETE_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.list")) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook list " + ChatColor.GRAY + "Show all of the books currently stored by the plugin.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_LIST_USAGE, Localization.getString(Strings.CMD_LIST_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.setauthor") && (cs instanceof Player)) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook setauthor <author> " + ChatColor.GRAY + "Change the author of the currently held book.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETAUTHOR_USAGE, Localization.getString(Strings.CMD_SETAUTHOR_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.settitle") && (cs instanceof Player)) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook settitle <title> " + ChatColor.GRAY + "Change the title of the currently held book.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETTITLE_USAGE, Localization.getString(Strings.CMD_SETTITLE_DESCRIPTION)));
 			}
 			
 			if (cs.hasPermission("bookrules.unsign") && (cs instanceof Player)) {
-				cs.sendMessage(ChatColor.GREEN + "/rulebook unsign " + ChatColor.GRAY + "Unsign the currenly held book, changing it back to a book and quill.");
+				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_UNSIGN_USAGE, Localization.getString(Strings.CMD_UNSIGN_DESCRIPTION)));
 			}
 			
 			return true;
@@ -116,12 +117,12 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 		
 		if (args[0].equalsIgnoreCase("reload")) {
 			if (!cs.hasPermission("bookrules.reload")) {
-				cs.sendMessage(permMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
 			
 			BookStorage.getInstance(plugin).loadFromFile();
-			cs.sendMessage(tag + "Config reloaded from file!");
+			cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.CONFIG_RELOADED));
 			return true;
 		}
 		
@@ -130,16 +131,16 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				Player player = (Player) cs;
 				
 				if (!player.hasPermission("bookrules.get")) {
-					player.sendMessage(permMessage);
+					player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
 				
 				if (args.length < 2) {
 					int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
 					if (booksGiven > 0) {
-						player.sendMessage(tag + "You have received a copy of all registered books.");
+						player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.ALL_BOOKS_RECIEVED));
 					} else {
-						player.sendMessage(tag + ChatColor.RED + "No books registered.");
+						player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
 					}
 					return true;
 				}
@@ -147,42 +148,42 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				String query = (args.length > 2) ? StringUtils.join(args, " ", 1, args.length) : args[1];
 				
 				if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
-					player.sendMessage(tag + "You have received a copy of the requested book.");
+					player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_RECIEVED));
 				} else {
-					player.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
 				}
 				
 				return true;
 			} else {
-				cs.sendMessage(playerMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
 				return true;
 			}
 		}
 		
 		if (args[0].equalsIgnoreCase("give")) {
 			if (!cs.hasPermission("bookrules.give")) {
-				cs.sendMessage(permMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
 			
 			if (args.length < 2) {
-				cs.sendMessage(tag + ChatColor.RED + "You must specify a player to give books to.");
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PLAYER_SPECIFIED));
 				return true;
 			}
 			
 			Player player = plugin.getServer().getPlayer(args[1]);
 			if (player == null) {
-				cs.sendMessage(tag + ChatColor.RED + "The requested player could not be found.");
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_NOT_FOUND));
 				return true;
 			}
 			
 			if (args.length < 3) {
 				int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
 				if (booksGiven > 0) {
-					cs.sendMessage(tag + "You have given " + player.getName() + " all registered books.");
-					player.sendMessage(tag + cs.getName() + " has given you all registered books.");
+					cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.ALL_BOOKS_GIVEN).replaceAll("%player%", player.getName()));
+					player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_ALL_BOOKS_MESSAGE).replaceAll("%player%", cs.getName()));
 				} else {
-					cs.sendMessage(tag + ChatColor.RED + "No books registered.");
+					cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
 				}
 				
 				return true;
@@ -191,10 +192,10 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			String query = (args.length > 3) ? StringUtils.join(args, " ", 2, args.length) : args[2];
 			
 			if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
-				cs.sendMessage(tag + "You have given " + player.getName() + " a copy of the requested book.");
-				player.sendMessage(tag + cs.getName() + " has given you a book.");
+				cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_GIVEN).replaceAll("%player%", player.getName()));
+				player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_BOOK_MESSAGE).replaceAll("%player%", cs.getName()));
 			} else {
-				cs.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
 			}
 			
 			return true;
@@ -205,39 +206,39 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				Player player = (Player) cs;
 				
 				if (!player.hasPermission("bookrules.add")) {
-					player.sendMessage(permMessage);
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
 				
 				if (player.getItemInHand().getType() != Material.WRITTEN_BOOK) {
-					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.MUST_HOLD_BOOK));
 					return true;
 				}
 				
 				BookStorage.getInstance(plugin).addBook(player.getItemInHand());
-				player.sendMessage(tag + "Your book has been added successfully!");
+				player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_ADDED));
 				return true;
 			} else {
-				cs.sendMessage(playerMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
 				return true;
 			}
 		}
 		
 		if (args[0].equalsIgnoreCase("delete")) {
 			if (!cs.hasPermission("bookrules.delete")) {
-				cs.sendMessage(permMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
 			
 			if (args.length < 2) {
-				cs.sendMessage(tag + ChatColor.RED + "You must specify a book to delete.");
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
 				return true;
 			}
 			
 			if (BookStorage.getInstance(plugin).deleteBook(args[1])) {
-				cs.sendMessage(tag + "The requested book has been deleted.");
+				cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_DELETED));
 			} else {
-				cs.sendMessage(tag + ChatColor.RED + "The requested book could not be found.");
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
 			}
 			
 			return true;
@@ -245,20 +246,20 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 		
 		if (args[0].equalsIgnoreCase("list")) {
 			if (!cs.hasPermission("bookrules.list")) {
-				cs.sendMessage(permMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
 			
 			List<String> books = BookStorage.getInstance(plugin).createBookList();
 			
 			if (books.isEmpty()) {
-				cs.sendMessage(tag + ChatColor.RED + "No books registered.");
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
 				return true;
 			}
 
-			cs.sendMessage(tag + "All BookRules books:");
+			cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.LIST_CMD_HEADER));
 			for (String s : books) {
-				cs.sendMessage(tag + s);
+				cs.sendMessage(Strings.PLUGIN_TAG + s);
 			}
 			
 			return true;
@@ -269,28 +270,28 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				Player player = (Player) cs;
 				
 				if (!player.hasPermission("bookrules.setauthor")) {
-					player.sendMessage(permMessage);
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
 				
 				if (args.length < 2) {
-					player.sendMessage(tag + ChatColor.RED + "You must specify an author when setting the author of a book.");
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_AUTHOR_SPECIFIED));
 					return true;
 				}
 				
 				ItemStack book = player.getItemInHand();
 				
 				if (book.getType() != Material.WRITTEN_BOOK) {
-					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.MUST_HOLD_BOOK));
 					return true;
 				}
 				
 				book = BookStorage.setAuthor(book, args[1]);
 				
 				player.setItemInHand(book);
-				player.sendMessage(tag + "The author has been successfully changed.");
+				player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.AUTHOR_CHANGED));
 			} else {
-				cs.sendMessage(playerMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
 			}
 			
 			return true;
@@ -301,28 +302,28 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				Player player = (Player) cs;
 				
 				if (!player.hasPermission("bookrules.settitle")) {
-					player.sendMessage(permMessage);
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
 				
 				if (args.length < 2) {
-					player.sendMessage(tag + ChatColor.RED + "You must specify a title when setting the title of a book.");
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_TITLE_SPECIFIED));
 					return true;
 				}
 				
 				ItemStack book = player.getItemInHand();
 				
 				if (book.getType() != Material.WRITTEN_BOOK) {
-					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.MUST_HOLD_BOOK));
 					return true;
 				}
 				
 				book = BookStorage.setTitle(book, args[1]);
 				
 				player.setItemInHand(book);
-				player.sendMessage(tag + "The title has been successfully changed.");
+				player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.TITLE_CHANGED));
 			} else {
-				cs.sendMessage(playerMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
 			}
 			
 			return true;
@@ -333,23 +334,23 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				Player player = (Player) cs;
 				
 				if (!player.hasPermission("bookrules.unsign")) {
-					player.sendMessage(permMessage);
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
 				
 				ItemStack book = player.getItemInHand();
 				
 				if (book.getType() != Material.WRITTEN_BOOK) {
-					player.sendMessage(tag + ChatColor.RED + "You may only perform this command while holding a written book.");
+					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.MUST_HOLD_BOOK));
 					return true;
 				}
 				
 				book = BookStorage.unsignBook(book);
 				
 				player.setItemInHand(book);
-				player.sendMessage(tag + "The book has been successfully unsigned.");
+				player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_UNSIGNED));
 			} else {
-				cs.sendMessage(playerMessage);
+				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
 			}
 			
 			return true;

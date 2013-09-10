@@ -28,6 +28,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.BukkitMetrics;
 
+import com.mstiles92.bookrules.localization.Language;
+import com.mstiles92.bookrules.localization.Localization;
+import com.mstiles92.bookrules.localization.Strings;
+
 /**
  * BookRulesPlugin is the main class of this Bukkit plugin. It handles enabling
  * and disabling of this plugin, loading config files, and other general
@@ -47,6 +51,12 @@ public class BookRulesPlugin extends JavaPlugin {
 		}
 		saveConfig();
 		
+		// TODO: Create config option, load correct language
+		if (!Localization.load(Language.ENGLISH)) {
+			logWarning("Error loading language file. BookRules will now be disabled.");
+			getPluginLoader().disablePlugin(this);
+		}
+		
 		getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
 		getServer().getPluginManager().registerEvents(new BookRulesEventListener(this), this);
 		
@@ -59,7 +69,7 @@ public class BookRulesPlugin extends JavaPlugin {
 			BukkitMetrics metrics = new BukkitMetrics(this);
 			metrics.start();
 		} catch (IOException e) {
-			logWarning("Failed to start metrics!");
+			logWarning(Localization.getString(Strings.METRICS_START_FAILURE));
 		}
 	}
 	
