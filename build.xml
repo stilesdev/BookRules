@@ -21,10 +21,15 @@
 	<target name="build" depends="compile">
 		<copy file="${src}/config.yml" todir="${build}" />
 		<copy file="${src}/plugin.yml" todir="${build}" />
+        <copy todir="${build}/com/mstiles92/bookrules/localization/">
+            <fileset dir="${src}/com/mstiles92/bookrules/localization/" includes="*.json" />
+        </copy>
 		
 		<jar jarfile="${build}/../BookRules.jar" basedir="${build}" />
 		
 		<copy file="${build}/../BookRules.jar" todir="../../test/plugins" />
+        
+        <antcall target="clean" />
 	</target>
 	
 	<target name="clean">

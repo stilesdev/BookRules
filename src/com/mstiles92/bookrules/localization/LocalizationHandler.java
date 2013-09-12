@@ -26,7 +26,11 @@ package com.mstiles92.bookrules.localization;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.google.common.io.CharStreams;
 
@@ -39,8 +43,7 @@ import com.google.common.io.CharStreams;
  */
 public class LocalizationHandler {
 	private static LocalizationHandler instance = null;
-	private HashMap<String, String> strings;
-	private static final String STRING_SEPERATOR = ": ";
+	private JSONObject jsonObject = null;
 	
 	private LocalizationHandler() {
 		
@@ -67,22 +70,28 @@ public class LocalizationHandler {
 	public boolean loadLocalization(Language language) {
 		String contents;
 		
-		InputStream in = LocalizationHandler.class.getResourceAsStream(language.getPath());
+		InputStream in = LocalizationHandler.class.getResourceAsStream(language.getPath().replace(".lang", ".json"));
 		try {
 			contents = CharStreams.toString(new InputStreamReader(in, "UTF-8"));
 		} catch (IOException e) {
 			return false;
 		}
 		
-		strings = new HashMap<String, String>();
-		for (String line : contents.split("\n")) {
-			if (line.contains(STRING_SEPERATOR)) {
-				String[] split = line.split(STRING_SEPERATOR, 2);
-				strings.put(split[0], split[1]);
-			}
+		JSONParser parser = new JSONParser();
+		Object obj = null;
+		
+		try {
+			obj = parser.parse(contents);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		
-		return (strings.size() > 0);
+		if (obj == null) {
+			return false;
+		} else {
+			this.jsonObject = (JSONObject) obj;
+			return true;
+		}
 	}
 	
 	/**
@@ -92,7 +101,15 @@ public class LocalizationHandler {
 	 * @return the specified string in the currently loaded language, or null if 
 	 * 		the string could not be found.
 	 */
+	@SuppressWarnings("rawtypes")
 	public String getLocalizedString(String key) {
-		return strings.get(key);
+		String[] keys = key.split("\\.");
+		Object string = this.jsonObject;
+		
+		for (int i = 0; i < keys.length; i++) {
+			string = (string == null) ? null : ((Map) string).get(keys[i]);
+		}
+		
+		return (string == null) ? null : string.toString();
 	}
 }
