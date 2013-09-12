@@ -63,7 +63,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 				return true;
 			}
 			
-			cs.sendMessage(ChatColor.BLUE + Localization.getString(Strings.VERSION_MESSAGE).replaceAll("%version%", plugin.getDescription().getVersion()));
+			cs.sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.VERSION_MESSAGE), plugin.getDescription().getVersion()));
 			return true;
 		}
 		
@@ -180,8 +180,8 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			if (args.length < 3) {
 				int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
 				if (booksGiven > 0) {
-					cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.ALL_BOOKS_GIVEN).replaceAll("%player%", player.getName()));
-					player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_ALL_BOOKS_MESSAGE).replaceAll("%player%", cs.getName()));
+					cs.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.ALL_BOOKS_GIVEN), player.getName()));
+					player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_ALL_BOOKS_MESSAGE), cs.getName()));
 				} else {
 					cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
 				}
@@ -192,8 +192,8 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			String query = (args.length > 3) ? StringUtils.join(args, " ", 2, args.length) : args[2];
 			
 			if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
-				cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_GIVEN).replaceAll("%player%", player.getName()));
-				player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_BOOK_MESSAGE).replaceAll("%player%", cs.getName()));
+				cs.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_GIVEN), player.getName()));
+				player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_BOOK_MESSAGE), cs.getName()));
 			} else {
 				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
 			}

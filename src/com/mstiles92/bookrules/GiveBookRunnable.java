@@ -52,10 +52,10 @@ public class GiveBookRunnable implements Runnable {
 	@Override
 	public void run() {
 		int num = BookStorage.getInstance(plugin).givePlayerUngivenBooks(player);
-		plugin.log(Localization.getString(Strings.PLAYER_GIVEN_BOOKS).replaceAll("%player%", player.getName()).replaceAll("%number%", String.valueOf(num)));
+		plugin.log(String.format(Localization.getString(Strings.PLAYER_GIVEN_BOOKS), player.getName(), String.valueOf(num)));
 		
 		if (num > 0 && plugin.getConfig().getBoolean("Display-Messages")) {
-			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE).replaceAll("%number%", String.valueOf(num)));
+			player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
 		}
 	}
 }

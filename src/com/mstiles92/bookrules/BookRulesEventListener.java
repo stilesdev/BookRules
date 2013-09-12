@@ -60,10 +60,8 @@ public class BookRulesEventListener implements Listener {
 		
 		if (plugin.updateAvailable && player.hasPermission("bookrules.receivealerts")) {
 			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
-			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_VERSION_INFO)
-					.replaceAll("%version%", plugin.getDescription().getVersion())
-					.replaceAll("%newversion%", plugin.latestKnownVersion));
-			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES).replaceAll("%newchanges%", plugin.changes));
+			player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, plugin.getDescription().getVersion(), plugin.latestKnownVersion));
+			player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), plugin.changes));
 		}
 		
 		if (plugin.getConfig().getBoolean("Give-New-Books-On-Join")) {

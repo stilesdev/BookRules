@@ -103,11 +103,11 @@ public class BookStorage {
 			}
 			books.load(booksFile);
 		} catch(IOException e) {
-			plugin.logWarning(Localization.getString(Strings.FILE_OPEN_FAILURE).replaceAll("%filename%", booksFilename));
+			plugin.logWarning(String.format(Localization.getString(Strings.FILE_OPEN_FAILURE), booksFilename));
 			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		} catch (InvalidConfigurationException e) {
-			plugin.logWarning(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR).replaceAll("%filename%", booksFilename));
+			plugin.logWarning(String.format(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR), booksFilename));
 			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		}
@@ -118,11 +118,11 @@ public class BookStorage {
 			}
 			players.load(playersFile);
 		} catch (IOException e) {
-			plugin.logWarning(Localization.getString(Strings.FILE_OPEN_FAILURE).replaceAll("%filename%", playersFilename));
+			plugin.logWarning(String.format(Localization.getString(Strings.FILE_OPEN_FAILURE), playersFilename));
 			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		} catch (InvalidConfigurationException e) {
-			plugin.logWarning(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR).replaceAll("%filename%", playersFilename));
+			plugin.logWarning(String.format(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR), playersFilename));
 			plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
 			plugin.getPluginLoader().disablePlugin(plugin);
 		}
@@ -210,7 +210,7 @@ public class BookStorage {
 		try {
 			books.save(booksFile);
 		} catch (IOException e) {
-			plugin.logWarning(Localization.getString(Strings.FILE_SAVE_FAILURE).replaceAll("%filename%", booksFilename));
+			plugin.logWarning(String.format(Localization.getString(Strings.FILE_SAVE_FAILURE), booksFilename));
 		}
 	}
 	
@@ -221,7 +221,7 @@ public class BookStorage {
 		try {
 			players.save(playersFile);
 		} catch (IOException e) {
-			plugin.logWarning(Localization.getString(Strings.FILE_SAVE_FAILURE).replaceAll("%filename%", playersFilename));
+			plugin.logWarning(String.format(Localization.getString(Strings.FILE_SAVE_FAILURE), playersFilename));
 		}
 	}
 	
@@ -356,11 +356,12 @@ public class BookStorage {
 	 */
 	public List<String> createBookList() {
 		ArrayList<String> list = new ArrayList<String>();
+		String title, author;
 		
 		for (int x = 0; x < index.size(); x++) {
-			list.add((x + 1) + " - " + Localization.getString(Strings.LIST_CMD_ENTRY)
-					.replaceAll("%title%", books.getString("Books." + index.get(x) + ".Title"))
-					.replaceAll("%author%", books.getString("Books." + index.get(x) + ".Author")));
+			title = books.getString("Books." + index.get(x) + ".Title");
+			author = books.getString("Books." + index.get(x) + ".Author");
+			list.add((x + 1) + " - " + String.format(Localization.getString(Strings.LIST_CMD_ENTRY), title, author));
 		}
 		
 		return list;

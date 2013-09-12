@@ -65,8 +65,8 @@ public class UpdateChecker implements Runnable {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String version = reader.readLine();
 			String changes = reader.readLine();
-			plugin.log(Localization.getString(Strings.UPDATECHECKER_VERSION_FOUND).replaceAll("%newversion%", version));
-			plugin.log(Localization.getString(Strings.UPDATECHECKER_CHANGES_FOUND).replaceAll("%newchanges%", changes));
+			plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_VERSION_FOUND), version));
+			plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_CHANGES_FOUND), changes));
 			
 			if (version != null && isNewerVersion(version)) {
 				plugin.latestKnownVersion = version;
@@ -74,8 +74,8 @@ public class UpdateChecker implements Runnable {
 				plugin.updateAvailable = true;
 				
 				plugin.getLogger().info(Localization.getString(Strings.UPDATE_AVAILIBLE));
-				plugin.getLogger().info(Localization.getString(Strings.UPDATE_VERSION_INFO).replaceFirst("%version%", plugin.getDescription().getVersion()).replaceAll("%newversion", version));
-				plugin.getLogger().info(Localization.getString(Strings.UPDATE_CHANGES).replaceFirst("%newchanges%", changes));
+				plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_VERSION_INFO), plugin.getDescription().getVersion(), version));
+				plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_CHANGES), changes));
 			} else {
 				plugin.log(Localization.getString(Strings.PLUGIN_UP_TO_DATE));
 			}
