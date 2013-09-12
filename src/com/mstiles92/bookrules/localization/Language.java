@@ -31,8 +31,8 @@ package com.mstiles92.bookrules.localization;
  */
 public enum Language {
 	
-	ENGLISH("en.lang"),
-	//GERMAN("de.lang") - not yet translated
+	ENGLISH("en.json"),
+	//GERMAN("de.json") - not yet translated
 	;
 
 	private final String path = "/com/mstiles92/bookrules/localization/";

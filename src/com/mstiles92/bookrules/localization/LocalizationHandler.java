@@ -70,7 +70,7 @@ public class LocalizationHandler {
 	public boolean loadLocalization(Language language) {
 		String contents;
 		
-		InputStream in = LocalizationHandler.class.getResourceAsStream(language.getPath().replace(".lang", ".json"));
+		InputStream in = LocalizationHandler.class.getResourceAsStream(language.getPath());
 		try {
 			contents = CharStreams.toString(new InputStreamReader(in, "UTF-8"));
 		} catch (IOException e) {
