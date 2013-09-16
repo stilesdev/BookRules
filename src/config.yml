@@ -4,3 +4,4 @@ Check-for-Updates: true
 Give-New-Books-On-Join: true
 Display-Messages: true
 Block-Villager-Book-Trading: true
+Give-Books-Every-Join: false
