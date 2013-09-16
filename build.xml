@@ -2,7 +2,7 @@
 	<description>Bukkit plugin used to distribute books to players when they join the server</description>
 	<property name="src" location="src" />
 	<property name="build" location="../../build/BookRules" />
-	<property name="bukkit" location="../../api/bukkit-1.6.2-R0.1.jar" />
+	<property name="bukkit" location="../../api/bukkit-1.6.2-R1.0.jar" />
 	
 	<target name="init">
 		<tstamp />
