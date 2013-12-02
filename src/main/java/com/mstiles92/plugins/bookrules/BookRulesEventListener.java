@@ -3,10 +3,10 @@
  * BookRules, an open source Bukkit plugin for automatically distributing
  * written books to new players.
  *
- * http://dev.bukkit.org/server-mods/bookrules/
+ * http://dev.bukkit.org/server-mods/plugins/
  * http://github.com/mstiles92/BookRules
  *
- * Copyright © 2013 Matthew Stiles (mstiles92)
+ * Copyright ï¿½ 2013 Matthew Stiles (mstiles92)
  *
  * Licensed under the Common Development and Distribution License Version 1.0
  * You may not use this file except in compliance with this License.
@@ -21,7 +21,7 @@
  * limitations under the license.
  */
 
-package com.mstiles92.bookrules;
+package com.mstiles92.plugins.bookrules;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,8 +33,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.mstiles92.bookrules.localization.Localization;
-import com.mstiles92.bookrules.localization.Strings;
+import com.mstiles92.plugins.bookrules.localization.Localization;
+import com.mstiles92.plugins.bookrules.localization.Strings;
 
 /**
  * PlayerJoinListener is a class that is used to detect when a player joins the
@@ -58,7 +58,7 @@ public class BookRulesEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 		
-		if (plugin.updateAvailable && player.hasPermission("bookrules.receivealerts")) {
+		if (plugin.updateAvailable && player.hasPermission("plugins.receivealerts")) {
 			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
 			player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, plugin.getDescription().getVersion(), plugin.latestKnownVersion));
 			player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), plugin.changes));

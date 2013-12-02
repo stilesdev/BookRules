@@ -3,10 +3,10 @@
  * BookRules, an open source Bukkit plugin for automatically distributing
  * written books to new players.
  *
- * http://dev.bukkit.org/server-mods/bookrules/
+ * http://dev.bukkit.org/server-mods/plugins/
  * http://github.com/mstiles92/BookRules
  *
- * Copyright © 2013 Matthew Stiles (mstiles92)
+ * Copyright ï¿½ 2013 Matthew Stiles (mstiles92)
  *
  * Licensed under the Common Development and Distribution License Version 1.0
  * You may not use this file except in compliance with this License.
@@ -21,7 +21,7 @@
  * limitations under the license.
  */
 
-package com.mstiles92.bookrules.localization;
+package com.mstiles92.plugins.bookrules.localization;
 
 import org.bukkit.ChatColor;
 
