@@ -1,4 +1,4 @@
-/**
+﻿/**
  * This document is a part of the source code and related artifacts for
  * BookRules, an open source Bukkit plugin for automatically distributing
  * written books to new players.
@@ -58,7 +58,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
 		if (args.length == 0 || args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("version")) {
-			if (!cs.hasPermission("plugins.info")) {
+			if (!cs.hasPermission("bookrules.info")) {
 				cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
@@ -72,43 +72,43 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			
 			
 			
-			if (cs.hasPermission("plugins.info")) {
+			if (cs.hasPermission("bookrules.info")) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_INFO_USAGE, Localization.getString(Strings.CMD_INFO_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.reload")) {
+			if (cs.hasPermission("bookrules.reload")) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_RELOAD_USAGE, Localization.getString(Strings.CMD_RELOAD_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.get") && (cs instanceof Player)) {
+			if (cs.hasPermission("bookrules.get") && (cs instanceof Player)) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GET_USAGE, Localization.getString(Strings.CMD_GET_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.give")) {
+			if (cs.hasPermission("bookrules.give")) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GIVE_USAGE, Localization.getString(Strings.CMD_GIVE_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.add") && (cs instanceof Player)) {
+			if (cs.hasPermission("bookrules.add") && (cs instanceof Player)) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_ADD_USAGE, Localization.getString(Strings.CMD_ADD_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.delete")) {
+			if (cs.hasPermission("bookrules.delete")) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_DELETE_USAGE, Localization.getString(Strings.CMD_DELETE_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.list")) {
+			if (cs.hasPermission("bookrules.list")) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_LIST_USAGE, Localization.getString(Strings.CMD_LIST_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.setauthor") && (cs instanceof Player)) {
+			if (cs.hasPermission("bookrules.setauthor") && (cs instanceof Player)) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETAUTHOR_USAGE, Localization.getString(Strings.CMD_SETAUTHOR_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.settitle") && (cs instanceof Player)) {
+			if (cs.hasPermission("bookrules.settitle") && (cs instanceof Player)) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETTITLE_USAGE, Localization.getString(Strings.CMD_SETTITLE_DESCRIPTION)));
 			}
 			
-			if (cs.hasPermission("plugins.unsign") && (cs instanceof Player)) {
+			if (cs.hasPermission("bookrules.unsign") && (cs instanceof Player)) {
 				cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_UNSIGN_USAGE, Localization.getString(Strings.CMD_UNSIGN_DESCRIPTION)));
 			}
 			
@@ -116,7 +116,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 		}
 		
 		if (args[0].equalsIgnoreCase("reload")) {
-			if (!cs.hasPermission("plugins.reload")) {
+			if (!cs.hasPermission("bookrules.reload")) {
 				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
@@ -130,7 +130,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			if (cs instanceof Player) {
 				Player player = (Player) cs;
 				
-				if (!player.hasPermission("plugins.get")) {
+				if (!player.hasPermission("bookrules.get")) {
 					player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
@@ -161,7 +161,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 		}
 		
 		if (args[0].equalsIgnoreCase("give")) {
-			if (!cs.hasPermission("plugins.give")) {
+			if (!cs.hasPermission("bookrules.give")) {
 				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
@@ -205,7 +205,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			if (cs instanceof Player) {
 				Player player = (Player) cs;
 				
-				if (!player.hasPermission("plugins.add")) {
+				if (!player.hasPermission("bookrules.add")) {
 					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
@@ -225,7 +225,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 		}
 		
 		if (args[0].equalsIgnoreCase("delete")) {
-			if (!cs.hasPermission("plugins.delete")) {
+			if (!cs.hasPermission("bookrules.delete")) {
 				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
@@ -245,7 +245,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 		}
 		
 		if (args[0].equalsIgnoreCase("list")) {
-			if (!cs.hasPermission("plugins.list")) {
+			if (!cs.hasPermission("bookrules.list")) {
 				cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 				return true;
 			}
@@ -269,7 +269,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			if (cs instanceof Player) {
 				Player player = (Player) cs;
 				
-				if (!player.hasPermission("plugins.setauthor")) {
+				if (!player.hasPermission("bookrules.setauthor")) {
 					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
@@ -301,7 +301,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			if (cs instanceof Player) {
 				Player player = (Player) cs;
 				
-				if (!player.hasPermission("plugins.settitle")) {
+				if (!player.hasPermission("bookrules.settitle")) {
 					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
@@ -333,7 +333,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 			if (cs instanceof Player) {
 				Player player = (Player) cs;
 				
-				if (!player.hasPermission("plugins.unsign")) {
+				if (!player.hasPermission("bookrules.unsign")) {
 					player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
 					return true;
 				}
