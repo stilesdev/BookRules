@@ -6,7 +6,7 @@
  * http://dev.bukkit.org/server-mods/plugins/
  * http://github.com/mstiles92/BookRules
  *
- * Copyright � 2013 Matthew Stiles (mstiles92)
+ * Copyright (c) 2014 Matthew Stiles (mstiles92)
  *
  * Licensed under the Common Development and Distribution License Version 1.0
  * You may not use this file except in compliance with this License.
@@ -23,6 +23,8 @@
 
 package com.mstiles92.plugins.bookrules;
 
+import com.mstiles92.plugins.bookrules.localization.Localization;
+import com.mstiles92.plugins.bookrules.localization.Strings;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,61 +35,58 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.mstiles92.plugins.bookrules.localization.Localization;
-import com.mstiles92.plugins.bookrules.localization.Strings;
-
 /**
  * PlayerJoinListener is a class that is used to detect when a player joins the
  * server and handle the event appropriately.
- * 
+ *
  * @author mstiles92
  */
 public class BookRulesEventListener implements Listener {
-	private final BookRulesPlugin plugin;
-	
-	/**
-	 * The main constructor of this class
-	 * 
-	 * @param plugin the instance of the plugin
-	 */
-	public BookRulesEventListener(BookRulesPlugin plugin) {
-		this.plugin = plugin;
-	}
-	
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e) {
-		Player player = e.getPlayer();
-		
-		if (plugin.updateAvailable && player.hasPermission("plugins.receivealerts")) {
-			player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
-			player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, plugin.getDescription().getVersion(), plugin.latestKnownVersion));
-			player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), plugin.changes));
-		}
-		
-		if (plugin.getConfig().getBoolean("Give-New-Books-On-Join")) {
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, player), plugin.getConfig().getLong("Seconds-Delay") * 20);
-		}
-	}
-	
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent e) {
-		if (!plugin.getConfig().getBoolean("Block-Villager-Book-Trading")) {
-			return;
-		}
-		
-		if (e.getInventory().getType() != InventoryType.MERCHANT) {
-			return;
-		}
-		
-		ItemStack book = (e.isShiftClick()) ? e.getCurrentItem() : e.getCursor();
-		if (book == null || book.getType() != Material.WRITTEN_BOOK) {
-			return;
-		}
-		
-		if (book.getItemMeta().getLore().contains("BookRules")) {
-			e.setCancelled(true);
-			e.getWhoClicked().closeInventory();
-			plugin.getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
-		}
-	}
+    private final BookRulesPlugin plugin;
+
+    /**
+     * The main constructor of this class
+     *
+     * @param plugin the instance of the plugin
+     */
+    public BookRulesEventListener(BookRulesPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+
+        if (plugin.updateAvailable && player.hasPermission("plugins.receivealerts")) {
+            player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
+            player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, plugin.getDescription().getVersion(), plugin.latestKnownVersion));
+            player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), plugin.changes));
+        }
+
+        if (plugin.getConfig().getBoolean("Give-New-Books-On-Join")) {
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, player), plugin.getConfig().getLong("Seconds-Delay") * 20);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (!plugin.getConfig().getBoolean("Block-Villager-Book-Trading")) {
+            return;
+        }
+
+        if (e.getInventory().getType() != InventoryType.MERCHANT) {
+            return;
+        }
+
+        ItemStack book = (e.isShiftClick()) ? e.getCurrentItem() : e.getCursor();
+        if (book == null || book.getType() != Material.WRITTEN_BOOK) {
+            return;
+        }
+
+        if (book.getItemMeta().getLore().contains("BookRules")) {
+            e.setCancelled(true);
+            e.getWhoClicked().closeInventory();
+            plugin.getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
+        }
+    }
 }

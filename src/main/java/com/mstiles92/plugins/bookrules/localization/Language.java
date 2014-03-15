@@ -6,7 +6,7 @@
  * http://dev.bukkit.org/server-mods/plugins/
  * http://github.com/mstiles92/BookRules
  *
- * Copyright � 2013 Matthew Stiles (mstiles92)
+ * Copyright (c) 2014 Matthew Stiles (mstiles92)
  *
  * Licensed under the Common Development and Distribution License Version 1.0
  * You may not use this file except in compliance with this License.
@@ -26,27 +26,27 @@ package com.mstiles92.plugins.bookrules.localization;
 /**
  * Language is an enum used to represent all of the available languages present
  * for the plugin.
- * 
+ *
  * @author mstiles92
  */
 public enum Language {
-	
-	ENGLISH("en.json"),
-	//GERMAN("de.json") - not yet translated
-	;
 
-	private final String path = "/com/mstiles92/plugins/bookrules/localization/";
-	private final String filename;
-	
-	private Language(String filename) {
-		this.filename = filename;
-	}
-	
-	public String getFilename() {
-		return this.filename;
-	}
-	
-	public String getPath() {
-		return this.path + this.filename;
-	}
+    ENGLISH("en.json"),
+    //GERMAN("de.json") - not yet translated
+    ;
+
+    private final String path = "/com/mstiles92/plugins/bookrules/localization/";
+    private final String filename;
+
+    private Language(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilename() {
+        return this.filename;
+    }
+
+    public String getPath() {
+        return this.path + this.filename;
+    }
 }

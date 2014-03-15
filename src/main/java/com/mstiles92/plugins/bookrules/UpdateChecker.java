@@ -6,7 +6,7 @@
  * http://dev.bukkit.org/server-mods/plugins/
  * http://github.com/mstiles92/BookRules
  *
- * Copyright � 2013 Matthew Stiles (mstiles92)
+ * Copyright (c) 2014 Matthew Stiles (mstiles92)
  *
  * Licensed under the Common Development and Distribution License Version 1.0
  * You may not use this file except in compliance with this License.
@@ -23,106 +23,106 @@
 
 package com.mstiles92.plugins.bookrules;
 
+import com.mstiles92.plugins.bookrules.localization.Localization;
+import com.mstiles92.plugins.bookrules.localization.Strings;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-
-import com.mstiles92.plugins.bookrules.localization.Localization;
-import com.mstiles92.plugins.bookrules.localization.Strings;
 
 /**
  * UpdateChecker is a class that checks the current version of the plugin
  * against the latest available version. If there is an update available,
  * it sets the plugin to notify staff of the update, as well as the changes
  * in the new version.
- * 
+ *
  * @author mstiles92
  */
-public class UpdateChecker implements Runnable {
+public class UpdateChecker implements Runnable { //TODO: use BukGet API instead
 
-	private final String updateAddress = "http://updates.mstiles92.com/updates/plugins.txt";
-	private final BookRulesPlugin plugin;
-	
-	/**
-	 * The main constructor of this class
-	 * 
-	 * @param plugin the instance of the plugin
-	 */
-	public UpdateChecker(BookRulesPlugin plugin) {
-		this.plugin = plugin;
-	}
-	
-	@Override
-	public void run() {
-		plugin.log(Localization.getString(Strings.UPDATECHECKER_STARTED));
-		
-		try {
-			URL url = new URL(updateAddress);
-			URLConnection connection = url.openConnection();
-			connection.setConnectTimeout(5000);
-			connection.setReadTimeout(10000);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String version = reader.readLine();
-			String changes = reader.readLine();
-			plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_VERSION_FOUND), version));
-			plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_CHANGES_FOUND), changes));
-			
-			if (version != null && isNewerVersion(version)) {
-				plugin.latestKnownVersion = version;
-				plugin.changes = changes;
-				plugin.updateAvailable = true;
-				
-				plugin.getLogger().info(Localization.getString(Strings.UPDATE_AVAILIBLE));
-				plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_VERSION_INFO), plugin.getDescription().getVersion(), version));
-				plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_CHANGES), changes));
-			} else {
-				plugin.log(Localization.getString(Strings.PLUGIN_UP_TO_DATE));
-			}
-		} catch (Exception e) {
-			plugin.getLogger().info(Localization.getString(Strings.UPDATE_CHECK_FAILURE));
-		}
-	}
-	
-	/**
-	 * Provide simple natural order comparison for version numbers (ie. 2.9 is less than 2.10)
-	 * 
-	 * @param version the new found version
-	 * @return true if the provided version is newer, false otherwise
-	 */
-	private boolean isNewerVersion(String newVersion) {
-		String oldVersion = plugin.getDescription().getVersion();
-		if (oldVersion.equals(newVersion)) {
-			return false;
-		}
-		
-		oldVersion = oldVersion.split("-pre")[0];
-		
-		String[] oldSplit = oldVersion.split("\\.");
-		String[] newSplit = newVersion.split("\\.");
-		int newInt;
-		int oldInt;
-		
-		for (int i = 0; i < oldSplit.length || i < newSplit.length; i++) {
-			if (i >= newSplit.length) {
-				newInt = 0;
-			} else {
-				newInt = Integer.parseInt(newSplit[i]);
-			}
-			
-			if (i >= oldSplit.length) {
-				oldInt = 0;
-			} else {
-				oldInt = Integer.parseInt(oldSplit[i]);
-			}
-			
-			if (newInt == oldInt) {
-				continue;
-			} else {
-				return (newInt > oldInt);
-			}
-		}
-		
-		return false;
-	}
+    private final String updateAddress = "http://updates.mstiles92.com/updates/bookrules.txt";
+    private final BookRulesPlugin plugin;
+
+    /**
+     * The main constructor of this class
+     *
+     * @param plugin the instance of the plugin
+     */
+    public UpdateChecker(BookRulesPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    @Override
+    public void run() {
+        plugin.log(Localization.getString(Strings.UPDATECHECKER_STARTED));
+
+        try {
+            URL url = new URL(updateAddress);
+            URLConnection connection = url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(10000);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String version = reader.readLine();
+            String changes = reader.readLine();
+            plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_VERSION_FOUND), version));
+            plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_CHANGES_FOUND), changes));
+
+            if (version != null && isNewerVersion(version)) {
+                plugin.latestKnownVersion = version;
+                plugin.changes = changes;
+                plugin.updateAvailable = true;
+
+                plugin.getLogger().info(Localization.getString(Strings.UPDATE_AVAILIBLE));
+                plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_VERSION_INFO), plugin.getDescription().getVersion(), version));
+                plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_CHANGES), changes));
+            } else {
+                plugin.log(Localization.getString(Strings.PLUGIN_UP_TO_DATE));
+            }
+        } catch (Exception e) {
+            plugin.getLogger().info(Localization.getString(Strings.UPDATE_CHECK_FAILURE));
+        }
+    }
+
+    /**
+     * Provide simple natural order comparison for version numbers (ie. 2.9 is less than 2.10)
+     *
+     * @param version the new found version
+     * @return true if the provided version is newer, false otherwise
+     */
+    private boolean isNewerVersion(String newVersion) {
+        String oldVersion = plugin.getDescription().getVersion();
+        if (oldVersion.equals(newVersion)) {
+            return false;
+        }
+
+        oldVersion = oldVersion.split("-pre")[0];
+
+        String[] oldSplit = oldVersion.split("\\.");
+        String[] newSplit = newVersion.split("\\.");
+        int newInt;
+        int oldInt;
+
+        for (int i = 0; i < oldSplit.length || i < newSplit.length; i++) {
+            if (i >= newSplit.length) {
+                newInt = 0;
+            } else {
+                newInt = Integer.parseInt(newSplit[i]);
+            }
+
+            if (i >= oldSplit.length) {
+                oldInt = 0;
+            } else {
+                oldInt = Integer.parseInt(oldSplit[i]);
+            }
+
+            if (newInt == oldInt) {
+                continue;
+            } else {
+                return (newInt > oldInt);
+            }
+        }
+
+        return false;
+    }
 }
