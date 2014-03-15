@@ -28,7 +28,7 @@ import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.BukkitMetrics;
+import org.mcstats.Metrics;
 
 import java.io.IOException;
 
@@ -66,7 +66,7 @@ public class BookRulesPlugin extends JavaPlugin {
         }
 
         try {
-            BukkitMetrics metrics = new BukkitMetrics(this);
+            Metrics metrics = new Metrics(this);
             metrics.start();
         } catch (IOException e) {
             logWarning(Localization.getString(Strings.METRICS_START_FAILURE));
