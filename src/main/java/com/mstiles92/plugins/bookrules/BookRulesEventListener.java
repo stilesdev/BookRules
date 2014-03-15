@@ -83,7 +83,7 @@ public class BookRulesEventListener implements Listener {
             return;
         }
 
-        if (book.getItemMeta().getLore().contains("BookRules")) {
+        if (book.getItemMeta().getLore() != null && book.getItemMeta().getLore().contains("BookRules")) {
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
             plugin.getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
