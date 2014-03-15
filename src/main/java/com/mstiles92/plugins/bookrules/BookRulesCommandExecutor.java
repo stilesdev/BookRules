@@ -1,4 +1,4 @@
-﻿/**
+/**
  * This document is a part of the source code and related artifacts for
  * BookRules, an open source Bukkit plugin for automatically distributing
  * written books to new players.
