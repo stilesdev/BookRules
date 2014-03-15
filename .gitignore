@@ -9,3 +9,6 @@
 
 # output
 target/
+
+# working directory
+working/
