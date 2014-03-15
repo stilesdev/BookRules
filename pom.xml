@@ -24,6 +24,15 @@
                     <include>*.yml</include>
                 </includes>
             </resource>
+
+            <resource>
+                <targetPath>/com/mstiles92/plugins/bookrules/localization</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources/localization</directory>
+                <includes>
+                    <include>*.json</include>
+                </includes>
+            </resource>
         </resources>
 
         <plugins>
