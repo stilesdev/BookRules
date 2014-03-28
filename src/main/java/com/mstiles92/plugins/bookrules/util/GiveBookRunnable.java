@@ -53,7 +53,7 @@ public class GiveBookRunnable implements Runnable {
             player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
         } else {
             int num = BookStorage.getInstance().givePlayerUngivenBooks(player);
-            BookRules.getInstance().log(String.format(Localization.getString(Strings.PLAYER_GIVEN_BOOKS), player.getName(), String.valueOf(num)));
+            Log.verbose(String.format(Localization.getString(Strings.PLAYER_GIVEN_BOOKS), player.getName(), String.valueOf(num)));
 
             if (num > 0 && BookRules.getInstance().getConfigObject().shouldNotifyPlayers()) {
                 player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));

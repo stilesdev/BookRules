@@ -29,8 +29,8 @@ import com.mstiles92.plugins.bookrules.listeners.PlayerListener;
 import com.mstiles92.plugins.bookrules.localization.Language;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
+import com.mstiles92.plugins.bookrules.util.Log;
 import com.mstiles92.plugins.bookrules.util.UpdateChecker;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -59,7 +59,7 @@ public class BookRules extends JavaPlugin {
 
         // TODO: Create config option, load correct language
         if (!Localization.load(Language.ENGLISH)) {
-            logWarning("Error loading language file. BookRules will now be disabled.");
+            Log.warning("Error loading language file. BookRules will now be disabled."); //TODO: refactor into localization system
             getPluginLoader().disablePlugin(this);
         }
 
@@ -75,34 +75,13 @@ public class BookRules extends JavaPlugin {
             Metrics metrics = new Metrics(this);
             metrics.start();
         } catch (IOException e) {
-            logWarning(Localization.getString(Strings.METRICS_START_FAILURE));
+            Log.warning(Localization.getString(Strings.METRICS_START_FAILURE));
         }
     }
 
     @Override
     public void onDisable() {
 
-    }
-
-    /**
-     * Print a message to the server console, if verbose output is enabled
-     * in the config. The message is logged at the info level.
-     *
-     * @param message the message to be logged
-     */
-    public void log(String message) {
-        if (config.verboseOutputEnabled()) {
-            getLogger().info(message);
-        }
-    }
-
-    /**
-     * Convenience method used to log warning messages to the console.
-     *
-     * @param message the message to be logged
-     */
-    public void logWarning(String message) {
-        getLogger().warning(ChatColor.RED + message);
     }
 
     public Config getConfigObject() {

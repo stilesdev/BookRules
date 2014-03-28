@@ -54,7 +54,7 @@ public class UpdateChecker implements Runnable { //TODO: use BukGet API instead
 
     @Override
     public void run() {
-        plugin.log(Localization.getString(Strings.UPDATECHECKER_STARTED));
+        Log.verbose(Localization.getString(Strings.UPDATECHECKER_STARTED));
 
         try {
             URL url = new URL(updateAddress);
@@ -64,22 +64,22 @@ public class UpdateChecker implements Runnable { //TODO: use BukGet API instead
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String version = reader.readLine();
             String changes = reader.readLine();
-            plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_VERSION_FOUND), version));
-            plugin.log(String.format(Localization.getString(Strings.UPDATECHECKER_CHANGES_FOUND), changes));
+            Log.verbose(String.format(Localization.getString(Strings.UPDATECHECKER_VERSION_FOUND), version));
+            Log.verbose(String.format(Localization.getString(Strings.UPDATECHECKER_CHANGES_FOUND), changes));
 
             if (version != null && isNewerVersion(version)) {
                 plugin.latestKnownVersion = version;
                 plugin.changes = changes;
                 plugin.updateAvailable = true;
 
-                plugin.getLogger().info(Localization.getString(Strings.UPDATE_AVAILIBLE));
-                plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_VERSION_INFO), plugin.getDescription().getVersion(), version));
-                plugin.getLogger().info(String.format(Localization.getString(Strings.UPDATE_CHANGES), changes));
+                Log.info(Localization.getString(Strings.UPDATE_AVAILIBLE));
+                Log.info(String.format(Localization.getString(Strings.UPDATE_VERSION_INFO), plugin.getDescription().getVersion(), version));
+                Log.info(String.format(Localization.getString(Strings.UPDATE_CHANGES), changes));
             } else {
-                plugin.log(Localization.getString(Strings.PLUGIN_UP_TO_DATE));
+                Log.verbose(Localization.getString(Strings.PLUGIN_UP_TO_DATE));
             }
         } catch (Exception e) {
-            plugin.getLogger().info(Localization.getString(Strings.UPDATE_CHECK_FAILURE));
+            Log.info(Localization.getString(Strings.UPDATE_CHECK_FAILURE));
         }
     }
 

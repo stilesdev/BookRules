@@ -102,12 +102,12 @@ public class BookStorage {
             }
             books.load(booksFile);
         } catch (IOException e) {
-            plugin.logWarning(String.format(Localization.getString(Strings.FILE_OPEN_FAILURE), booksFilename));
-            plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
+            Log.warning(String.format(Localization.getString(Strings.FILE_OPEN_FAILURE), booksFilename));
+            Log.warning(Localization.getString(Strings.PLUGIN_DISABLED));
             plugin.getPluginLoader().disablePlugin(plugin);
         } catch (InvalidConfigurationException e) {
-            plugin.logWarning(String.format(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR), booksFilename));
-            plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
+            Log.warning(String.format(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR), booksFilename));
+            Log.warning(Localization.getString(Strings.PLUGIN_DISABLED));
             plugin.getPluginLoader().disablePlugin(plugin);
         }
 
@@ -117,20 +117,20 @@ public class BookStorage {
             }
             players.load(playersFile);
         } catch (IOException e) {
-            plugin.logWarning(String.format(Localization.getString(Strings.FILE_OPEN_FAILURE), playersFilename));
-            plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
+            Log.warning(String.format(Localization.getString(Strings.FILE_OPEN_FAILURE), playersFilename));
+            Log.warning(Localization.getString(Strings.PLUGIN_DISABLED));
             plugin.getPluginLoader().disablePlugin(plugin);
         } catch (InvalidConfigurationException e) {
-            plugin.logWarning(String.format(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR), playersFilename));
-            plugin.logWarning(Localization.getString(Strings.PLUGIN_DISABLED));
+            Log.warning(String.format(Localization.getString(Strings.INVALID_CONFIGURATION_ERROR), playersFilename));
+            Log.warning(Localization.getString(Strings.PLUGIN_DISABLED));
             plugin.getPluginLoader().disablePlugin(plugin);
         }
 
         if (!books.contains("Meta")) {
             if (convertFromOldFormat()) {
-                plugin.log(Localization.getString(Strings.OLD_CONFIG_CONVERTED));
+                Log.verbose(Localization.getString(Strings.OLD_CONFIG_CONVERTED));
             } else {
-                plugin.logWarning(Localization.getString(Strings.OLD_FORMAT_CONVERSION_FAILURE));
+                Log.warning(Localization.getString(Strings.OLD_FORMAT_CONVERSION_FAILURE));
                 plugin.getPluginLoader().disablePlugin(plugin);
             }
         }
@@ -210,7 +210,7 @@ public class BookStorage {
         try {
             books.save(booksFile);
         } catch (IOException e) {
-            plugin.logWarning(String.format(Localization.getString(Strings.FILE_SAVE_FAILURE), booksFilename));
+            Log.warning(String.format(Localization.getString(Strings.FILE_SAVE_FAILURE), booksFilename));
         }
     }
 
@@ -221,7 +221,7 @@ public class BookStorage {
         try {
             players.save(playersFile);
         } catch (IOException e) {
-            plugin.logWarning(String.format(Localization.getString(Strings.FILE_SAVE_FAILURE), playersFilename));
+            Log.warning(String.format(Localization.getString(Strings.FILE_SAVE_FAILURE), playersFilename));
         }
     }
 
