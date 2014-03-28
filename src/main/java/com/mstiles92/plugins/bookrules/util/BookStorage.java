@@ -48,7 +48,6 @@ import java.util.List;
  * @author mstiles92
  */
 public class BookStorage {
-
     private static BookStorage instance = null;
 
     private final BookRules plugin;

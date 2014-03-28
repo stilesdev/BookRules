@@ -24,6 +24,7 @@
 package com.mstiles92.plugins.bookrules;
 
 import com.mstiles92.plugins.bookrules.commands.RuleBook;
+import com.mstiles92.plugins.bookrules.config.Config;
 import com.mstiles92.plugins.bookrules.listeners.PlayerListener;
 import com.mstiles92.plugins.bookrules.localization.Language;
 import com.mstiles92.plugins.bookrules.localization.Localization;
@@ -45,6 +46,8 @@ import java.io.IOException;
 public class BookRules extends JavaPlugin {
     private static BookRules instance = null;
 
+    private Config config;
+
     public boolean updateAvailable = false;
     public String latestKnownVersion, changes;
 
@@ -52,12 +55,7 @@ public class BookRules extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        getConfig().options().copyDefaults(true);
-        if (getConfig().contains("Give-Books-On-First-Join")) {
-            getConfig().set("Give-New-Books-On-Join", getConfig().get("Give-Books-On-First-Join"));
-            getConfig().set("Give-Books-On-First-Join", null);
-        }
-        saveConfig();
+        config = new Config();
 
         // TODO: Create config option, load correct language
         if (!Localization.load(Language.ENGLISH)) {
@@ -69,7 +67,7 @@ public class BookRules extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         latestKnownVersion = this.getDescription().getVersion();
-        if (getConfig().getBoolean("Check-for-Updates")) {
+        if (config.shouldCheckForUpdates()) {
             getServer().getScheduler().runTaskTimer(this, new UpdateChecker(), 40, 216000);
         }
 
@@ -93,7 +91,7 @@ public class BookRules extends JavaPlugin {
      * @param message the message to be logged
      */
     public void log(String message) {
-        if (getConfig().getBoolean("Verbose")) {
+        if (config.verboseOutputEnabled()) {
             getLogger().info(message);
         }
     }
@@ -105,6 +103,10 @@ public class BookRules extends JavaPlugin {
      */
     public void logWarning(String message) {
         getLogger().warning(ChatColor.RED + message);
+    }
+
+    public Config getConfigObject() {
+        return config;
     }
 
     /**

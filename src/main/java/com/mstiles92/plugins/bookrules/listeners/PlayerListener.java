@@ -55,14 +55,14 @@ public class PlayerListener implements Listener {
             player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), BookRules.getInstance().changes));
         }
 
-        if (BookRules.getInstance().getConfig().getBoolean("Give-New-Books-On-Join")) {
-            BookRules.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), BookRules.getInstance().getConfig().getLong("Seconds-Delay") * 20);
+        if (BookRules.getInstance().getConfigObject().shouldGiveNewBooksOnJoin()) {
+            BookRules.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), BookRules.getInstance().getConfigObject().getRunnableDelay());
         }
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!BookRules.getInstance().getConfig().getBoolean("Block-Villager-Book-Trading")) {
+        if (!BookRules.getInstance().getConfigObject().shouldBlockVillagerTrading()) {
             return;
         }
 
