@@ -21,8 +21,10 @@
  * limitations under the license.
  */
 
-package com.mstiles92.plugins.bookrules;
+package com.mstiles92.plugins.bookrules.listeners;
 
+import com.mstiles92.plugins.bookrules.BookRules;
+import com.mstiles92.plugins.bookrules.util.GiveBookRunnable;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import org.bukkit.ChatColor;
@@ -36,41 +38,31 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * PlayerJoinListener is a class that is used to detect when a player joins the
+ * PlayerListener is a class that is used to detect when a player joins the
  * server and handle the event appropriately.
  *
  * @author mstiles92
  */
-public class BookRulesEventListener implements Listener {
-    private final BookRulesPlugin plugin;
-
-    /**
-     * The main constructor of this class
-     *
-     * @param plugin the instance of the plugin
-     */
-    public BookRulesEventListener(BookRulesPlugin plugin) {
-        this.plugin = plugin;
-    }
+public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
-        if (plugin.updateAvailable && player.hasPermission("plugins.receivealerts")) {
+        if (BookRules.getInstance().updateAvailable && player.hasPermission("plugins.receivealerts")) {
             player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
-            player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, plugin.getDescription().getVersion(), plugin.latestKnownVersion));
-            player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), plugin.changes));
+            player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, BookRules.getInstance().getDescription().getVersion(), BookRules.getInstance().latestKnownVersion));
+            player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), BookRules.getInstance().changes));
         }
 
-        if (plugin.getConfig().getBoolean("Give-New-Books-On-Join")) {
-            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new GiveBookRunnable(plugin, player), plugin.getConfig().getLong("Seconds-Delay") * 20);
+        if (BookRules.getInstance().getConfig().getBoolean("Give-New-Books-On-Join")) {
+            BookRules.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), BookRules.getInstance().getConfig().getLong("Seconds-Delay") * 20);
         }
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!plugin.getConfig().getBoolean("Block-Villager-Book-Trading")) {
+        if (!BookRules.getInstance().getConfig().getBoolean("Block-Villager-Book-Trading")) {
             return;
         }
 
@@ -86,7 +78,7 @@ public class BookRulesEventListener implements Listener {
         if (book.getItemMeta().getLore() != null && book.getItemMeta().getLore().contains("BookRules")) {
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
-            plugin.getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
+            BookRules.getInstance().getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
         }
     }
 }

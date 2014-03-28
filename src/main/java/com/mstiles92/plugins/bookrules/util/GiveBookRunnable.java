@@ -21,8 +21,9 @@
  * limitations under the license.
  */
 
-package com.mstiles92.plugins.bookrules;
+package com.mstiles92.plugins.bookrules.util;
 
+import com.mstiles92.plugins.bookrules.BookRules;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import org.bukkit.entity.Player;
@@ -34,27 +35,26 @@ import org.bukkit.entity.Player;
  * @author mstiles92
  */
 public class GiveBookRunnable implements Runnable {
-    private final BookRulesPlugin plugin;
+    private final BookRules plugin;
     private Player player;
 
     /**
      * The main constructor for this class
      *
-     * @param plugin the instance of the plugin
      * @param player the player to give the books to
      */
-    public GiveBookRunnable(BookRulesPlugin plugin, Player player) {
-        this.plugin = plugin;
+    public GiveBookRunnable(Player player) {
+        this.plugin = BookRules.getInstance(); //TODO: refactor out
         this.player = player;
     }
 
     @Override
     public void run() {
         if (plugin.getConfig().getBoolean("Give-Books-Every-Join")) {
-            int num = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
+            int num = BookStorage.getInstance().givePlayerAllBooks(player);
             player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
         } else {
-            int num = BookStorage.getInstance(plugin).givePlayerUngivenBooks(player);
+            int num = BookStorage.getInstance().givePlayerUngivenBooks(player);
             plugin.log(String.format(Localization.getString(Strings.PLAYER_GIVEN_BOOKS), player.getName(), String.valueOf(num)));
 
             if (num > 0 && plugin.getConfig().getBoolean("Display-Messages")) {

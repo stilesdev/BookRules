@@ -38,7 +38,7 @@ public class Localization {
      * @return true if loading succeeded, false if it failed
      */
     public static boolean load(Language language) {
-        return LocalizationHandler.instance().loadLocalization(language);
+        return LocalizationHandler.getInstance().loadLocalization(language);
     }
 
     /**
@@ -49,6 +49,6 @@ public class Localization {
      * the string could not be found.
      */
     public static String getString(String key) {
-        return LocalizationHandler.instance().getLocalizedString(key);
+        return LocalizationHandler.getInstance().getLocalizedString(key);
     }
 }

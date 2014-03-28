@@ -23,9 +23,12 @@
 
 package com.mstiles92.plugins.bookrules;
 
+import com.mstiles92.plugins.bookrules.commands.RuleBook;
+import com.mstiles92.plugins.bookrules.listeners.PlayerListener;
 import com.mstiles92.plugins.bookrules.localization.Language;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
+import com.mstiles92.plugins.bookrules.util.UpdateChecker;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
@@ -33,17 +36,22 @@ import org.mcstats.Metrics;
 import java.io.IOException;
 
 /**
- * BookRulesPlugin is the main class of this Bukkit plugin. It handles enabling
+ * BookRules is the main class of this Bukkit plugin. It handles enabling
  * and disabling of this plugin, loading config files, and other general
  * methods needed for this plugin's operation.
  *
  * @author mstiles92
  */
-public class BookRulesPlugin extends JavaPlugin {
+public class BookRules extends JavaPlugin {
+    private static BookRules instance = null;
+
     public boolean updateAvailable = false;
     public String latestKnownVersion, changes;
 
+    @Override
     public void onEnable() {
+        instance = this;
+
         getConfig().options().copyDefaults(true);
         if (getConfig().contains("Give-Books-On-First-Join")) {
             getConfig().set("Give-New-Books-On-Join", getConfig().get("Give-Books-On-First-Join"));
@@ -57,12 +65,12 @@ public class BookRulesPlugin extends JavaPlugin {
             getPluginLoader().disablePlugin(this);
         }
 
-        getCommand("rulebook").setExecutor(new BookRulesCommandExecutor(this));
-        getServer().getPluginManager().registerEvents(new BookRulesEventListener(this), this);
+        getCommand("rulebook").setExecutor(new RuleBook());
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         latestKnownVersion = this.getDescription().getVersion();
         if (getConfig().getBoolean("Check-for-Updates")) {
-            getServer().getScheduler().runTaskTimer(this, new UpdateChecker(this), 40, 216000);
+            getServer().getScheduler().runTaskTimer(this, new UpdateChecker(), 40, 216000);
         }
 
         try {
@@ -73,6 +81,7 @@ public class BookRulesPlugin extends JavaPlugin {
         }
     }
 
+    @Override
     public void onDisable() {
 
     }
@@ -96,5 +105,14 @@ public class BookRulesPlugin extends JavaPlugin {
      */
     public void logWarning(String message) {
         getLogger().warning(ChatColor.RED + message);
+    }
+
+    /**
+     * Get the static instance of the plugin class.
+     *
+     * @return the instance of this class
+     */
+    public static BookRules getInstance() {
+        return instance;
     }
 }

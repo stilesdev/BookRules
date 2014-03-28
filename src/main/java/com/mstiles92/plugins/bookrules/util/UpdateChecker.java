@@ -21,8 +21,9 @@
  * limitations under the license.
  */
 
-package com.mstiles92.plugins.bookrules;
+package com.mstiles92.plugins.bookrules.util;
 
+import com.mstiles92.plugins.bookrules.BookRules;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 
@@ -42,15 +43,13 @@ import java.net.URLConnection;
 public class UpdateChecker implements Runnable { //TODO: use BukGet API instead
 
     private final String updateAddress = "http://updates.mstiles92.com/updates/bookrules.txt";
-    private final BookRulesPlugin plugin;
+    private final BookRules plugin;
 
     /**
      * The main constructor of this class
-     *
-     * @param plugin the instance of the plugin
      */
-    public UpdateChecker(BookRulesPlugin plugin) {
-        this.plugin = plugin;
+    public UpdateChecker() {
+        this.plugin = BookRules.getInstance(); //TODO: Factor out stored instance
     }
 
     @Override
@@ -87,7 +86,7 @@ public class UpdateChecker implements Runnable { //TODO: use BukGet API instead
     /**
      * Provide simple natural order comparison for version numbers (ie. 2.9 is less than 2.10)
      *
-     * @param version the new found version
+     * @param newVersion the new found version
      * @return true if the provided version is newer, false otherwise
      */
     private boolean isNewerVersion(String newVersion) {

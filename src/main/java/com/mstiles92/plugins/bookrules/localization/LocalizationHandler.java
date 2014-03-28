@@ -53,7 +53,7 @@ public class LocalizationHandler {
      *
      * @return the instance of the class
      */
-    public static LocalizationHandler instance() {
+    public static LocalizationHandler getInstance() {
         if (instance == null) {
             instance = new LocalizationHandler();
         }

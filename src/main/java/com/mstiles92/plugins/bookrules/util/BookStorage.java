@@ -21,8 +21,9 @@
  * limitations under the license.
  */
 
-package com.mstiles92.plugins.bookrules;
+package com.mstiles92.plugins.bookrules.util;
 
+import com.mstiles92.plugins.bookrules.BookRules;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import org.bukkit.Material;
@@ -50,7 +51,7 @@ public class BookStorage {
 
     private static BookStorage instance = null;
 
-    private final BookRulesPlugin plugin;
+    private final BookRules plugin;
     private File booksFile;
     private File playersFile;
     private YamlConfiguration books;
@@ -68,9 +69,9 @@ public class BookStorage {
      *
      * @return the instance of this class
      */
-    public static BookStorage getInstance(BookRulesPlugin plugin) {
+    public static BookStorage getInstance() {
         if (instance == null) {
-            instance = new BookStorage(plugin);
+            instance = new BookStorage(BookRules.getInstance()); //TODO: Refactor to use only static reference
         }
 
         return instance;
@@ -79,7 +80,7 @@ public class BookStorage {
     /**
      * The main constructor of this class
      */
-    private BookStorage(BookRulesPlugin plugin) {
+    private BookStorage(BookRules plugin) {
         this.plugin = plugin;
         loadFromFile();
     }
@@ -142,8 +143,8 @@ public class BookStorage {
      * Update the index of internal ids.
      */
     private void updateIndex() {
-        index = new ArrayList<Integer>();
-        titleIndex = new LinkedHashMap<String, Integer>();
+        index = new ArrayList<>();
+        titleIndex = new LinkedHashMap<>();
         for (String id : books.getConfigurationSection("Books").getKeys(false)) {
             index.add(Integer.parseInt(id));
             titleIndex.put(books.getString("Books." + id + ".Title"), Integer.parseInt(id));
@@ -171,7 +172,7 @@ public class BookStorage {
         books.createSection("Meta");
 
         for (String s : oldConfig.getKeys(false)) {
-            pages = new ArrayList<String>();
+            pages = new ArrayList<>();
             section = oldConfig.getConfigurationSection(s + ".Pages");
             for (String pageName : section.getKeys(false)) {
                 pages.add(section.getString(pageName));
@@ -272,7 +273,7 @@ public class BookStorage {
     private ItemStack getBook(int id) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
         BookMeta meta = (BookMeta) book.getItemMeta();
-        ArrayList<String> lore = new ArrayList<String>();
+        ArrayList<String> lore = new ArrayList<>();
         lore.add("BookRules");
 
         meta.setAuthor(books.getString("Books." + id + ".Author"));
@@ -356,7 +357,7 @@ public class BookStorage {
      * @return the list of currently registered books
      */
     public List<String> createBookList() {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         String title, author;
 
         for (int x = 0; x < index.size(); x++) {

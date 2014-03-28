@@ -21,11 +21,14 @@
  * limitations under the license.
  */
 
-package com.mstiles92.plugins.bookrules;
+package com.mstiles92.plugins.bookrules.commands;
 
+import com.mstiles92.plugins.bookrules.BookRules;
+import com.mstiles92.plugins.bookrules.util.BookStorage;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -37,96 +40,86 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 /**
- * BookRulesCommandExecutor is a class that handles the execution of the
+ * RuleBook is a class that handles the execution of the
  * commands registered to this plugin.
  *
  * @author mstiles92
  */
-public class BookRulesCommandExecutor implements CommandExecutor {
-    private final BookRulesPlugin plugin;
-
-    /**
-     * The main constructor of this class
-     *
-     * @param plugin the instance of the plugin
-     */
-    public BookRulesCommandExecutor(BookRulesPlugin plugin) {
-        this.plugin = plugin;
-    }
+public class RuleBook implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0 || args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("version")) {
-            if (!cs.hasPermission("bookrules.info")) {
-                cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.NO_PERMISSIONS));
+            if (!sender.hasPermission("bookrules.info")) {
+                sender.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.NO_PERMISSIONS));
                 return true;
             }
 
-            cs.sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.VERSION_MESSAGE), plugin.getDescription().getVersion()));
+            sender.sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.VERSION_MESSAGE), BookRules.getInstance().getDescription().getVersion()));
             return true;
         }
 
         if (args[0].equalsIgnoreCase("commands")) {
-            cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.COMMANDS_HEADER));
+            sender.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.COMMANDS_HEADER));
 
 
-            if (cs.hasPermission("bookrules.info")) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_INFO_USAGE, Localization.getString(Strings.CMD_INFO_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.info")) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_INFO_USAGE, Localization.getString(Strings.CMD_INFO_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.reload")) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_RELOAD_USAGE, Localization.getString(Strings.CMD_RELOAD_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.reload")) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_RELOAD_USAGE, Localization.getString(Strings.CMD_RELOAD_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.get") && (cs instanceof Player)) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GET_USAGE, Localization.getString(Strings.CMD_GET_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.get") && (sender instanceof Player)) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GET_USAGE, Localization.getString(Strings.CMD_GET_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.give")) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GIVE_USAGE, Localization.getString(Strings.CMD_GIVE_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.give")) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_GIVE_USAGE, Localization.getString(Strings.CMD_GIVE_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.add") && (cs instanceof Player)) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_ADD_USAGE, Localization.getString(Strings.CMD_ADD_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.add") && (sender instanceof Player)) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_ADD_USAGE, Localization.getString(Strings.CMD_ADD_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.delete")) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_DELETE_USAGE, Localization.getString(Strings.CMD_DELETE_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.delete")) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_DELETE_USAGE, Localization.getString(Strings.CMD_DELETE_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.list")) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_LIST_USAGE, Localization.getString(Strings.CMD_LIST_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.list")) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_LIST_USAGE, Localization.getString(Strings.CMD_LIST_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.setauthor") && (cs instanceof Player)) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETAUTHOR_USAGE, Localization.getString(Strings.CMD_SETAUTHOR_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.setauthor") && (sender instanceof Player)) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETAUTHOR_USAGE, Localization.getString(Strings.CMD_SETAUTHOR_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.settitle") && (cs instanceof Player)) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETTITLE_USAGE, Localization.getString(Strings.CMD_SETTITLE_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.settitle") && (sender instanceof Player)) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_SETTITLE_USAGE, Localization.getString(Strings.CMD_SETTITLE_DESCRIPTION)));
             }
 
-            if (cs.hasPermission("bookrules.unsign") && (cs instanceof Player)) {
-                cs.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_UNSIGN_USAGE, Localization.getString(Strings.CMD_UNSIGN_DESCRIPTION)));
+            if (sender.hasPermission("bookrules.unsign") && (sender instanceof Player)) {
+                sender.sendMessage(String.format(Strings.CMD_USAGE_FORMAT, Strings.CMD_UNSIGN_USAGE, Localization.getString(Strings.CMD_UNSIGN_DESCRIPTION)));
             }
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("reload")) {
-            if (!cs.hasPermission("bookrules.reload")) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
+            if (!sender.hasPermission("bookrules.reload")) {
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
                 return true;
             }
 
-            BookStorage.getInstance(plugin).loadFromFile();
-            cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.CONFIG_RELOADED));
+            BookStorage.getInstance().loadFromFile();
+            sender.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.CONFIG_RELOADED));
             return true;
         }
 
         if (args[0].equalsIgnoreCase("get")) {
-            if (cs instanceof Player) {
-                Player player = (Player) cs;
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
 
                 if (!player.hasPermission("bookrules.get")) {
                     player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.NO_PERMISSIONS));
@@ -134,7 +127,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
                 }
 
                 if (args.length < 2) {
-                    int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
+                    int booksGiven = BookStorage.getInstance().givePlayerAllBooks(player);
                     if (booksGiven > 0) {
                         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.ALL_BOOKS_RECIEVED));
                     } else {
@@ -145,7 +138,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 
                 String query = (args.length > 2) ? StringUtils.join(args, " ", 1, args.length) : args[1];
 
-                if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
+                if (BookStorage.getInstance().givePlayerBook(player, query)) {
                     player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_RECIEVED));
                 } else {
                     player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
@@ -153,35 +146,35 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 
                 return true;
             } else {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
                 return true;
             }
         }
 
         if (args[0].equalsIgnoreCase("give")) {
-            if (!cs.hasPermission("bookrules.give")) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
+            if (!sender.hasPermission("bookrules.give")) {
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
                 return true;
             }
 
             if (args.length < 2) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PLAYER_SPECIFIED));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PLAYER_SPECIFIED));
                 return true;
             }
 
-            Player player = plugin.getServer().getPlayer(args[1]);
+            Player player = Bukkit.getPlayer(args[1]);
             if (player == null) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_NOT_FOUND));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_NOT_FOUND));
                 return true;
             }
 
             if (args.length < 3) {
-                int booksGiven = BookStorage.getInstance(plugin).givePlayerAllBooks(player);
+                int booksGiven = BookStorage.getInstance().givePlayerAllBooks(player);
                 if (booksGiven > 0) {
-                    cs.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.ALL_BOOKS_GIVEN), player.getName()));
-                    player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_ALL_BOOKS_MESSAGE), cs.getName()));
+                    sender.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.ALL_BOOKS_GIVEN), player.getName()));
+                    player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_ALL_BOOKS_MESSAGE), sender.getName()));
                 } else {
-                    cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
+                    sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
                 }
 
                 return true;
@@ -189,19 +182,19 @@ public class BookRulesCommandExecutor implements CommandExecutor {
 
             String query = (args.length > 3) ? StringUtils.join(args, " ", 2, args.length) : args[2];
 
-            if (BookStorage.getInstance(plugin).givePlayerBook(player, query)) {
-                cs.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_GIVEN), player.getName()));
-                player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_BOOK_MESSAGE), cs.getName()));
+            if (BookStorage.getInstance().givePlayerBook(player, query)) {
+                sender.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_GIVEN), player.getName()));
+                player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_BOOK_MESSAGE), sender.getName()));
             } else {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
             }
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("add")) {
-            if (cs instanceof Player) {
-                Player player = (Player) cs;
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
 
                 if (!player.hasPermission("bookrules.add")) {
                     player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
@@ -213,59 +206,59 @@ public class BookRulesCommandExecutor implements CommandExecutor {
                     return true;
                 }
 
-                BookStorage.getInstance(plugin).addBook(player.getItemInHand());
+                BookStorage.getInstance().addBook(player.getItemInHand());
                 player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_ADDED));
                 return true;
             } else {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
                 return true;
             }
         }
 
         if (args[0].equalsIgnoreCase("delete")) {
-            if (!cs.hasPermission("bookrules.delete")) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
+            if (!sender.hasPermission("bookrules.delete")) {
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
                 return true;
             }
 
             if (args.length < 2) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
                 return true;
             }
 
-            if (BookStorage.getInstance(plugin).deleteBook(args[1])) {
-                cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_DELETED));
+            if (BookStorage.getInstance().deleteBook(args[1])) {
+                sender.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_DELETED));
             } else {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
             }
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("list")) {
-            if (!cs.hasPermission("bookrules.list")) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
+            if (!sender.hasPermission("bookrules.list")) {
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
                 return true;
             }
 
-            List<String> books = BookStorage.getInstance(plugin).createBookList();
+            List<String> books = BookStorage.getInstance().createBookList();
 
             if (books.isEmpty()) {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOKS_REGISTERED));
                 return true;
             }
 
-            cs.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.LIST_CMD_HEADER));
+            sender.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.LIST_CMD_HEADER));
             for (String s : books) {
-                cs.sendMessage(Strings.PLUGIN_TAG + s);
+                sender.sendMessage(Strings.PLUGIN_TAG + s);
             }
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("setauthor")) {
-            if (cs instanceof Player) {
-                Player player = (Player) cs;
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
 
                 if (!player.hasPermission("bookrules.setauthor")) {
                     player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
@@ -289,15 +282,15 @@ public class BookRulesCommandExecutor implements CommandExecutor {
                 player.setItemInHand(book);
                 player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.AUTHOR_CHANGED));
             } else {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
             }
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("settitle")) {
-            if (cs instanceof Player) {
-                Player player = (Player) cs;
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
 
                 if (!player.hasPermission("bookrules.settitle")) {
                     player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
@@ -321,15 +314,15 @@ public class BookRulesCommandExecutor implements CommandExecutor {
                 player.setItemInHand(book);
                 player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.TITLE_CHANGED));
             } else {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
             }
 
             return true;
         }
 
         if (args[0].equalsIgnoreCase("unsign")) {
-            if (cs instanceof Player) {
-                Player player = (Player) cs;
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
 
                 if (!player.hasPermission("bookrules.unsign")) {
                     player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_PERMISSIONS));
@@ -348,7 +341,7 @@ public class BookRulesCommandExecutor implements CommandExecutor {
                 player.setItemInHand(book);
                 player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_UNSIGNED));
             } else {
-                cs.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
+                sender.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
             }
 
             return true;
