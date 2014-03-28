@@ -108,4 +108,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>mstiles92-repo</id>
+            <name>mstiles92-repo-releases</name>
+            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+        </repository>
+        <snapshotRepository>
+            <id>mstiles92-repo</id>
+            <name>mstiles92-repo-snapshot</name>
+            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
