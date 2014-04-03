@@ -49,10 +49,9 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
-        if (BookRules.getInstance().updateAvailable && player.hasPermission("plugins.receivealerts")) {
+        if (BookRules.getInstance().getUpdateChecker().isUpdateAvailable() && player.hasPermission("plugins.receivealerts")) {
             player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
-            player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, BookRules.getInstance().getDescription().getVersion(), BookRules.getInstance().latestKnownVersion));
-            player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_CHANGES), BookRules.getInstance().changes));
+            player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, BookRules.getInstance().getDescription().getVersion(), BookRules.getInstance().getUpdateChecker().getNewVersion()));
         }
 
         if (BookRules.getInstance().getConfigObject().shouldGiveNewBooksOnJoin()) {

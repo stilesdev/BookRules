@@ -30,7 +30,7 @@ import com.mstiles92.plugins.bookrules.localization.Language;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.Log;
-import com.mstiles92.plugins.bookrules.util.UpdateChecker;
+import com.mstiles92.plugins.commonutils.updates.UpdateChecker;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -47,9 +47,7 @@ public class BookRules extends JavaPlugin {
     private static BookRules instance = null;
 
     private Config config;
-
-    public boolean updateAvailable = false;
-    public String latestKnownVersion, changes;
+    private UpdateChecker updateChecker;
 
     @Override
     public void onEnable() {
@@ -66,9 +64,9 @@ public class BookRules extends JavaPlugin {
         getCommand("rulebook").setExecutor(new RuleBook());
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
-        latestKnownVersion = this.getDescription().getVersion();
         if (config.shouldCheckForUpdates()) {
-            getServer().getScheduler().runTaskTimer(this, new UpdateChecker(), 40, 216000);
+            updateChecker = new UpdateChecker("bookrules", getLogger(), getDescription().getVersion());
+            getServer().getScheduler().runTaskTimer(this, updateChecker, 40, 216000);
         }
 
         try {
@@ -86,6 +84,10 @@ public class BookRules extends JavaPlugin {
 
     public Config getConfigObject() {
         return config;
+    }
+
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
     }
 
     /**
