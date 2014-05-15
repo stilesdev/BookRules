@@ -116,7 +116,7 @@
         <dependency>
             <groupId>com.mstiles92.plugins</groupId>
             <artifactId>CommonUtils</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </dependency>
 
         <dependency>
