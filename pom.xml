@@ -65,6 +65,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mcstats.bukkit:*</include>
+                                    <include>com.mstiles92.plugins:CommonUtils</include>
                                 </includes>
                             </artifactSet>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -96,14 +97,14 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.7.5-R0.1-SNAPSHOT</version>
+            <version>1.7.9-R0.1</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.7.5-R0.1-SNAPSHOT</version>
+            <version>1.7.9-R0.1</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -116,7 +117,7 @@
         <dependency>
             <groupId>com.mstiles92.plugins</groupId>
             <artifactId>CommonUtils</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
