@@ -4,11 +4,6 @@ name: BookRules
 main: com.mstiles92.plugins.bookrules.BookRules
 version: '2.0.1-SNAPSHOT'
 startup: postworld
-commands:
-  rulebook:
-    description:
-    usage: /<command> [info | commands | reload | get [book] | give <player> [book] | add | delete <book> | list | setauthor <author> | settitle <title> | unsign]
-    aliases: [bookrules, br, rb]
 permissions:
   bookrules.*:
     description: Allows access to all commands.

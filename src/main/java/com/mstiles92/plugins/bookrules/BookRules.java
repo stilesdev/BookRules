@@ -23,14 +23,17 @@
 
 package com.mstiles92.plugins.bookrules;
 
-import com.mstiles92.plugins.bookrules.commands.RuleBook;
+import com.mstiles92.plugins.bookrules.commands.BookRulesCommands;
 import com.mstiles92.plugins.bookrules.config.Config;
 import com.mstiles92.plugins.bookrules.listeners.PlayerListener;
 import com.mstiles92.plugins.bookrules.localization.Language;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.Log;
+import com.mstiles92.plugins.commonutils.commands.CommandRegistry;
 import com.mstiles92.plugins.commonutils.updates.UpdateChecker;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -48,6 +51,7 @@ public class BookRules extends JavaPlugin {
 
     private Config config;
     private UpdateChecker updateChecker;
+    private CommandRegistry commandRegistry;
 
     @Override
     public void onEnable() {
@@ -57,11 +61,15 @@ public class BookRules extends JavaPlugin {
 
         // TODO: Create config option, load correct language
         if (!Localization.load(Language.ENGLISH)) {
-            Log.warning("Error loading language file. BookRules will now be disabled."); //TODO: refactor into localization system
+            Log.warning("Error loading language file. BookRules will now be disabled.");
             getPluginLoader().disablePlugin(this);
         }
 
-        getCommand("rulebook").setExecutor(new RuleBook());
+        commandRegistry = new CommandRegistry(this);
+        commandRegistry.setDefaultNoPermissionMessage(Localization.getString(Strings.NO_PERMISSIONS));
+        commandRegistry.registerCommands(new BookRulesCommands());
+        commandRegistry.registerHelp();
+
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         if (config.shouldCheckForUpdates()) {
@@ -75,6 +83,11 @@ public class BookRules extends JavaPlugin {
         } catch (IOException e) {
             Log.warning(Localization.getString(Strings.METRICS_START_FAILURE));
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        return commandRegistry.handleCommand(sender, command, label, args);
     }
 
     @Override
