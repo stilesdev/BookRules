@@ -109,13 +109,8 @@ public class BookRulesCommands implements CommandHandler {
         args.getSender().sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.CONFIG_RELOADED));
     }
 
-    @Command(name = "bookrules.get", aliases = {"rulebook.get", "rb.get", "br.get"}, permission = "bookrules.get")
+    @Command(name = "bookrules.get", aliases = {"rulebook.get", "rb.get", "br.get"}, permission = "bookrules.get", playerOnly = true)
     public void get(Arguments args) {
-        if (!args.isPlayer()) {
-            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
-            return;
-        }
-
         if (args.getArgs().length == 0) {
             int booksGiven = BookStorage.getInstance().givePlayerAllBooks(args.getPlayer());
             if (booksGiven > 0) {
@@ -169,13 +164,8 @@ public class BookRulesCommands implements CommandHandler {
         }
     }
 
-    @Command(name = "bookrules.add", aliases = {"rulebook.add", "rb.add", "br.add"}, permission = "bookrules.add")
+    @Command(name = "bookrules.add", aliases = {"rulebook.add", "rb.add", "br.add"}, permission = "bookrules.add", playerOnly = true)
     public void add(Arguments args) {
-        if (!args.isPlayer()) {
-            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
-            return;
-        }
-
         Player player = args.getPlayer();
         ItemStack heldItem = player.getItemInHand();
 
@@ -189,11 +179,6 @@ public class BookRulesCommands implements CommandHandler {
 
     @Command(name = "bookrules.delete", aliases = {"rulebook.delete", "rb.delete", "br.delete"}, permission = "bookrules.delete")
     public void delete(Arguments args) {
-        if (!args.isPlayer()) {
-            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
-            return;
-        }
-
         if (args.getArgs().length == 0) {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
             return;
@@ -220,13 +205,8 @@ public class BookRulesCommands implements CommandHandler {
         }
     }
 
-    @Command(name = "bookrules.setauthor", aliases = {"rulebook.setauthor", "rb.setauthor", "br.setauthor"}, permission = "bookrules.setauthor")
+    @Command(name = "bookrules.setauthor", aliases = {"rulebook.setauthor", "rb.setauthor", "br.setauthor"}, permission = "bookrules.setauthor", playerOnly = true)
     public void setAuthor(Arguments args) {
-        if (!args.isPlayer()) {
-            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
-            return;
-        }
-
         if (args.getArgs().length == 0) {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_AUTHOR_SPECIFIED));
             return;
@@ -246,12 +226,8 @@ public class BookRulesCommands implements CommandHandler {
         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.AUTHOR_CHANGED));
     }
 
-    @Command(name = "bookrules.settitle", aliases = {"rulebook.settitle", "rb.settitle", "br.settitle"}, permission = "bookrules.settitle")
+    @Command(name = "bookrules.settitle", aliases = {"rulebook.settitle", "rb.settitle", "br.settitle"}, permission = "bookrules.settitle", playerOnly = true)
     public void setTitle(Arguments args) {
-        if (!args.isPlayer()) {
-            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
-            return;
-        }
 
         if (args.getArgs().length == 0) {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_TITLE_SPECIFIED));
@@ -272,13 +248,8 @@ public class BookRulesCommands implements CommandHandler {
         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.TITLE_CHANGED));
     }
 
-    @Command(name = "bookrules.unsign", aliases = {"rulebook.unsign", "rb.unsign", "br.unsign"}, permission = "bookrules.unsign")
+    @Command(name = "bookrules.unsign", aliases = {"rulebook.unsign", "rb.unsign", "br.unsign"}, permission = "bookrules.unsign", playerOnly = true)
     public void unsign(Arguments args) {
-        if (!args.isPlayer()) {
-            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.PLAYER_ONLY_CMD));
-            return;
-        }
-
         Player player = args.getPlayer();
         ItemStack book = player.getItemInHand();
 

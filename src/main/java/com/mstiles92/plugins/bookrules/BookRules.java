@@ -67,6 +67,7 @@ public class BookRules extends JavaPlugin {
 
         commandRegistry = new CommandRegistry(this);
         commandRegistry.setDefaultNoPermissionMessage(Localization.getString(Strings.NO_PERMISSIONS));
+        commandRegistry.setDefaultPlayerOnlyMessage(Localization.getString(Strings.PLAYER_ONLY_CMD));
         commandRegistry.registerCommands(new BookRulesCommands());
         commandRegistry.registerHelp();
 
