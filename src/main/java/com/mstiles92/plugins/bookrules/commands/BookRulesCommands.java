@@ -184,7 +184,7 @@ public class BookRulesCommands implements CommandHandler {
             return;
         }
 
-        if (BookStorage.getInstance().deleteBook(args.getArgs()[0])) {
+        if (BookStorage.getInstance().deleteBook((args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ", 0, args.getArgs().length) : args.getArgs()[0])) {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_DELETED));
         } else {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
@@ -220,7 +220,7 @@ public class BookRulesCommands implements CommandHandler {
             return;
         }
 
-        book = BookStorage.setAuthor(book, args.getArgs()[0]);
+        book = BookStorage.setAuthor(book, (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ", 0, args.getArgs().length) : args.getArgs()[0]);
 
         player.setItemInHand(book);
         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.AUTHOR_CHANGED));
@@ -242,7 +242,7 @@ public class BookRulesCommands implements CommandHandler {
             return;
         }
 
-        book = BookStorage.setTitle(book, args.getArgs()[0]);
+        book = BookStorage.setTitle(book, (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ", 0, args.getArgs().length) : args.getArgs()[0]);
 
         player.setItemInHand(book);
         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.TITLE_CHANGED));
