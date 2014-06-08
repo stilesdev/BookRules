@@ -3,7 +3,7 @@
  * BookRules, an open source Bukkit plugin for automatically distributing
  * written books to new players.
  *
- * http://dev.bukkit.org/server-mods/plugins/
+ * http://dev.bukkit.org/bukkit-plugins/bookrules/
  * http://github.com/mstiles92/BookRules
  *
  * Copyright (c) 2014 Matthew Stiles (mstiles92)
