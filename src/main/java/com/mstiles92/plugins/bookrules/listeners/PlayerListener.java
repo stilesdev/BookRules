@@ -77,7 +77,10 @@ public class PlayerListener implements Listener {
         if (book.getItemMeta().getLore() != null && book.getItemMeta().getLore().contains("BookRules")) {
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
-            BookRules.getInstance().getServer().getPlayer(e.getWhoClicked().getName()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
+
+            if (e.getWhoClicked() instanceof Player) {
+                ((Player) e.getWhoClicked()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
+            }
         }
     }
 }
