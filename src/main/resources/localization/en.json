@@ -1,16 +1,11 @@
 {
   "Console": {
     "Logging": {
-      "StartUpdateChecker": "Starting UpdateChecker.",
-      "VersionFound": "Version found: %s",
-      "ChangesFound": "Changes found: %s",
-      "UpToDate": "BookRules is up to date.",
       "OldConfigConverted": "Old %s format converted successfully.",
       "PlayerGivenBooks": "Player %s was given %s books when joining the server."
     },
     "Error": {
       "Metrics": "Metrics failed to start.",
-      "UpdateChecker": "Unable to check for updates. Will try again later.",
       "FileOpen": "Error opening %s file.",
       "FileSave": "Error saving %s file.",
       "InvalidConfiguration": "Invalid configuration in %s file.",
@@ -21,8 +16,7 @@
   "Notification": {
     "Update": {
       "Available": "New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.",
-      "Version": "Current version: %s, New version: %s",
-      "Changes": "Changes in this version: %s"
+      "Version": "Current version: %s, New version: %s"
     },
     "JoinMessage": "%s new books received.",
     "GivenAllBooks": "%s has given you all registered books.",

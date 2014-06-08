@@ -49,16 +49,11 @@ public class Strings {
     public static final String CMD_UNSIGN_USAGE = "/rulebook unsign";
 
     // Console logging
-    public static final String UPDATECHECKER_STARTED = "Console.Logging.StartUpdateChecker";
-    public static final String UPDATECHECKER_VERSION_FOUND = "Console.Logging.VersionFound";
-    public static final String UPDATECHECKER_CHANGES_FOUND = "Console.Logging.ChangesFound";
-    public static final String PLUGIN_UP_TO_DATE = "Console.Logging.UpToDate";
     public static final String OLD_CONFIG_CONVERTED = "Console.Logging.OldConfigConverted";
     public static final String PLAYER_GIVEN_BOOKS = "Console.Logging.PlayerGivenBooks";
 
     // Console errors
     public static final String METRICS_START_FAILURE = "Console.Error.Metrics";
-    public static final String UPDATE_CHECK_FAILURE = "Console.Error.UpdateChecker";
     public static final String FILE_OPEN_FAILURE = "Console.Error.FileOpen";
     public static final String FILE_SAVE_FAILURE = "Console.Error.FileSave";
     public static final String INVALID_CONFIGURATION_ERROR = "Console.Error.InvalidConfiguration";
@@ -68,7 +63,6 @@ public class Strings {
     // Notification messages
     public static final String UPDATE_AVAILIBLE = "Notification.Update.Available";
     public static final String UPDATE_VERSION_INFO = "Notification.Update.Version";
-    public static final String UPDATE_CHANGES = "Notification.Update.Changes";
     public static final String PLAYER_JOIN_MESSAGE = "Notification.JoinMessage";
     public static final String GIVEN_ALL_BOOKS_MESSAGE = "Notification.GivenAllBooks";
     public static final String GIVEN_BOOK_MESSAGE = "Notification.GivenBook";
