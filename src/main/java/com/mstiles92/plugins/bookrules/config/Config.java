@@ -70,4 +70,8 @@ public class Config {
     public boolean shouldBlockVillagerTrading() {
         return config.getBoolean("Block-Villager-Book-Trading");
     }
+
+    public String getLanguage() {
+        return config.getString("Language", "EN");
+    }
 }

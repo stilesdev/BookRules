@@ -23,30 +23,41 @@
 
 package com.mstiles92.plugins.bookrules.localization;
 
+import com.mstiles92.plugins.bookrules.util.Log;
+
 /**
- * Language is an enum used to represent all of the available languages present
- * for the plugin.
+ * Language is an enum used to represent all of the available languages present for the plugin.
  *
  * @author mstiles92
  */
 public enum Language {
 
-    ENGLISH("en.json"),
-    //GERMAN("de.json") - not yet translated
+    ENGLISH("en")
     ;
 
     private final String path = "/com/mstiles92/plugins/bookrules/localization/";
-    private final String filename;
+    private final String abbreviation;
 
-    private Language(String filename) {
-        this.filename = filename;
+    private Language(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public String getFilename() {
-        return this.filename;
+        return abbreviation + ".json";
     }
 
     public String getPath() {
-        return this.path + this.filename;
+        return path + getFilename();
+    }
+
+    public static Language fromAbbreviation(String abbreviation) {
+        for (Language l : Language.values()) {
+            if (l.abbreviation.equalsIgnoreCase(abbreviation)) {
+                return l;
+            }
+        }
+
+        Log.warning("Language setting invalid, defaulting back to English.");
+        return ENGLISH;
     }
 }
