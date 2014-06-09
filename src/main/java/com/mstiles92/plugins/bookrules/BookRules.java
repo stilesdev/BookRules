@@ -59,7 +59,6 @@ public class BookRules extends JavaPlugin {
 
         config = new Config();
 
-        // TODO: Create config option, load correct language
         if (!Localization.load(Language.fromAbbreviation(config.getLanguage()))) {
             Log.warning("Error loading language file. BookRules will now be disabled.");
             getPluginLoader().disablePlugin(this);
