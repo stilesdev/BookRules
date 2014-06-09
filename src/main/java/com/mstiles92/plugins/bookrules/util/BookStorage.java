@@ -369,6 +369,21 @@ public class BookStorage {
     }
 
     /**
+     * Create a list of the titles of the currently registered books.
+     *
+     * @return the list of the titles of the currently registered books
+     */
+    public List<String> getAllBookTitles() {
+        List<String> list = new ArrayList<>();
+
+        for (int x = 0; x < index.size(); x++) {
+            list.add(books.getString("Books." + index.get(x) + ".Title"));
+        }
+
+        return list;
+    }
+
+    /**
      * Give the specified player the specified book.
      *
      * @param player the player to give the book to

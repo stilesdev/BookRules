@@ -30,6 +30,7 @@ import com.mstiles92.plugins.bookrules.util.BookStorage;
 import com.mstiles92.plugins.commonutils.commands.Arguments;
 import com.mstiles92.plugins.commonutils.commands.CommandHandler;
 import com.mstiles92.plugins.commonutils.commands.annotations.Command;
+import com.mstiles92.plugins.commonutils.commands.annotations.TabCompleter;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,9 +38,13 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BookRulesCommands implements CommandHandler {
+    List<String> subcommands = Arrays.asList("info", "version", "commands", "reload", "get", "give", "add", "delete", "list", "setauthor", "settitle", "unsign");
+    List<String> empty = new ArrayList<>();
 
     @Command(name = "bookrules", aliases = {"rulebook", "rb", "br"}, permission = "bookrules.info",
             description = "Base command for all other BookRules commands. Type \"/bookrules commands\" for more information.",
@@ -48,14 +53,29 @@ public class BookRulesCommands implements CommandHandler {
         args.getSender().sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.VERSION_MESSAGE), BookRules.getInstance().getDescription().getVersion()));
     }
 
+    @TabCompleter(name = "bookrules", aliases = {"rulebook", "rb", "br"})
+    public List<String> completeBookrules(Arguments args) {
+        return autocomplete(subcommands, args.getArgs()[0]);
+    }
+
     @Command(name = "bookrules.info", aliases = {"rulebook.info", "rb.info", "br.info"}, permission = "bookrules.info")
     public void info(Arguments args) {
         bookrules(args);
     }
 
+    @TabCompleter(name = "bookrules.info", aliases = {"rulebook.info", "rb.info", "br.info"})
+    public List<String> completeInfo(Arguments args) {
+        return empty;
+    }
+
     @Command(name = "bookrules.version", aliases = {"rulebook.version", "rb.version", "br.version"}, permission = "bookrules.info")
     public void version(Arguments args) {
         bookrules(args);
+    }
+
+    @TabCompleter(name = "bookrules.version", aliases = {"rulebook.version", "rb.version", "br.version"})
+    public List<String> completeVersion(Arguments args) {
+        return empty;
     }
 
     @Command(name = "bookrules.commands", aliases = {"rulebook.commands", "rb.commands", "br.commands"})
@@ -103,10 +123,20 @@ public class BookRulesCommands implements CommandHandler {
         }
     }
 
+    @TabCompleter(name = "bookrules.commands", aliases = {"rulebook.commands", "rb.commands", "br.commands"})
+    public List<String> completeCommands(Arguments args) {
+        return empty;
+    }
+
     @Command(name = "bookrules.reload", aliases = {"rulebook.reload", "rb.reload", "br.reload"}, permission = "bookrules.reload")
     public void reload(Arguments args) {
         BookStorage.getInstance().loadFromFile();
         args.getSender().sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.CONFIG_RELOADED));
+    }
+
+    @TabCompleter(name = "bookrules.reload", aliases = {"rulebook.reload", "rb.reload", "br.reload"})
+    public List<String> completeReload(Arguments args) {
+        return empty;
     }
 
     @Command(name = "bookrules.get", aliases = {"rulebook.get", "rb.get", "br.get"}, permission = "bookrules.get", playerOnly = true)
@@ -127,6 +157,11 @@ public class BookRulesCommands implements CommandHandler {
                 args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
             }
         }
+    }
+
+    @TabCompleter(name = "bookrules.get", aliases = {"rulebook.get", "rb.get", "br.get"})
+    public List<String> completeGet(Arguments args) {
+        return autocomplete(BookStorage.getInstance().getAllBookTitles(), (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ") : args.getArgs()[0]);
     }
 
     @Command(name = "bookrules.give", aliases = {"rulebook.give", "rb.give", "br.give"}, permission = "bookrules.give")
@@ -164,6 +199,15 @@ public class BookRulesCommands implements CommandHandler {
         }
     }
 
+    @TabCompleter(name = "bookrules.give", aliases = {"rulebook.give", "rb.give", "br.give"})
+    public List<String> completeGive(Arguments args) {
+        if (args.getArgs().length > 1) {
+            return autocomplete(BookStorage.getInstance().getAllBookTitles(), StringUtils.join(args.getArgs(), " ", 1, args.getArgs().length - 1));
+        } else {
+            return empty;
+        }
+    }
+
     @Command(name = "bookrules.add", aliases = {"rulebook.add", "rb.add", "br.add"}, permission = "bookrules.add", playerOnly = true)
     public void add(Arguments args) {
         Player player = args.getPlayer();
@@ -175,6 +219,11 @@ public class BookRulesCommands implements CommandHandler {
             BookStorage.getInstance().addBook(heldItem);
             player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_ADDED));
         }
+    }
+
+    @TabCompleter(name = "bookrules.add", aliases = {"rulebook.add", "rb.add", "br.add"})
+    public List<String> completeAdd(Arguments args) {
+        return empty;
     }
 
     @Command(name = "bookrules.delete", aliases = {"rulebook.delete", "rb.delete", "br.delete"}, permission = "bookrules.delete")
@@ -191,6 +240,11 @@ public class BookRulesCommands implements CommandHandler {
         }
     }
 
+    @TabCompleter(name = "bookrules.delete", aliases = {"rulebook.delete", "rb.delete", "br.delete"})
+    public List<String> completeDelete(Arguments args) {
+        return autocomplete(BookStorage.getInstance().getAllBookTitles(), (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ") : args.getArgs()[0]);
+    }
+
     @Command(name = "bookrules.list", aliases = {"rulebook.list", "rb.list", "br.list"}, permission = "bookrules.list")
     public void list(Arguments args) {
         List<String> books = BookStorage.getInstance().createBookList();
@@ -203,6 +257,11 @@ public class BookRulesCommands implements CommandHandler {
                 args.getSender().sendMessage(Strings.PLUGIN_TAG + line);
             }
         }
+    }
+
+    @TabCompleter(name = "bookrules.list", aliases = {"rulebook.list", "rb.list", "br.list"})
+    public List<String> completeList(Arguments args) {
+        return empty;
     }
 
     @Command(name = "bookrules.setauthor", aliases = {"rulebook.setauthor", "rb.setauthor", "br.setauthor"}, permission = "bookrules.setauthor", playerOnly = true)
@@ -224,6 +283,11 @@ public class BookRulesCommands implements CommandHandler {
 
         player.setItemInHand(book);
         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.AUTHOR_CHANGED));
+    }
+
+    @TabCompleter(name = "bookrules.setauthor", aliases = {"rulebook.setauthor", "rb.setauthor", "br.setauthor"})
+    public List<String> completeSetAuthor(Arguments args) {
+        return empty;
     }
 
     @Command(name = "bookrules.settitle", aliases = {"rulebook.settitle", "rb.settitle", "br.settitle"}, permission = "bookrules.settitle", playerOnly = true)
@@ -248,6 +312,11 @@ public class BookRulesCommands implements CommandHandler {
         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.TITLE_CHANGED));
     }
 
+    @TabCompleter(name = "bookrules.settitle", aliases = {"rulebook.settitle", "rb.settitle", "br.settitle"})
+    public List<String> completeSetTitle(Arguments args) {
+        return empty;
+    }
+
     @Command(name = "bookrules.unsign", aliases = {"rulebook.unsign", "rb.unsign", "br.unsign"}, permission = "bookrules.unsign", playerOnly = true)
     public void unsign(Arguments args) {
         Player player = args.getPlayer();
@@ -261,5 +330,24 @@ public class BookRulesCommands implements CommandHandler {
         book = BookStorage.unsignBook(book);
         player.setItemInHand(book);
         player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_UNSIGNED));
+    }
+
+    @TabCompleter(name = "bookrules.unsign", aliases = {"rulebook.unsign", "rb.unsign", "br.unsign"})
+    public List<String> completeUnsign(Arguments args) {
+        return empty;
+    }
+
+    private List<String> autocomplete(List<String> options, String fragment) {
+        if (fragment == null) {
+            return options;
+        }
+
+        List<String> valid = new ArrayList<>();
+        for (String s : options) {
+            if (s.startsWith(fragment)) {
+                valid.add(s);
+            }
+        }
+        return valid;
     }
 }
