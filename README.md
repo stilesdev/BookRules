@@ -3,67 +3,67 @@ Automatically give players written books containing rules, getting started guide
 
 ## Commands ##
 
-<table style="border:1px solid black">
-<tr><td>/rulebook</td>
+<table style="border: 1px solid black">
+<tr><td>/bookrules</td>
 <td>Show current plugin information.</td></tr>
-<tr><td>/rulebook info</td>
+<tr><td>/bookrules info</td>
 <td>Show current plugin information.</td></tr>
-<tr><td>/rulebook version</td>
+<tr><td>/bookrules version</td>
 <td>Show current plugin information.</td></tr>
-<tr><td>/rulebook commands</td>
+<tr><td>/bookrules commands</td>
 <td>Show description of all commands available to the player.</td></tr>
-<tr><td>/rulebook reload</td>
+<tr><td>/bookrules reload</td>
 <td>Reload data from the config files.</td></tr>
-<tr><td>/rulebook get [id | title]</td>
+<tr><td>/bookrules get [id | title]</td>
 <td>Get book specified by ID or title, or all books if no ID or title is specified.</td></tr>
-<tr><td>/rulebook give &lt;player&gt; [id | title]</td>
+<tr><td>/bookrules give &lt;player&gt; [id | title]</td>
 <td>Give the specified player the book specified by ID or title, or all books if no ID or title is specified.</td></tr>
-<tr><td>/rulebook add</td>
+<tr><td>/bookrules add</td>
 <td>Add the currently held book to the plugin.</td></tr>
-<tr><td>/rulebook delete &lt;id | title&gt;</td>
+<tr><td>/bookrules delete &lt;id | title&gt;</td>
 <td>Delete the book specified by ID or title from the plugin.</td></tr>
-<tr><td>/rulebook list</td>
+<tr><td>/bookrules list</td>
 <td>Show all of the books currently stored by the plugin.</td></tr>
-<tr><td>/rulebook setauthor &lt;author&gt;</td>
+<tr><td>/bookrules setauthor &lt;author&gt;</td>
 <td>Change the author of the currently held book.</td></tr>
-<tr><td>/rulebook settitle &lt;title&gt;</td>
+<tr><td>/bookrules settitle &lt;title&gt;</td>
 <td>Change the title of the currently held book.</td></tr>
-<tr><td>/rulebook unsign</td>
+<tr><td>/bookrules unsign</td>
 <td>Unsign the currently held book, changing it back to a book and quill.</td></tr>
 </table>
 
 ## Permissions ##
 
-<table style="border:1px solid black">
+<table style="border: 1px solid black">
 <tr><td>bookrules.*</td>
 <td>Allow full access to all commands in the plugin.</td></tr>
 <tr><td>bookrules.info</td>
-<td>Allow use of /rulebook [info | version] to see the plugin information.</td></tr>
+<td>Allow use of /bookrules [info | version] to see the plugin information.</td></tr>
 <tr><td>bookrules.reload</td>
-<td>Allow use of /rulebook reload to reload data from file.</td></tr>
+<td>Allow use of /bookrules reload to reload data from file.</td></tr>
 <tr><td>bookrules.receivealerts</td>
 <td>Receive alerts when there is an update to the plugin.</td></tr>
 <tr><td>bookrules.get</td>
-<td>Allow use of /rulebook get to get the books stored by the plugin.</td></tr>
+<td>Allow use of /bookrules get to get the books stored by the plugin.</td></tr>
 <tr><td>bookrules.give</td>
-<td>Allow use of /rulebook give to give books to other players.</td></tr>
+<td>Allow use of /bookrules give to give books to other players.</td></tr>
 <tr><td>bookrules.add</td>
-<td>Allow use of /rulebook add to add a new book to be stored by the plugin.</td></tr>
+<td>Allow use of /bookrules add to add a new book to be stored by the plugin.</td></tr>
 <tr><td>bookrules.delete</td>
-<td>Allow use of /rulebook delete to delete a book stored by the plugin.</td></tr>
+<td>Allow use of /bookrules delete to delete a book stored by the plugin.</td></tr>
 <tr><td>bookrules.list</td>
-<td>Allow use of /rulebook list to list all books stored by the plugin.</td></tr>
+<td>Allow use of /bookrules list to list all books stored by the plugin.</td></tr>
 <tr><td>bookrules.setauthor</td>
-<td>Allow use of /rulebook setauthor to set the author of the currently held book.</td></tr>
+<td>Allow use of /bookrules setauthor to set the author of the currently held book.</td></tr>
 <tr><td>bookrules.settitle</td>
-<td>Allow use of /rulebook settitle to set the title of the currently held book.</td></tr>
+<td>Allow use of /bookrules settitle to set the title of the currently held book.</td></tr>
 <tr><td>bookrules.unsign</td>
-<td>Allow use of /rulebook unsign to unsign written books, changing them back to book and quills.</td></tr>
+<td>Allow use of /bookrules unsign to unsign written books, changing them back to book and quills.</td></tr>
 </table>
 
 ## Configuration ##
 
-<table style="border:1px solid black">
+<table style="border: 1px solid black">
 <tr><td>Verbose</td>
 <td>Boolean value that enables/disables logging to the console. (Used for debug)</td></tr>
 <tr><td>Seconds-Delay</td>
@@ -74,17 +74,36 @@ Automatically give players written books containing rules, getting started guide
 <td>Boolean value that determines whether players will automatically be given all books they have not yet received upon logging in to the server.</td></tr>
 <tr><td>Display-Messages</td>
 <td>Boolean value that determines whether messages will be sent to players when they receive new books from this plugin.</td></tr>
+<tr><td>Block-Villager-Book-Trading</td>
+<td>Boolean value that determines whether players will be prevented from trading written books generated by the plugin with villagers.</td></tr>
+<tr><td>Give-Books-Every-Join</td>
+<td>Boolean value that determines whether players will be given a new copy of all books every time they join the server.</td></tr>
+<tr><td>Language</td>
+<td>Abbreviation of the language to load the plugin in. See the translations section below for valid abbreviations.</td></tr>
 </table>
 
+## Translations ##
+
+This plugin contains an extensive localization system, allowing it to be translated into different languages. The following is a list of the currently available languages:
+
+<table style="border: 1px solid black">
+<thead><td>Language</td><td>Abbreviation</td><td>Translator</td></thead>
+<tr><td>English</td><td>EN</td><td></td></tr>
+</table>
+
+If you would like to supply a translation to be included in the plugin, please let me know. If you know how, feel free to create a pull request on GitHub with the translation file included. Otherwise, send me a private message and I will get you a list of the messages that need to be translated.
+
 ## Planned ##
-* Optional groups for books, allowing groups to only be given to players with the correct permission
-* Localization options, allow plugin to be translated to different languages
+* Optional groups for books, allowing groups to only be given to players with the correct permission (defined on add command?)
+* Multiverse support (possibly, no guarantee)
+* Option to let players keep books on death
+* Update to UUID system
 
 ## Support and Feature Requests ##
 If you have found a bug with the plugin, or would like to suggest a feature to be added, please create an issue on Github to make sure I see it. You can do this by clicking either the Tickets link at the top of the BukkitDev page or the Issues link on the Github repo, then click New Issue and provide as much information as possible. The more information you provide, the better I can help you.
 
 ## Links ##
-[BukkitDev Page](http://dev.bukkit.org/server-mods/bookrules/)  
+[BukkitDev Page](http://dev.bukkit.org/bukkit-plugins/bookrules/)  
 [GitHub Repository](http://github.com/mstiles92/BookRules)  
 [Twitter](http://twitter.com/mstiles92)  
 
