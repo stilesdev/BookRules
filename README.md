@@ -4,6 +4,7 @@ Automatically give players written books containing rules, getting started guide
 ## Commands ##
 
 <table style="border: 1px solid black">
+<thead><td>Command</td><td>Description</td></thead>
 <tr><td>/bookrules</td>
 <td>Show current plugin information.</td></tr>
 <tr><td>/bookrules info</td>
@@ -35,6 +36,7 @@ Automatically give players written books containing rules, getting started guide
 ## Permissions ##
 
 <table style="border: 1px solid black">
+<thead><td>Permission Node</td><td>Description</td></thead>
 <tr><td>bookrules.*</td>
 <td>Allow full access to all commands in the plugin.</td></tr>
 <tr><td>bookrules.info</td>
@@ -64,6 +66,7 @@ Automatically give players written books containing rules, getting started guide
 ## Configuration ##
 
 <table style="border: 1px solid black">
+<thead><td>Setting</td><td>Description</td></thead>
 <tr><td>Verbose</td>
 <td>Boolean value that enables/disables logging to the console. (Used for debug)</td></tr>
 <tr><td>Seconds-Delay</td>
