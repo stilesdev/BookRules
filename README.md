@@ -96,6 +96,14 @@ This plugin contains an extensive localization system, allowing it to be transla
 
 If you would like to supply a translation to be included in the plugin, please let me know. If you know how, feel free to create a pull request on GitHub with the translation file included. Otherwise, send me a private message and I will get you a list of the messages that need to be translated.
 
+## Update Checking ##
+
+This plugin periodically checks BukkitDev for a new version, and will notify the console and players with the "bookrules.recievealerts" permission of a new version. If you would like to disable this feature, simply set "Check-for-Updates" to false in plugins/BookRules/config.yml.
+
+## Stats Collection ##
+
+Anonymous statistics are collected automatically by this plugin and sent to MCStats. If you would like to view the data, you can do so [here](http://mcstats.org/plugin/BookRules). If you would like to disable this feature, set "opt-out" to true in plugins/PluginMetrics/config.yml.
+
 ## Planned ##
 * Optional groups for books, allowing groups to only be given to players with the correct permission (defined on add command?)
 * Multiverse support (possibly, no guarantee)
