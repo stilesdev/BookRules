@@ -73,8 +73,8 @@ public class BookRules extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         if (config.shouldCheckForUpdates()) {
-            updateChecker = new UpdateChecker("bookrules", getLogger(), getDescription().getVersion());
-            getServer().getScheduler().runTaskTimer(this, updateChecker, 40, 216000);
+            updateChecker = new UpdateChecker(this, 44081, "bookrules", 216000);
+            updateChecker.start();
         }
 
         try {
