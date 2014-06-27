@@ -16,7 +16,8 @@
   "Notification": {
     "Update": {
       "Available": "New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.",
-      "Version": "Current version: %s, New version: %s"
+      "Version": "Current version: %s, New version: %s",
+      "UpToDate": "Plugin is up to date."
     },
     "JoinMessage": "%s new books received.",
     "GivenAllBooks": "%s has given you all registered books.",

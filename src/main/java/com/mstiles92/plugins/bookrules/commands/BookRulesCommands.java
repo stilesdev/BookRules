@@ -31,6 +31,7 @@ import com.mstiles92.plugins.commonutils.commands.Arguments;
 import com.mstiles92.plugins.commonutils.commands.CommandHandler;
 import com.mstiles92.plugins.commonutils.commands.annotations.Command;
 import com.mstiles92.plugins.commonutils.commands.annotations.TabCompleter;
+import com.mstiles92.plugins.commonutils.updates.UpdateChecker;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -50,7 +51,17 @@ public class BookRulesCommands implements CommandHandler {
             description = "Base command for all other BookRules commands. Type \"/bookrules commands\" for more information.",
             usage = "/<command> <subcommand> [args ...]")
     public void bookrules(Arguments args) {
-        args.getSender().sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.VERSION_MESSAGE), BookRules.getInstance().getDescription().getVersion()));
+        String currentVersion = BookRules.getInstance().getDescription().getVersion();
+        args.getSender().sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.VERSION_MESSAGE), currentVersion));
+        if (BookRules.getInstance().getConfigObject().shouldCheckForUpdates()) {
+            UpdateChecker updateChecker = BookRules.getInstance().getUpdateChecker();
+            if (updateChecker.isUpdateAvailable()) {
+                args.getSender().sendMessage(ChatColor.BLUE + Localization.getString(Strings.UPDATE_AVAILIBLE));
+                args.getSender().sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.UPDATE_VERSION_INFO), currentVersion, updateChecker.getNewVersion()));
+            } else {
+                args.getSender().sendMessage(ChatColor.BLUE + Localization.getString(Strings.PLUGIN_UP_TO_DATE));
+            }
+        }
     }
 
     @TabCompleter(name = "bookrules", aliases = {"rulebook", "rb", "br"})

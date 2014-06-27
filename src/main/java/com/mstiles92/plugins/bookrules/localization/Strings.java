@@ -63,6 +63,7 @@ public class Strings {
     // Notification messages
     public static final String UPDATE_AVAILIBLE = "Notification.Update.Available";
     public static final String UPDATE_VERSION_INFO = "Notification.Update.Version";
+    public static final String PLUGIN_UP_TO_DATE = "Notification.Update.UpToDate";
     public static final String PLAYER_JOIN_MESSAGE = "Notification.JoinMessage";
     public static final String GIVEN_ALL_BOOKS_MESSAGE = "Notification.GivenAllBooks";
     public static final String GIVEN_BOOK_MESSAGE = "Notification.GivenBook";
