@@ -1,3 +1,7 @@
+#### v2.1.1 - Jun 26, 2014 ####
+* Update check switched to using Curse ServerMods API to conform to BukkitDev submission requirements.
+* Info command now displays information about available updates if update-checking is enabled.
+
 #### v2.1.0 - Jun 11, 2014 ####
 * Added localization system, allowing translations for all plugin messages.
 * Added option to give all books to players every time they join the server.
