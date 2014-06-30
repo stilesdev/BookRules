@@ -24,6 +24,7 @@
 package com.mstiles92.plugins.bookrules.commands;
 
 import com.mstiles92.plugins.bookrules.BookRules;
+import com.mstiles92.plugins.bookrules.config.Config;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.BookStorage;
@@ -53,7 +54,7 @@ public class BookRulesCommands implements CommandHandler {
     public void bookrules(Arguments args) {
         String currentVersion = BookRules.getInstance().getDescription().getVersion();
         args.getSender().sendMessage(ChatColor.BLUE + String.format(Localization.getString(Strings.VERSION_MESSAGE), currentVersion));
-        if (BookRules.getInstance().getConfigObject().shouldCheckForUpdates()) {
+        if (Config.shouldCheckForUpdates()) {
             UpdateChecker updateChecker = BookRules.getInstance().getUpdateChecker();
             if (updateChecker.isUpdateAvailable()) {
                 args.getSender().sendMessage(ChatColor.BLUE + Localization.getString(Strings.UPDATE_AVAILIBLE));
@@ -141,6 +142,7 @@ public class BookRulesCommands implements CommandHandler {
 
     @Command(name = "bookrules.reload", aliases = {"rulebook.reload", "rb.reload", "br.reload"}, permission = "bookrules.reload")
     public void reload(Arguments args) {
+        Config.loadFromConfig(BookRules.getInstance().getConfig());
         BookStorage.getInstance().loadFromFile();
         args.getSender().sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.CONFIG_RELOADED));
     }

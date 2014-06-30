@@ -49,7 +49,6 @@ import java.io.IOException;
 public class BookRules extends JavaPlugin {
     private static BookRules instance = null;
 
-    private Config config;
     private UpdateChecker updateChecker;
     private CommandRegistry commandRegistry;
 
@@ -57,9 +56,11 @@ public class BookRules extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        config = new Config();
+        saveDefaultConfig();
+        Config.loadFromConfig(getConfig());
+        saveConfig();
 
-        if (!Localization.load(Language.fromAbbreviation(config.getLanguage()))) {
+        if (!Localization.load(Language.fromAbbreviation(Config.getLanguage()))) {
             Log.warning("Error loading language file. BookRules will now be disabled.");
             getPluginLoader().disablePlugin(this);
         }
@@ -72,7 +73,7 @@ public class BookRules extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
-        if (config.shouldCheckForUpdates()) {
+        if (Config.shouldCheckForUpdates()) {
             updateChecker = new UpdateChecker(this, 44081, "bookrules", 216000);
             updateChecker.start();
         }
@@ -93,10 +94,6 @@ public class BookRules extends JavaPlugin {
     @Override
     public void onDisable() {
 
-    }
-
-    public Config getConfigObject() {
-        return config;
     }
 
     public UpdateChecker getUpdateChecker() {

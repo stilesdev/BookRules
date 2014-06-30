@@ -23,55 +23,67 @@
 
 package com.mstiles92.plugins.bookrules.config;
 
-import com.mstiles92.plugins.bookrules.BookRules;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Config {
-    private FileConfiguration config;
+    private static boolean checkForUpdates = true;
+    private static boolean verboseOutput = false;
+    private static boolean giveOnEveryJoin = false;
+    private static boolean giveNewBooksOnJoin = true;
+    private static boolean notifyPlayers = true;
+    private static int runnableDelay = 20;
+    private static boolean blockTrading = true;
+    private static String language = "EN";
 
-    public Config() {
-        config = BookRules.getInstance().getConfig();
-        config.options().copyDefaults(true);
-        updateOldConfig();
-        BookRules.getInstance().saveConfig();
+    public static void loadFromConfig(FileConfiguration config) {
+        updateOldConfig(config);
+
+        checkForUpdates = config.getBoolean("Check-for-Updates", true);
+        verboseOutput = config.getBoolean("Verbose", false);
+        giveOnEveryJoin = config.getBoolean("Give-Books-Every-Join", false);
+        giveNewBooksOnJoin = config.getBoolean("Give-New-Books-On-Join", true);
+        notifyPlayers = config.getBoolean("Display-Messages", true);
+        runnableDelay = config.getInt("Seconds-Delay", 1) * 20;
+        blockTrading = config.getBoolean("Block-Villager-Book-Trading", true);
+        language = config.getString("Language", "EN");
     }
 
-    private void updateOldConfig() {
+    private static void updateOldConfig(FileConfiguration config) {
         if (config.contains("Give-Books-On-First-Join")) {
             config.set("Give-New-Books-On-Join", config.get("Give-Books-On-First-Join"));
             config.set("Give-Books-On-First-Join", null);
         }
     }
 
-    public boolean shouldCheckForUpdates() {
-        return config.getBoolean("Check-for-Updates");
+    public static boolean shouldCheckForUpdates() {
+        return checkForUpdates;
     }
 
-    public boolean verboseOutputEnabled() {
-        return config.getBoolean("Verbose");
+    public static boolean verboseOutputEnabled() {
+        return verboseOutput;
     }
 
-    public boolean shouldGiveBooksEveryJoin() {
-        return config.getBoolean("Give-Books-Every-Join");
+    public static boolean shouldGiveBooksEveryJoin() {
+        return giveOnEveryJoin;
     }
 
-    public boolean shouldGiveNewBooksOnJoin() {
-        return config.getBoolean("Give-New-Books-On-Join");
+    public static boolean shouldGiveNewBooksOnJoin() {
+        return giveNewBooksOnJoin;
     }
 
-    public boolean shouldNotifyPlayers() {
-        return config.getBoolean("Display-Messages");
+    public static boolean shouldNotifyPlayers() {
+        return notifyPlayers;
     }
 
-    public int getRunnableDelay() {
-        return config.getInt("Seconds-Delay") * 20;
+    public static int getRunnableDelay() {
+        return runnableDelay;
     }
 
-    public boolean shouldBlockVillagerTrading() {
-        return config.getBoolean("Block-Villager-Book-Trading");
+    public static boolean shouldBlockVillagerTrading() {
+        return blockTrading;
     }
 
-    public String getLanguage() {
-        return config.getString("Language", "EN");
+    public static String getLanguage() {
+        return language;
     }
 }

@@ -24,11 +24,12 @@
 package com.mstiles92.plugins.bookrules.util;
 
 import com.mstiles92.plugins.bookrules.BookRules;
+import com.mstiles92.plugins.bookrules.config.Config;
 import org.bukkit.ChatColor;
 
 public class Log {
     public static void verbose(String message) {
-        if (BookRules.getInstance().getConfigObject().verboseOutputEnabled()) {
+        if (Config.verboseOutputEnabled()) {
             BookRules.getInstance().getLogger().info(message);
         }
     }

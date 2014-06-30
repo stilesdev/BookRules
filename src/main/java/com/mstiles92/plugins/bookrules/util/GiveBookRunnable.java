@@ -23,7 +23,7 @@
 
 package com.mstiles92.plugins.bookrules.util;
 
-import com.mstiles92.plugins.bookrules.BookRules;
+import com.mstiles92.plugins.bookrules.config.Config;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import org.bukkit.entity.Player;
@@ -48,14 +48,14 @@ public class GiveBookRunnable implements Runnable {
 
     @Override
     public void run() {
-        if (BookRules.getInstance().getConfigObject().shouldGiveBooksEveryJoin()) {
+        if (Config.shouldGiveBooksEveryJoin()) {
             int num = BookStorage.getInstance().givePlayerAllBooks(player);
             player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
         } else {
             int num = BookStorage.getInstance().givePlayerUngivenBooks(player);
             Log.verbose(String.format(Localization.getString(Strings.PLAYER_GIVEN_BOOKS), player.getName(), String.valueOf(num)));
 
-            if (num > 0 && BookRules.getInstance().getConfigObject().shouldNotifyPlayers()) {
+            if (num > 0 && Config.shouldNotifyPlayers()) {
                 player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
             }
         }

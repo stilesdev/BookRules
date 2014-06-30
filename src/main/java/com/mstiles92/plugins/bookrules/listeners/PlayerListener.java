@@ -24,6 +24,7 @@
 package com.mstiles92.plugins.bookrules.listeners;
 
 import com.mstiles92.plugins.bookrules.BookRules;
+import com.mstiles92.plugins.bookrules.config.Config;
 import com.mstiles92.plugins.bookrules.util.GiveBookRunnable;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
@@ -38,8 +39,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * PlayerListener is a class that is used to detect when a player joins the
- * server and handle the event appropriately.
+ * This class is used to handle general events fired off by the player.
  *
  * @author mstiles92
  */
@@ -54,14 +54,14 @@ public class PlayerListener implements Listener {
             player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, BookRules.getInstance().getDescription().getVersion(), BookRules.getInstance().getUpdateChecker().getNewVersion()));
         }
 
-        if (BookRules.getInstance().getConfigObject().shouldGiveNewBooksOnJoin()) {
-            BookRules.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), BookRules.getInstance().getConfigObject().getRunnableDelay());
+        if (Config.shouldGiveNewBooksOnJoin()) {
+            BookRules.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), Config.getRunnableDelay());
         }
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (!BookRules.getInstance().getConfigObject().shouldBlockVillagerTrading()) {
+        if (!Config.shouldBlockVillagerTrading()) {
             return;
         }
 
