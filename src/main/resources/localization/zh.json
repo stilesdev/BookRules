@@ -1,0 +1,69 @@
+{
+  "Console": {
+    "Logging": {
+      "OldConfigConverted": "旧的 %s 格式转换成功。",
+      "PlayerGivenBooks": "玩家 %s 加入游戏时收到了一本 %s 。"
+    },
+    "Error": {
+      "Metrics": "度量标准启动失败。",
+      "FileOpen": "打开 %s 文件发生错误。",
+      "FileSave": "保存 %s 文件发生错误。",
+      "InvalidConfiguration": "文件 %s 配置无效。",
+      "OldFormatConversion": "转换到 %s 格式发生错误。",
+      "PluginDisabled": "BookRules 已被禁用。"
+    }
+  },
+  "Notification": {
+    "Update": {
+      "Available": "发现新版本！ 请到 http://dev.bukkit.org/server-mods/bookrules/ 查看更多信息。",
+      "Version": "当前版本: %s, 新版本: %s",
+      "UpToDate": "已是最新版本。"
+    },
+    "JoinMessage": "%s 新书已收到。",
+    "GivenAllBooks": "%s 给了你所有的书。",
+    "GivenBook": "%s 给了你一本书。",
+    "NoTrading": "你不可以和村民进行 BookRules 书籍交易。"
+  },
+  "Commands": {
+    "Success": {
+      "Reload": "配置已重新加载。",
+      "GetAll": "你收到了所有已注册的书籍副本。",
+      "GetOne": "你收到了一本指定的书籍副本。",
+      "GiveAll": "你给了 %s 所有已注册的书籍。",
+      "GiveOne": "你给了 %s 一本指定的书籍副本。",
+      "Add": "你的书已成功添加。",
+      "Delete": "指定的书籍已被删除。",
+      "ChangedAuthor": "作者以成功更改。",
+      "ChangedTitle": "书名已成功更改。",
+      "Unsigned": "这本书已成功分拆。"
+    },
+    "Info": {
+      "Version": "Bookrules by mstiles92, 版本 %s",
+      "CommandsHeader": "所有你可使用的 BookRules 指令:",
+      "Info": "显示当前插件信息。",
+      "Reload": "重新加载配置文件信息。",
+      "Get": "通过书籍id或者书名获取指定的图书, 如果不指定id或书名，将获得所有的已注册书籍。",
+      "Give": "给玩家一本指定id或者书名的书籍, 如果不指定id或书名，将给玩家所有的已注册书籍。",
+      "Add": "添加手里的书到插件中。",
+      "Delete": "从插件中删除指定id或书名的书籍。",
+      "List": "列出插件已储存的所有书籍。",
+      "Author": "更改手中图书的作者。",
+      "Title": "更改手中图书的书名。",
+      "Unsign": "分拆手中的书籍, 使之变回本和笔。",
+      "ListHeader": "所有 BookRules 书籍:",
+      "ListEntry": "%s , 作者 %s"
+    },
+    "Error": {
+      "PlayerOnly": "该指令仅可由玩家使用。",
+      "NoPerms": "你没有权限使用这一指令。",
+      "NoBooks": "没有已注册书籍。",
+      "BookNotFound": "没有找到指定书籍。",
+      "NoPlayerSpecified": "你必须制定一个玩家来给予他书。",
+      "PlayerNotFound": "没有找到指定的玩家。",
+      "MustHoldBook": "你需要拿着一本已编辑好的书来执行这个指令。",
+      "NoBookSpecified": "你必须指定要删除的书。",
+      "NoAuthorSpecified": "编辑书籍作者的时候你必须为其指定一个作者。",
+      "NoTitleSpecified": "编辑书籍书名的时候你必须为其指定一个书名。"
+    }
+  }
+}
