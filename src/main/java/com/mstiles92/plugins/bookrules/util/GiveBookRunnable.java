@@ -48,17 +48,18 @@ public class GiveBookRunnable implements Runnable {
 
     @Override
     public void run() {
+        int num;
+
         if (Config.shouldGiveBooksEveryJoin()) {
-            int num = BookUtils.givePlayerAllBooks(player);
-
-            player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
+            num = BookUtils.givePlayerAllBooks(player);
         } else {
-            int num = BookUtils.givePlayerAllUngivenBooks(player);
-            Log.verbose(String.format(Localization.getString(Strings.PLAYER_GIVEN_BOOKS), player.getName(), String.valueOf(num)));
+            num = BookUtils.givePlayerAllUngivenBooks(player);
+        }
 
-            if (num > 0 && Config.shouldNotifyPlayers()) {
-                player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
-            }
+        Log.verbose(String.format(Localization.getString(Strings.PLAYER_GIVEN_BOOKS), player.getName(), String.valueOf(num)));
+
+        if (num > 0 && Config.shouldNotifyPlayers()) {
+            player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
         }
     }
 }
