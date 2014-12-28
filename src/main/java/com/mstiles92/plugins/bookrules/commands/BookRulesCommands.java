@@ -29,6 +29,8 @@ import com.mstiles92.plugins.bookrules.data.StoredBook;
 import com.mstiles92.plugins.bookrules.data.StoredBooks;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
+import com.mstiles92.plugins.bookrules.menu.menus.DeleteMenu;
+import com.mstiles92.plugins.bookrules.menu.menus.MainMenu;
 import com.mstiles92.plugins.bookrules.util.BookUtils;
 import com.mstiles92.plugins.stileslib.commands.Arguments;
 import com.mstiles92.plugins.stileslib.commands.CommandHandler;
@@ -232,6 +234,7 @@ public class BookRulesCommands implements CommandHandler {
         if (heldItem.getType() != Material.WRITTEN_BOOK) {
             player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.MUST_HOLD_BOOK));
         } else {
+            //TODO: show menu to configure options for this book before adding it to the plugin
             StoredBooks.add(heldItem);
             player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_ADDED));
         }
@@ -245,7 +248,11 @@ public class BookRulesCommands implements CommandHandler {
     @Command(name = "bookrules.delete", aliases = {"rulebook.delete", "rb.delete", "br.delete"}, permission = "bookrules.delete")
     public void delete(Arguments args) {
         if (args.getArgs().length == 0) {
-            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
+            if (args.isPlayer()) {
+                new DeleteMenu(args.getPlayer()).open();
+            } else {
+                args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
+            }
             return;
         }
 
@@ -370,5 +377,10 @@ public class BookRulesCommands implements CommandHandler {
             }
         }
         return valid;
+    }
+
+    @Command(name = "bookrules.menu", aliases = {"rulebook.menu", "rb.menu", "br.menu"}, permission = "bookrules.menu", playerOnly = true)
+    public void menu(Arguments args) {
+        new MainMenu(args.getPlayer()).open();
     }
 }

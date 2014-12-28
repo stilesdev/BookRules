@@ -32,6 +32,7 @@ import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.Log;
 import com.mstiles92.plugins.stileslib.commands.CommandRegistry;
+import com.mstiles92.plugins.stileslib.menu.MenuListener;
 import com.mstiles92.plugins.stileslib.updates.UpdateChecker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -75,6 +76,7 @@ public class BookRules extends JavaPlugin {
         commandRegistry.registerHelp();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        MenuListener.getInstance().register(this);
 
         if (Config.shouldCheckForUpdates()) {
             updateChecker = new UpdateChecker(this, 44081, "bookrules", 216000);

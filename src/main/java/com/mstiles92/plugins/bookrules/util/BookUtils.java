@@ -26,6 +26,8 @@ package com.mstiles92.plugins.bookrules.util;
 import com.mstiles92.plugins.bookrules.data.PlayerData;
 import com.mstiles92.plugins.bookrules.data.StoredBook;
 import com.mstiles92.plugins.bookrules.data.StoredBooks;
+import com.mstiles92.plugins.bookrules.menu.items.BookMenuItem;
+import com.mstiles92.plugins.bookrules.menu.items.DeleteBookMenuItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -158,5 +160,45 @@ public class BookUtils {
         }
 
         return filteredList;
+    }
+
+    /**
+     * Filter a list of StoredBook objects to only include books that the given Player has permission to see, returning
+     * a list of BookMenuItems suitable for display in a Menu.
+     *
+     * @param fullList the list to filter books out of
+     * @param player the Player whose permissions will be checked
+     * @return the filtered list of BookMenuItems containing only books the Player has permission to access
+     */
+    public static List<BookMenuItem> filterListAsMenuItems(List<StoredBook> fullList, Player player) {
+        List<BookMenuItem> list = new ArrayList<>();
+
+        for (StoredBook book : fullList) {
+            if (book.checkPermission(player)) {
+                list.add(new BookMenuItem(book));
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Filter a list of StoredBook objects to only include books that the given Player has permission to see, returning
+     * a list of DeleteBookMenuItems suitable for display in a Menu.
+     *
+     * @param fullList the list to filter books out of
+     * @param player the Player whose permissions will be checked
+     * @return the filtered list of DeleteBookMenuItems containing only books the Player has permission to access
+     */
+    public static List<DeleteBookMenuItem> filterListAsDeleteMenuItems(List<StoredBook> fullList, Player player) {
+        List<DeleteBookMenuItem> list = new ArrayList<>();
+
+        for (StoredBook book : fullList) {
+            if (book.checkPermission(player)) {
+                list.add(new DeleteBookMenuItem(book));
+            }
+        }
+
+        return list;
     }
 }

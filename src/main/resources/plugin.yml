@@ -52,3 +52,10 @@ permissions:
   bookrules.unsign:
     default: op
     description: Allow players to unsign written books, reverting them to a book and quill.
+
+  bookrules.menu:
+    default: true
+    description: Allow players access to the GUI menu.
+  bookrules.admin:
+    default: op
+    description: Allow players access to the admin menu in the GUI menus.
