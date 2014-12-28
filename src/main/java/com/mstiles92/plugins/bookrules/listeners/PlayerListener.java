@@ -25,11 +25,14 @@ package com.mstiles92.plugins.bookrules.listeners;
 
 import com.mstiles92.plugins.bookrules.BookRules;
 import com.mstiles92.plugins.bookrules.config.Config;
-import com.mstiles92.plugins.bookrules.util.GiveBookRunnable;
+import com.mstiles92.plugins.bookrules.data.PlayerData;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
+import com.mstiles92.plugins.bookrules.util.BookUtils;
+import com.mstiles92.plugins.bookrules.util.GiveBookRunnable;
+import com.mstiles92.plugins.stileslib.updates.UpdateChecker;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,40 +49,33 @@ import org.bukkit.inventory.ItemStack;
 public class PlayerListener implements Listener {
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        PlayerData playerData = PlayerData.get(player);
+        UpdateChecker updateChecker = BookRules.getInstance().getUpdateChecker();
 
-        if (BookRules.getInstance().getUpdateChecker().isUpdateAvailable() && player.hasPermission("bookrules.receivealerts")) {
+        if (updateChecker != null && updateChecker.isUpdateAvailable() && player.hasPermission("bookrules.receivealerts")) {
             player.sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.UPDATE_AVAILIBLE));
             player.sendMessage(String.format(Strings.PLUGIN_TAG + Strings.UPDATE_VERSION_INFO, BookRules.getInstance().getDescription().getVersion(), BookRules.getInstance().getUpdateChecker().getNewVersion()));
         }
 
         if (Config.shouldGiveNewBooksOnJoin()) {
-            BookRules.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), Config.getRunnableDelay());
+            Bukkit.getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), Config.getRunnableDelay());
         }
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
-        if (!Config.shouldBlockVillagerTrading()) {
-            return;
-        }
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (event.getInventory().getType().equals(InventoryType.MERCHANT)) {
+            ItemStack book = (event.isShiftClick()) ? event.getCurrentItem() : event.getCursor();
 
-        if (e.getInventory().getType() != InventoryType.MERCHANT) {
-            return;
-        }
+            if (Config.shouldBlockVillagerTrading() && BookUtils.isBookRulesBook(book)) {
+                event.setCancelled(true);
+                event.getWhoClicked().closeInventory();
 
-        ItemStack book = (e.isShiftClick()) ? e.getCurrentItem() : e.getCursor();
-        if (book == null || book.getType() != Material.WRITTEN_BOOK) {
-            return;
-        }
-
-        if (book.getItemMeta().getLore() != null && book.getItemMeta().getLore().contains("BookRules")) {
-            e.setCancelled(true);
-            e.getWhoClicked().closeInventory();
-
-            if (e.getWhoClicked() instanceof Player) {
-                ((Player) e.getWhoClicked()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
+                if (event.getWhoClicked() instanceof Player) {
+                    ((Player) event.getWhoClicked()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
+                }
             }
         }
     }

@@ -1,69 +1,69 @@
 {
-  "Console": {
-    "Logging": {
-      "OldConfigConverted": "Old %s format converted successfully.",
-      "PlayerGivenBooks": "Player %s was given %s books when joining the server."
+    "Console": {
+        "Logging": {
+            "OldConfigConverted": "Old config file format converted successfully.",
+            "PlayerGivenBooks": "Player %s was given %s books when joining the server."
+        },
+        "Error": {
+            "Metrics": "Metrics failed to start.",
+            "FileOpen": "Error opening %s file.",
+            "FileSave": "Error saving %s file.",
+            "InvalidConfiguration": "Invalid configuration in %s file.",
+            "OldFormatConversion": "Error converting to new config file format.",
+            "PluginDisabled": "BookRules will now be disabled."
+        }
     },
-    "Error": {
-      "Metrics": "Metrics failed to start.",
-      "FileOpen": "Error opening %s file.",
-      "FileSave": "Error saving %s file.",
-      "InvalidConfiguration": "Invalid configuration in %s file.",
-      "OldFormatConversion": "Error converting to new %s format.",
-      "PluginDisabled": "BookRules will now be disabled."
+    "Notification": {
+        "Update": {
+            "Available": "New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.",
+            "Version": "Current version: %s, New version: %s",
+            "UpToDate": "Plugin is up to date."
+        },
+        "JoinMessage": "%s new books received.",
+        "GivenAllBooks": "%s has given you all registered books.",
+        "GivenBook": "%s has given you a book.",
+        "NoTrading": "You may not trade BookRules books with villagers."
+    },
+    "Commands": {
+        "Success": {
+            "Reload": "Config reloaded from file.",
+            "GetAll": "You have received a copy of all registered books.",
+            "GetOne": "You have received a copy of the requested book.",
+            "GiveAll": "You have given %s all registered books.",
+            "GiveOne": "You have given %s a copy of the requested book.",
+            "Add": "Your book has been added successfully.",
+            "Delete": "The requested book has been deleted.",
+            "ChangedAuthor": "The author has been successfully changed.",
+            "ChangedTitle": "The title has been successfully changed.",
+            "Unsigned": "The book has been successfully unsigned."
+        },
+        "Info": {
+            "Version": "Bookrules by mstiles92, Version %s",
+            "CommandsHeader": "All BookRules commands you are able to use:",
+            "Info": "Show current plugin information.",
+            "Reload": "Reload data from the config files.",
+            "Get": "Get book specified by id or title, or all books if no id or title is specified.",
+            "Give": "Give a player the book specified by id or title, or all books if no id or title is specified.",
+            "Add": "Add the currently held book to the plugin.",
+            "Delete": "Delete the book specified by id or title from the plugin.",
+            "List": "Show all of the books currently stored by the plugin.",
+            "Author": "Change the author of the currently held book.",
+            "Title": "Change the title of the currently held book.",
+            "Unsign": "Unsign the currently held book, changing it back to a book and quill.",
+            "ListHeader": "All BookRules books:",
+            "ListEntry": "%s by %s"
+        },
+        "Error": {
+            "PlayerOnly": "This command may only be executed by a player.",
+            "NoPerms": "You do not have permission to use this command.",
+            "NoBooks": "No books registered.",
+            "BookNotFound": "The requested book could not be found.",
+            "NoPlayerSpecified": "You must specify a player to give books to.",
+            "PlayerNotFound": "The requested player could not be found.",
+            "MustHoldBook": "You may only perform this command while holding a written book.",
+            "NoBookSpecified": "You must specify a book to delete.",
+            "NoAuthorSpecified": "You must specify an author when setting the author of a book.",
+            "NoTitleSpecified": "You must specify a title when setting the title of a book."
+        }
     }
-  },
-  "Notification": {
-    "Update": {
-      "Available": "New version available! See http://dev.bukkit.org/server-mods/bookrules/ for more information.",
-      "Version": "Current version: %s, New version: %s",
-      "UpToDate": "Plugin is up to date."
-    },
-    "JoinMessage": "%s new books received.",
-    "GivenAllBooks": "%s has given you all registered books.",
-    "GivenBook": "%s has given you a book.",
-    "NoTrading": "You may not trade BookRules books with villagers."
-  },
-  "Commands": {
-    "Success": {
-      "Reload": "Config reloaded from file.",
-      "GetAll": "You have received a copy of all registered books.",
-      "GetOne": "You have received a copy of the requested book.",
-      "GiveAll": "You have given %s all registered books.",
-      "GiveOne": "You have given %s a copy of the requested book.",
-      "Add": "Your book has been added successfully.",
-      "Delete": "The requested book has been deleted.",
-      "ChangedAuthor": "The author has been successfully changed.",
-      "ChangedTitle": "The title has been successfully changed.",
-      "Unsigned": "The book has been successfully unsigned."
-    },
-    "Info": {
-      "Version": "Bookrules by mstiles92, Version %s",
-      "CommandsHeader": "All BookRules commands you are able to use:",
-      "Info": "Show current plugin information.",
-      "Reload": "Reload data from the config files.",
-      "Get": "Get book specified by id or title, or all books if no id or title is specified.",
-      "Give": "Give a player the book specified by id or title, or all books if no id or title is specified.",
-      "Add": "Add the currently held book to the plugin.",
-      "Delete": "Delete the book specified by id or title from the plugin.",
-      "List": "Show all of the books currently stored by the plugin.",
-      "Author": "Change the author of the currently held book.",
-      "Title": "Change the title of the currently held book.",
-      "Unsign": "Unsign the currently held book, changing it back to a book and quill.",
-      "ListHeader": "All BookRules books:",
-      "ListEntry": "%s by %s"
-    },
-    "Error": {
-      "PlayerOnly": "This command may only be executed by a player.",
-      "NoPerms": "You do not have permission to use this command.",
-      "NoBooks": "No books registered.",
-      "BookNotFound": "The requested book could not be found.",
-      "NoPlayerSpecified": "You must specify a player to give books to.",
-      "PlayerNotFound": "The requested player could not be found.",
-      "MustHoldBook": "You may only perform this command while holding a written book.",
-      "NoBookSpecified": "You must specify a book to delete.",
-      "NoAuthorSpecified": "You must specify an author when setting the author of a book.",
-      "NoTitleSpecified": "You must specify a title when setting the title of a book."
-    }
-  }
 }

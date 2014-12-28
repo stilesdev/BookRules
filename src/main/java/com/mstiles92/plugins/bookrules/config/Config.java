@@ -23,6 +23,7 @@
 
 package com.mstiles92.plugins.bookrules.config;
 
+import com.mstiles92.plugins.bookrules.BookRules;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Config {
@@ -35,7 +36,7 @@ public class Config {
     private static boolean blockTrading = true;
     private static String language = "EN";
 
-    public static void loadFromConfig(FileConfiguration config) {
+    public static void load(FileConfiguration config) {
         updateOldConfig(config);
 
         checkForUpdates = config.getBoolean("Check-for-Updates", true);
@@ -52,6 +53,7 @@ public class Config {
         if (config.contains("Give-Books-On-First-Join")) {
             config.set("Give-New-Books-On-Join", config.get("Give-Books-On-First-Join"));
             config.set("Give-Books-On-First-Join", null);
+            BookRules.getInstance().saveConfig();
         }
     }
 

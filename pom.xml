@@ -10,6 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bukkitVersion>1.7.9-R0.2</bukkitVersion>
     </properties>
 
     <build>
@@ -65,7 +66,10 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mcstats.bukkit:*</include>
-                                    <include>com.mstiles92.plugins:CommonUtils</include>
+                                    <include>com.mstiles92.plugins:StilesLib</include>
+                                    <include>org.glassfish:javax.json</include>
+                                    <include>com.comphenix.attribute:AttributeStorage</include>
+                                    <include>org.javassist:javassist</include>
                                 </includes>
                             </artifactSet>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -89,7 +93,12 @@
 
         <repository>
             <id>mstiles92-repo</id>
-            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+            <url>https://mstiles92.com/artifactory/mstiles92-plugins</url>
+        </repository>
+
+        <repository>
+            <id>comphenix-snapshots</id>
+            <url>http://repo.comphenix.net/content/repositories/snapshots</url>
         </repository>
     </repositories>
 
@@ -97,14 +106,14 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.7.9-R0.2</version>
+            <version>${bukkitVersion}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.7.9-R0.2</version>
+            <version>${bukkitVersion}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -116,8 +125,20 @@
 
         <dependency>
             <groupId>com.mstiles92.plugins</groupId>
-            <artifactId>CommonUtils</artifactId>
-            <version>1.0.5</version>
+            <artifactId>StilesLib</artifactId>
+            <version>1.0.6-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.comphenix.attribute</groupId>
+            <artifactId>AttributeStorage</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
         </dependency>
 
         <dependency>
@@ -146,12 +167,12 @@
         <repository>
             <id>mstiles92-repo</id>
             <name>mstiles92-repo-releases</name>
-            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+            <url>https://mstiles92.com/artifactory/mstiles92-plugins</url>
         </repository>
         <snapshotRepository>
             <id>mstiles92-repo</id>
             <name>mstiles92-repo-snapshot</name>
-            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+            <url>https://mstiles92.com/artifactory/mstiles92-plugins</url>
         </snapshotRepository>
     </distributionManagement>
 </project>

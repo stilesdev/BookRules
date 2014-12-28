@@ -25,24 +25,26 @@ package com.mstiles92.plugins.bookrules;
 
 import com.mstiles92.plugins.bookrules.commands.BookRulesCommands;
 import com.mstiles92.plugins.bookrules.config.Config;
+import com.mstiles92.plugins.bookrules.data.StoredBooks;
 import com.mstiles92.plugins.bookrules.listeners.PlayerListener;
 import com.mstiles92.plugins.bookrules.localization.Language;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.Log;
-import com.mstiles92.plugins.commonutils.commands.CommandRegistry;
-import com.mstiles92.plugins.commonutils.updates.UpdateChecker;
+import com.mstiles92.plugins.stileslib.commands.CommandRegistry;
+import com.mstiles92.plugins.stileslib.updates.UpdateChecker;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
- * BookRules is the main class of this Bukkit plugin. It handles enabling
- * and disabling of this plugin, loading config files, and other general
- * methods needed for this plugin's operation.
+ * BookRules is the main class of this Bukkit plugin. It handles enabling and disabling of this plugin, loading config
+ * files, initializing the localization system, registering commands and events, and starting the update checker and
+ * metrics reporting, if enabled.
  *
  * @author mstiles92
  */
@@ -57,8 +59,9 @@ public class BookRules extends JavaPlugin {
         instance = this;
 
         saveDefaultConfig();
-        Config.loadFromConfig(getConfig());
-        saveConfig();
+        Config.load(getConfig());
+
+        StoredBooks.init(new File(getDataFolder(), "books.json"));
 
         if (!Localization.load(Language.fromAbbreviation(Config.getLanguage()))) {
             Log.warning("Error loading language file. BookRules will now be disabled.");
@@ -87,15 +90,25 @@ public class BookRules extends JavaPlugin {
     }
 
     @Override
+    public void onDisable() {
+        if (updateChecker != null) {
+            updateChecker.stop();
+        }
+
+        saveConfig();
+        StoredBooks.save();
+    }
+
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         return commandRegistry.handleCommand(sender, command, label, args);
     }
 
-    @Override
-    public void onDisable() {
-
-    }
-
+    /**
+     * Get the instance of the update checker class.
+     *
+     * @return the instance of the update checker class being used, or null if update checking is disabled
+     */
     public UpdateChecker getUpdateChecker() {
         return updateChecker;
     }
