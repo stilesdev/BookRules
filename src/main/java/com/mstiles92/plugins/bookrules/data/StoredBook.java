@@ -51,7 +51,19 @@ public class StoredBook {
      * @param pages  the pages of the new StoredBook to create
      */
     public StoredBook(String title, String author, List<String> pages) {
-        uuid = UUID.randomUUID();
+        this(UUID.randomUUID(), title, author, pages);
+    }
+
+    /**
+     * Creates a new instance of a stored book, assigning it the default settings as defined in the plugin's config.yml
+     * file.
+     *
+     * @param title  the title of the new StoredBook to create
+     * @param author the author of the new StoredBook to create
+     * @param pages  the pages of the new StoredBook to create
+     */
+    public StoredBook(UUID uuid, String title, String author, List<String> pages) {
+        this.uuid = uuid;
         this.title = title;
         this.author = author;
         this.pages = pages;
@@ -127,8 +139,18 @@ public class StoredBook {
         return wrapper.getItemStack();
     }
 
-    public void giveToPlayer(Player player) {
-        HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(getItemStack());
+    public ItemStack getItemStackEditable() {
+        ItemStack itemStack = new ItemStack(Material.BOOK_AND_QUILL);
+        BookMeta meta = (BookMeta) itemStack.getItemMeta();
+        meta.setPages(pages);
+        itemStack.setItemMeta(meta);
+        AttributeWrapper wrapper = AttributeWrapper.newWrapper(itemStack);
+        wrapper.setData(uuid.toString());
+        return wrapper.getItemStack();
+    }
+
+    public void giveToPlayer(Player player, boolean editable) {
+        HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(editable ? getItemStackEditable() : getItemStack());
 
         // Drop any books that didn't fit into the player's inventory at the player's location.
         for (Map.Entry<Integer, ItemStack> entry : leftovers.entrySet()) {
@@ -146,7 +168,19 @@ public class StoredBook {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getAuthor() {
         return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPages(List<String> pages) {
+        this.pages = pages;
     }
 }

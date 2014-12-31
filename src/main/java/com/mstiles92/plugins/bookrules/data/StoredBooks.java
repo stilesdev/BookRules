@@ -201,6 +201,34 @@ public class StoredBooks {
     }
 
     /**
+     * Update the contents of the currently stored book with the specified UUID.
+     *
+     * @param bookUUID the UUID of the book to update
+     * @param newMeta the BookMeta to update the stored book with
+     * @return true if the update was successful, false if it failed
+     */
+    public static boolean update(UUID bookUUID, BookMeta newMeta) {
+        int index = -1;
+
+        for (int i = 0; i < storedBooks.size(); i++) {
+            if (storedBooks.get(i).getUUID().toString().equals(bookUUID.toString())) {
+                index = i;
+            }
+        }
+
+        if (index > 0) {
+            StoredBook book = storedBooks.get(index);
+            book.setTitle(newMeta.getTitle());
+            book.setAuthor(newMeta.getAuthor());
+            book.setPages(newMeta.getPages());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Remove a StoredBook from the plugin.
      *
      * @param bookUUID the UUID of the stored book to delete

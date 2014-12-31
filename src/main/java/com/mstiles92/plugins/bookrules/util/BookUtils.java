@@ -46,17 +46,40 @@ public class BookUtils {
      * @return true if the ItemStack is a BookRules book, false if it is not
      */
     public static boolean isBookRulesBook(ItemStack item) {
-        if (item != null && item.getType().equals(Material.WRITTEN_BOOK)) {
-            try {
-                AttributeWrapper wrapper = AttributeWrapper.newWrapper(item);
-                UUID uuid = UUID.fromString(wrapper.getData());
-                return true;
-            } catch (IllegalArgumentException e) {
-                return false;
-            }
+        return (item != null) && item.getType().equals(Material.WRITTEN_BOOK) && (unwrapUUID(item) != null);
+    }
+
+    public static boolean isBookRulesBookEditable(ItemStack item) {
+        return (item != null) && item.getType().equals(Material.BOOK_AND_QUILL) && (unwrapUUID(item) != null);
+    }
+
+    /**
+     * Get the UUID for a BookRules book from an ItemStack.
+     *
+     * @param item the ItemStack containing the BookRules book
+     * @return the UUID of the BookRules book, or null if it is not a valid book
+     */
+    public static UUID getBookUUID(ItemStack item) {
+        if (item != null && (item.getType().equals(Material.WRITTEN_BOOK) || item.getType().equals(Material.BOOK_AND_QUILL))) {
+            return unwrapUUID(item);
         }
 
-        return false;
+        return null;
+    }
+
+    /**
+     * Unwraps the UUID stored on the specified ItemStack.
+     *
+     * @param item the ItemStack from which the UUID should be retrieved
+     * @return the UUID stored on the ItemStack, or null if there is no UUID stored on the ItemStack
+     */
+    private static UUID unwrapUUID(ItemStack item) {
+        try {
+            AttributeWrapper wrapper = AttributeWrapper.newWrapper(item);
+            return UUID.fromString(wrapper.getData());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     /**
@@ -114,7 +137,7 @@ public class BookUtils {
 
         for (StoredBook book : StoredBooks.getStoredBooks()) {
             if (book.checkPermission(player)) {
-                book.giveToPlayer(player);
+                book.giveToPlayer(player, false);
                 count += 1;
             }
         }
@@ -133,7 +156,7 @@ public class BookUtils {
 
         for (StoredBook book : StoredBooks.getStoredBooks()) {
             if (book.checkPermission(player) && !PlayerData.get(player).getReceivedBooks().contains(book.getUUID())) {
-                book.giveToPlayer(player);
+                book.giveToPlayer(player, false);
                 count += 1;
             }
         }

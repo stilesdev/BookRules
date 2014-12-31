@@ -29,7 +29,8 @@ import com.mstiles92.plugins.bookrules.data.PlayerData;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.BookUtils;
-import com.mstiles92.plugins.bookrules.util.GiveBookRunnable;
+import com.mstiles92.plugins.bookrules.util.runnable.GiveBookRunnable;
+import com.mstiles92.plugins.bookrules.util.runnable.UpdateBookRunnable;
 import com.mstiles92.plugins.stileslib.updates.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,8 +39,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
 
 /**
  * This class is used to handle general events fired off by the player.
@@ -60,7 +64,7 @@ public class PlayerListener implements Listener {
         }
 
         if (Config.shouldGiveNewBooksOnJoin()) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(BookRules.getInstance(), new GiveBookRunnable(player), Config.getRunnableDelay());
+            new GiveBookRunnable(player).runLater();
         }
     }
 
@@ -77,6 +81,16 @@ public class PlayerListener implements Listener {
                     ((Player) event.getWhoClicked()).sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.TRADING_DENIED));
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerEditBook(PlayerEditBookEvent event) {
+        ItemStack itemStack = event.getPlayer().getItemInHand();
+        UUID bookUUID = BookUtils.getBookUUID(itemStack);
+
+        if (event.isSigning() && bookUUID != null) {
+            new UpdateBookRunnable(event.getPlayer(), event.getSlot(), bookUUID).runLater();
         }
     }
 }

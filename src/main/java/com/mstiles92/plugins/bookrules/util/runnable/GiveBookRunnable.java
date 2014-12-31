@@ -21,12 +21,16 @@
  * limitations under the license.
  */
 
-package com.mstiles92.plugins.bookrules.util;
+package com.mstiles92.plugins.bookrules.util.runnable;
 
+import com.mstiles92.plugins.bookrules.BookRules;
 import com.mstiles92.plugins.bookrules.config.Config;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
+import com.mstiles92.plugins.bookrules.util.BookUtils;
+import com.mstiles92.plugins.bookrules.util.Log;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * GiveBookRunnable is a simple class used to give the player a book after
@@ -34,7 +38,7 @@ import org.bukkit.entity.Player;
  *
  * @author mstiles92
  */
-public class GiveBookRunnable implements Runnable {
+public class GiveBookRunnable extends BukkitRunnable {
     private Player player;
 
     /**
@@ -61,5 +65,9 @@ public class GiveBookRunnable implements Runnable {
         if (num > 0 && Config.shouldNotifyPlayers()) {
             player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.PLAYER_JOIN_MESSAGE), String.valueOf(num)));
         }
+    }
+
+    public void runLater() {
+        runTaskLater(BookRules.getInstance(), Config.getRunnableDelay());
     }
 }

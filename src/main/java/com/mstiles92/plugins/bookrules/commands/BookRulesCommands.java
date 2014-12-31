@@ -30,6 +30,7 @@ import com.mstiles92.plugins.bookrules.data.StoredBooks;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.BookUtils;
+import com.mstiles92.plugins.bookrules.util.Log;
 import com.mstiles92.plugins.stileslib.commands.Arguments;
 import com.mstiles92.plugins.stileslib.commands.CommandHandler;
 import com.mstiles92.plugins.stileslib.commands.annotations.Command;
@@ -47,7 +48,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BookRulesCommands implements CommandHandler {
-    List<String> subcommands = Arrays.asList("info", "version", "commands", "reload", "get", "give", "add", "delete", "list", "setauthor", "settitle", "unsign");
+    List<String> subcommands = Arrays.asList("info", "version", "commands", "reload", "get", "give", "add", "delete", "edit", "list", "setauthor", "settitle", "unsign");
     List<String> empty = new ArrayList<>();
 
     @Command(name = "bookrules", aliases = {"rulebook", "rb", "br"}, permission = "bookrules.info",
@@ -169,7 +170,7 @@ public class BookRulesCommands implements CommandHandler {
             if (book == null) {
                 args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
             } else {
-                book.giveToPlayer(args.getPlayer());
+                book.giveToPlayer(args.getPlayer(), false);
                 args.getSender().sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_RECIEVED));
             }
         }
@@ -208,7 +209,7 @@ public class BookRulesCommands implements CommandHandler {
             if (book == null) {
                 args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
             } else {
-                book.giveToPlayer(player);
+                book.giveToPlayer(player, false);
                 args.getSender().sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_GIVEN), player.getName()));
                 player.sendMessage(String.format(Strings.PLUGIN_TAG + Localization.getString(Strings.GIVEN_BOOK_MESSAGE), args.getSender().getName()));
             }
@@ -261,6 +262,29 @@ public class BookRulesCommands implements CommandHandler {
 
     @TabCompleter(name = "bookrules.delete", aliases = {"rulebook.delete", "rb.delete", "br.delete"})
     public List<String> completeDelete(Arguments args) {
+        return autocomplete(StoredBooks.getAllBookTitles(), (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ") : args.getArgs()[0]);
+    }
+
+    @Command(name = "bookrules.edit", aliases = {"rulebook.edit", "rb.edit", "br.edit"}, permission = "bookrules.edit", playerOnly = true)
+    public void edit(Arguments args) {
+        if (args.getArgs().length == 0) {
+            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
+            return;
+        }
+
+        String query = (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ", 0, args.getArgs().length) : args.getArgs()[0];
+        StoredBook book = StoredBooks.findBook(query);
+
+        if (book == null) {
+            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
+        } else {
+            book.giveToPlayer(args.getPlayer(), true);
+            args.getSender().sendMessage(Strings.PLUGIN_TAG + "The stored book will be updated when the Book and Quill is signed.");
+        }
+    }
+
+    @TabCompleter(name = "bookrules.edit", aliases = {"rulebook.edit", "rb.edit", "br.edit"})
+    public List<String> completeEdit(Arguments args) {
         return autocomplete(StoredBooks.getAllBookTitles(), (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ") : args.getArgs()[0]);
     }
 

@@ -15,6 +15,7 @@ permissions:
       bookrules.give: true
       bookrules.add: true
       bookrules.delete: true
+      bookrules.edit: true
       bookrules.list: true
       bookrules.setauthor: true
       bookrules.settitle: true
@@ -40,6 +41,9 @@ permissions:
   bookrules.delete:
     default: op
     description: Allow players to delete books from the plugin.
+  bookrules.edit:
+    default: op
+    description: Allow players to edit contents of the books stored by the plugin.
   bookrules.list:
     default: true
     description: Allow players to list all books stored by the plugin.
