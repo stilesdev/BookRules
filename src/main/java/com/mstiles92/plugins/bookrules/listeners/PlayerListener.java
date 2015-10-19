@@ -26,6 +26,8 @@ package com.mstiles92.plugins.bookrules.listeners;
 import com.mstiles92.plugins.bookrules.BookRules;
 import com.mstiles92.plugins.bookrules.config.Config;
 import com.mstiles92.plugins.bookrules.data.PlayerData;
+import com.mstiles92.plugins.bookrules.data.StoredBook;
+import com.mstiles92.plugins.bookrules.data.StoredBooks;
 import com.mstiles92.plugins.bookrules.localization.Localization;
 import com.mstiles92.plugins.bookrules.localization.Strings;
 import com.mstiles92.plugins.bookrules.util.BookUtils;
@@ -34,12 +36,15 @@ import com.mstiles92.plugins.bookrules.util.runnable.UpdateBookRunnable;
 import com.mstiles92.plugins.stileslib.updates.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerEditBookEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -91,6 +96,27 @@ public class PlayerListener implements Listener {
 
         if (event.isSigning() && bookUUID != null) {
             new UpdateBookRunnable(event.getPlayer(), event.getSlot(), bookUUID).runLater();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            ItemStack heldItem = event.getPlayer().getItemInHand();
+            if (heldItem != null && heldItem.getType().equals(Material.WRITTEN_BOOK)) {
+                StoredBook book = StoredBooks.get(BookUtils.getBookUUID(heldItem));
+
+                if (book != null) {
+                    if (book.checkPermission(event.getPlayer())) {
+                        event.getPlayer().setItemInHand(book.getItemStack());
+                    } else {
+                        //TODO: refactor into localization system
+                        event.getPlayer().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "You do not have permission to access this book.");
+                        //TODO: make a config option for whether this book gets deleted or not:
+                        event.getPlayer().setItemInHand(null);
+                    }
+                }
+            }
         }
     }
 }
