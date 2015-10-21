@@ -76,7 +76,7 @@ public class BookUtils {
     private static UUID unwrapUUID(ItemStack item) {
         try {
             AttributeWrapper wrapper = AttributeWrapper.newWrapper(item);
-            return UUID.fromString(wrapper.getData());
+            return wrapper.getData() == null ? null : UUID.fromString(wrapper.getData());
         } catch (IllegalArgumentException e) {
             return null;
         }

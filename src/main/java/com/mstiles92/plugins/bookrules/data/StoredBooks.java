@@ -216,10 +216,8 @@ public class StoredBooks {
             }
         }
 
-        if (index > 0) {
+        if (index >= 0) {
             StoredBook book = storedBooks.get(index);
-            book.setTitle(newMeta.getTitle());
-            book.setAuthor(newMeta.getAuthor());
             book.setPages(newMeta.getPages());
 
             return true;

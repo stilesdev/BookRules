@@ -34,7 +34,6 @@ import com.mstiles92.plugins.bookrules.util.BookUtils;
 import com.mstiles92.plugins.bookrules.util.runnable.GiveBookRunnable;
 import com.mstiles92.plugins.bookrules.util.runnable.UpdateBookRunnable;
 import com.mstiles92.plugins.stileslib.updates.UpdateChecker;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -94,7 +93,7 @@ public class PlayerListener implements Listener {
         ItemStack itemStack = event.getPlayer().getItemInHand();
         UUID bookUUID = BookUtils.getBookUUID(itemStack);
 
-        if (event.isSigning() && bookUUID != null) {
+        if (event.isSigning() && BookUtils.isBookRulesBookEditable(itemStack)) {
             new UpdateBookRunnable(event.getPlayer(), event.getSlot(), bookUUID).runLater();
         }
     }

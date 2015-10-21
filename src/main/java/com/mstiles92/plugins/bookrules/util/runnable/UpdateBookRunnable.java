@@ -26,8 +26,6 @@ package com.mstiles92.plugins.bookrules.util.runnable;
 import com.mstiles92.plugins.bookrules.BookRules;
 import com.mstiles92.plugins.bookrules.data.StoredBooks;
 import com.mstiles92.plugins.bookrules.localization.Strings;
-import com.mstiles92.plugins.bookrules.util.BookUtils;
-import com.mstiles92.plugins.bookrules.util.Log;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -51,17 +49,15 @@ public class UpdateBookRunnable extends BukkitRunnable {
     public void run() {
         ItemStack itemStack = player.getInventory().getItem(slot);
 
-        if (BookUtils.isBookRulesBook(itemStack)) {
-            BookMeta meta = (BookMeta) itemStack.getItemMeta();
+        BookMeta meta = (BookMeta) itemStack.getItemMeta();
 
-            if (StoredBooks.update(bookUUID, meta)) {
-                player.sendMessage(Strings.PLUGIN_TAG + "Book update successful!");
-            } else {
-                player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "Book update failed!");
-            }
-
-            player.getInventory().setItem(slot, null);
+        if (StoredBooks.update(bookUUID, meta)) {
+            player.sendMessage(Strings.PLUGIN_TAG + "Book update successful!");
+        } else {
+            player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "Book update failed!");
         }
+
+        player.getInventory().setItem(slot, null);
     }
 
     public void runLater() {
