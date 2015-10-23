@@ -40,6 +40,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerEditBookEvent;
@@ -47,6 +48,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -116,6 +119,21 @@ public class PlayerListener implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        if (!event.getKeepInventory() && !Config.shouldKeepBooksOnDeath()) {
+            List<ItemStack> booksToKeep = new ArrayList<>();
+
+            for (ItemStack item : event.getDrops()) {
+                if (BookUtils.isBookRulesBook(item)) {
+                    booksToKeep.add(item);
+                }
+            }
+
+            event.getDrops().removeAll(booksToKeep);
         }
     }
 }

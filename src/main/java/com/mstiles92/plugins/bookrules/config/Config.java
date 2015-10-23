@@ -34,6 +34,7 @@ public class Config {
     private static boolean notifyPlayers = true;
     private static int runnableDelay = 20;
     private static boolean blockTrading = true;
+    private static boolean keepBooksOnDeath = false;
     private static String language = "EN";
 
     public static void load(FileConfiguration config) {
@@ -46,6 +47,7 @@ public class Config {
         notifyPlayers = config.getBoolean("Display-Messages", true);
         runnableDelay = config.getInt("Seconds-Delay", 1) * 20;
         blockTrading = config.getBoolean("Block-Villager-Book-Trading", true);
+        keepBooksOnDeath = config.getBoolean("Keep-Books-On-Death", false);
         language = config.getString("Language", "EN");
     }
 
@@ -83,6 +85,10 @@ public class Config {
 
     public static boolean shouldBlockVillagerTrading() {
         return blockTrading;
+    }
+
+    public static boolean shouldKeepBooksOnDeath() {
+        return keepBooksOnDeath;
     }
 
     public static String getLanguage() {
