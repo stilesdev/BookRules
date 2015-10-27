@@ -52,8 +52,10 @@ public class UpdateBookRunnable extends BukkitRunnable {
         BookMeta meta = (BookMeta) itemStack.getItemMeta();
 
         if (StoredBooks.update(bookUUID, meta)) {
+            //TODO: refactor into localization system
             player.sendMessage(Strings.PLUGIN_TAG + "Book update successful!");
         } else {
+            //TODO: refactor into localization system
             player.sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "Book update failed!");
         }
 

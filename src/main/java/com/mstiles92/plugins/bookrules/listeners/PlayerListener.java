@@ -96,6 +96,12 @@ public class PlayerListener implements Listener {
         ItemStack itemStack = event.getPlayer().getItemInHand();
         UUID bookUUID = BookUtils.getBookUUID(itemStack);
 
+        if (!event.getPlayer().hasPermission("bookrules.edit")) {
+            //TODO: refactor into localization system
+            event.getPlayer().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "You do not have permission to edit this book!");;
+            return;
+        }
+
         if (event.isSigning() && BookUtils.isBookRulesBookEditable(itemStack)) {
             new UpdateBookRunnable(event.getPlayer(), event.getSlot(), bookUUID).runLater();
         }

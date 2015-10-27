@@ -279,6 +279,7 @@ public class BookRulesCommands implements CommandHandler {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
         } else {
             book.giveToPlayer(args.getPlayer(), true);
+            //TODO: refactor into localization system
             args.getSender().sendMessage(Strings.PLUGIN_TAG + "The stored book will be updated when the Book and Quill is signed.");
         }
     }
