@@ -46,11 +46,10 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * This class is used to handle general events fired off by the player.
@@ -58,6 +57,7 @@ import java.util.UUID;
  * @author mstiles92
  */
 public class PlayerListener implements Listener {
+    private Map<UUID, List<ItemStack>> pendingRespawns = new HashMap<>();
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -140,6 +140,22 @@ public class PlayerListener implements Listener {
             }
 
             event.getDrops().removeAll(booksToKeep);
+            pendingRespawns.put(event.getEntity().getUniqueId(), booksToKeep);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        UUID playerUUID = event.getPlayer().getUniqueId();
+
+        if (pendingRespawns.containsKey(playerUUID)) {
+            List<ItemStack> booksToKeep = pendingRespawns.get(playerUUID);
+
+            for (ItemStack item : booksToKeep) {
+                event.getPlayer().getInventory().addItem(item);
+            }
+
+            pendingRespawns.remove(playerUUID);
         }
     }
 }
