@@ -130,7 +130,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (!event.getKeepInventory() && !Config.shouldKeepBooksOnDeath()) {
+        if (!event.getKeepInventory() && Config.shouldKeepBooksOnDeath()) {
             List<ItemStack> booksToKeep = new ArrayList<>();
 
             for (ItemStack item : event.getDrops()) {
