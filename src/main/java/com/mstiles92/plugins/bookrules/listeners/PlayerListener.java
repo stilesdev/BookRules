@@ -152,6 +152,7 @@ public class PlayerListener implements Listener {
             List<ItemStack> booksToKeep = pendingRespawns.get(playerUUID);
 
             for (ItemStack item : booksToKeep) {
+                //TODO: handle case when book is set to go into specific inventory slot
                 event.getPlayer().getInventory().addItem(item);
             }
 

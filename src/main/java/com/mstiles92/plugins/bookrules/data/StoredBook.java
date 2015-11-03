@@ -37,10 +37,6 @@ public class StoredBook {
     private String title;
     private String author;
     private List<String> pages;
-    private boolean giveOnJoin;
-    private boolean destroyOnDrop; // should also affect death, unless keepOnDeath is set.
-    private boolean keepOnDeath;
-    private String playerGroup;
 
     /**
      * Creates a new instance of a stored book, assigning it a random UUID and the default settings as defined in the
@@ -67,13 +63,6 @@ public class StoredBook {
         this.title = title;
         this.author = author;
         this.pages = pages;
-
-        //TODO: Set up boolean options depending on default config settings
-        giveOnJoin = true;
-        destroyOnDrop = false;
-        keepOnDeath = false;
-
-        playerGroup = "";
     }
 
     /**
@@ -89,10 +78,6 @@ public class StoredBook {
         for (JsonString s : json.getJsonArray("pages").getValuesAs(JsonString.class)) {
             pages.add(s.getString());
         }
-        giveOnJoin = json.getBoolean("giveOnJoin");
-        destroyOnDrop = json.getBoolean("destroyOnDrop");
-        keepOnDeath = json.getBoolean("keepOnDeath");
-        playerGroup = json.getString("playerGroup");
     }
 
     /**
@@ -110,10 +95,6 @@ public class StoredBook {
             pagesArrayBuilder.add(page);
         }
         builder.add("pages", pagesArrayBuilder.build());
-        builder.add("giveOnJoin", giveOnJoin);
-        builder.add("destroyOnDrop", destroyOnDrop);
-        builder.add("keepOnDeath", keepOnDeath);
-        builder.add("playerGroup", playerGroup);
         return builder.build();
     }
 
@@ -124,7 +105,8 @@ public class StoredBook {
      * @return true if the player is allowed to see the book, false if they are not
      */
     public boolean checkPermission(Player player) {
-        return (playerGroup == null || playerGroup.equals("")) ? true : player.hasPermission("bookrules.group." + playerGroup);
+        //TODO: implement, and check against group permission
+        return true;
     }
 
     public ItemStack getItemStack() {
