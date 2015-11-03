@@ -266,7 +266,7 @@ public class BookRulesCommands implements CommandHandler {
         return autocomplete(StoredBooks.getAllBookTitles(), (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ") : args.getArgs()[0]);
     }
 
-    @Command(name = "bookrules.edit", aliases = {"rulebook.edit", "rb.edit", "br.edit"}, permission = "bookrules.edit", playerOnly = true)
+    @Command(name = "bookrules.edit", aliases = {"rulebook.edit", "rb.edit", "br.edit"}, permission = "bookrules.edit.book", playerOnly = true)
     public void edit(Arguments args) {
         if (args.getArgs().length == 0) {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
