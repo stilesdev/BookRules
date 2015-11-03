@@ -278,6 +278,9 @@ public class BookRulesCommands implements CommandHandler {
 
         if (book == null) {
             args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
+        } else if (!book.checkPermission(args.getPlayer())) {
+            //TODO: refactor into localization system
+            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "You do not have permission to edit this book!");
         } else {
             book.giveToPlayer(args.getPlayer(), true);
             //TODO: refactor into localization system

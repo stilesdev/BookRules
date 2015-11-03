@@ -98,7 +98,7 @@ public class PlayerListener implements Listener {
 
         if (!event.getPlayer().hasPermission("bookrules.edit.book")) {
             //TODO: refactor into localization system
-            event.getPlayer().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "You do not have permission to edit this book!");;
+            event.getPlayer().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + "You do not have permission to edit this book!");
             return;
         }
 
