@@ -77,6 +77,7 @@ public class Strings {
     public static final String BOOK_GIVEN = "Commands.Success.GiveOne";
     public static final String BOOK_ADDED = "Commands.Success.Add";
     public static final String BOOK_DELETED = "Commands.Success.Delete";
+    public static final String BOOK_UPDATED = "Commands.Success.Update";
     public static final String AUTHOR_CHANGED = "Commands.Success.ChangedAuthor";
     public static final String TITLE_CHANGED = "Commands.Success.ChangedTitle";
     public static final String BOOK_UNSIGNED = "Commands.Success.Unsigned";

@@ -33,6 +33,7 @@
             "GiveOne": "You have given %s a copy of the requested book.",
             "Add": "Your book has been added successfully.",
             "Delete": "The requested book has been deleted.",
+            "Update": "The book has been updated successfully.",
             "ChangedAuthor": "The author has been successfully changed.",
             "ChangedTitle": "The title has been successfully changed.",
             "Unsigned": "The book has been successfully unsigned."

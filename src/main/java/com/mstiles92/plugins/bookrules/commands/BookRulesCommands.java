@@ -42,6 +42,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -263,6 +264,28 @@ public class BookRulesCommands implements CommandHandler {
 
     @TabCompleter(name = "bookrules.delete", aliases = {"rulebook.delete", "rb.delete", "br.delete"})
     public List<String> completeDelete(Arguments args) {
+        return autocomplete(StoredBooks.getAllBookTitles(), (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ") : args.getArgs()[0]);
+    }
+
+    @Command(name = "bookrules.update", aliases = {"rulebook.update", "rb.update", "br.update"}, permission = "bookrules.update")
+    public void update(Arguments args) {
+        if (args.getArgs().length == 0) {
+            args.getSender().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.NO_BOOK_SPECIFIED));
+            return;
+        }
+
+        ItemStack heldItem = args.getPlayer().getItemInHand();
+
+        if (heldItem.getType() != Material.WRITTEN_BOOK) {
+            args.getPlayer().sendMessage(Strings.PLUGIN_TAG + ChatColor.RED + Localization.getString(Strings.BOOK_NOT_FOUND));
+        } else {
+            StoredBooks.update(BookUtils.getBookUUID(heldItem), (BookMeta) heldItem.getItemMeta());
+            args.getPlayer().sendMessage(Strings.PLUGIN_TAG + Localization.getString(Strings.BOOK_UPDATED));
+        }
+    }
+
+    @TabCompleter(name = "bookrules.update", aliases = {"rulebook.update", "rb.update", "br.update"})
+    public List<String> completeUpdate(Arguments args) {
         return autocomplete(StoredBooks.getAllBookTitles(), (args.getArgs().length > 1) ? StringUtils.join(args.getArgs(), " ") : args.getArgs()[0]);
     }
 

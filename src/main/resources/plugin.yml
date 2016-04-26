@@ -41,6 +41,9 @@ permissions:
   bookrules.delete:
     default: op
     description: Allow players to delete books from the plugin.
+  bookrules.update:
+    default: op
+    description: Allow players to update books stored by the plugin.
   bookrules.edit.*:
     description: Allow access to all edit commands.
     children:
