@@ -65,7 +65,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.mcstats.bukkit:*</include>
-                                    <include>com.mstiles92.plugins:CommonUtils</include>
+                                    <include>com.mstiles92.plugins:StilesLib</include>
                                 </includes>
                             </artifactSet>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
@@ -78,8 +78,8 @@
 
     <repositories>
         <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
         </repository>
 
         <repository>
@@ -88,36 +88,29 @@
         </repository>
 
         <repository>
-            <id>mstiles92-repo</id>
-            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+            <id>mstiles92-snapshots</id>
+            <url>https://mstiles92.com/nexus/content/repositories/snapshots</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.7.9-R0.2</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.9.2-R0.1-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.7.9-R0.2</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mcstats.bukkit</groupId>
             <artifactId>metrics</artifactId>
-            <version>R7</version>
+            <version>R8-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.mstiles92.plugins</groupId>
-            <artifactId>CommonUtils</artifactId>
-            <version>1.0.5</version>
+            <artifactId>StilesLib</artifactId>
+            <version>1.0.6-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -144,14 +137,12 @@
 
     <distributionManagement>
         <repository>
-            <id>mstiles92-repo</id>
-            <name>mstiles92-repo-releases</name>
-            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+            <id>mstiles92-releases</id>
+            <url>https://mstiles92.com/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
-            <id>mstiles92-repo</id>
-            <name>mstiles92-repo-snapshot</name>
-            <url>http://repo.mstiles92.com/artifactory/bukkit-public</url>
+            <id>mstiles92-snapshots</id>
+            <url>https://mstiles92.com/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
