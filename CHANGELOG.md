@@ -1,3 +1,6 @@
+#### v2.1.2 - Apr 26, 2016 ####
+* Update dependencies to fix error on 1.9.2
+
 #### v2.1.1 - Jun 26, 2014 ####
 * Update check switched to using Curse ServerMods API to conform to BukkitDev submission requirements.
 * Info command now displays information about available updates if update-checking is enabled.
