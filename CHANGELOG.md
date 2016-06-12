@@ -1,3 +1,6 @@
+#### v2.1.3 - Jun 11, 2016 ####
+* Fix NullPointerException when Check-for-Updates config option is disabled.
+
 #### v2.1.2 - Apr 26, 2016 ####
 * Update dependencies to fix error on 1.9.2
 
